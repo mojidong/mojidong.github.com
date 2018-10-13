@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ruby on mojidong blog</title>
+    <link>https://www.mojidong.com/categories/ruby/</link>
+    <description>Recent content in Ruby on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 19 May 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/categories/ruby/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ruby字符串的encoding,force_encoding,encode,encode!</title>
+      <link>https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/</link>
+      <pubDate>Sun, 19 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/</guid>
+      <description>ruby1.9开始对字符串编码支持已经比较完善，我们可以直接通过使用String类的实例方法 encoding,force_encoding,</description>
+    </item>
+    
+    <item>
+      <title>ruby编码详解</title>
+      <link>https://www.mojidong.com/post/2013-05-18-ruby-encoding/</link>
+      <pubDate>Sat, 18 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-18-ruby-encoding/</guid>
+      <description>今天主要说下ruby编码，主要针对ruby1.9及以上版本。 &amp;gt; ruby1.8对编码的支持是比较弱的 ruby中的编码 ruby中编码大致分为两类</description>
+    </item>
+    
+  </channel>
+</rss>

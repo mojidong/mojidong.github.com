@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Other on mojidong blog</title>
+    <link>https://www.mojidong.com/categories/other/</link>
+    <description>Recent content in Other on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 11 May 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/categories/other/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>浮点数在计算机中的存储方式</title>
+      <link>https://www.mojidong.com/post/2013-05-11-floating-point-numbers-in-the-computer-memory/</link>
+      <pubDate>Sat, 11 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-11-floating-point-numbers-in-the-computer-memory/</guid>
+      <description>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;今天来说下小数在计算机中是怎样存储的。 定点数与浮点数 小数点在计算机中通常有两种表示方法： 约定</description>
+    </item>
+    
+  </channel>
+</rss>

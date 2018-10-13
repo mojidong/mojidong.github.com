@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://www.mojidong.com/sitemap.xml

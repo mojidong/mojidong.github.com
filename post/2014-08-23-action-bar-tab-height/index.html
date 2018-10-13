@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>设置action bar、action bar tab 样式及高度 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="设置action bar、action bar tab 样式及高度" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2014-08-23-action-bar-tab-height/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="设置action bar、action bar tab 样式及高度" />
+<meta property="og:description" content="设置action bar、action bar tab 样式及高度" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2014-08-23-action-bar-tab-height/" /><meta property="article:published_time" content="2014-08-23T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2014-08-23T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="设置action bar、action bar tab 样式及高度">
+<meta itemprop="description" content="设置action bar、action bar tab 样式及高度">
+
+
+<meta itemprop="datePublished" content="2014-08-23T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2014-08-23T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1121">
+
+
+
+<meta itemprop="keywords" content="android," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设置action bar、action bar tab 样式及高度"/>
+<meta name="twitter:description" content="设置action bar、action bar tab 样式及高度"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">设置action bar、action bar tab 样式及高度</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2014-08-23 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/android/"> android </a>
+            
+          </div>
+        <span class="more-meta"> 1121 words </span>
+          <span class="more-meta"> 3 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#自定义action-bar">自定义action bar</a></li>
+<li><a href="#自定义action-bar-tab">自定义action bar tab</a></li>
+<li><a href="#加点效果">加点效果</a></li>
+<li><a href="#使用自定义主题">使用自定义主题</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>android 3.0 引入了action bar,supper library支持2.1以上版本。</p>
+
+<p>本文主要说下action bar样式的设置。</p>
+
+<p>首先我们要使用action bar须要使用theme <code>AppCompat</code></p>
+
+<p>应用到全局</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;application</span> <span class="na">android:allowBackup=</span><span class="s">&#34;true&#34;</span>
+        <span class="na">android:icon=</span><span class="s">&#34;@drawable/app&#34;</span>
+        <span class="na">android:label=</span><span class="s">&#34;@string/app_name&#34;</span>
+        <span class="na">android:theme=</span><span class="s">&#34;@style/Theme.AppCompat.Light&#34;</span> <span class="nt">&gt;</span>
+    ....
+<span class="nt">&lt;/application&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>应用指定的activity</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;.PagerActivity&#34;</span>
+        <span class="na">android:theme=</span><span class="s">&#34;@style/CustomActionBarTheme&#34;</span> <span class="nt">&gt;</span>
+        android:parentActivityName=&#34;.MMActivity&#34; &gt;
+        <span class="nt">&lt;meta-data</span> <span class="na">android:name=</span><span class="s">&#34;android.support.PARENT_ACTIVITY&#34;</span> <span class="na">android:value=</span><span class="s">&#34;com.mojidong.mnt.MMActivity&#34;</span> <span class="nt">/&gt;</span>
+    ....
+<span class="nt">&lt;/activity&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="自定义action-bar">自定义action bar</h3>
+
+<p>前面说了要使用action
+bar必须用<code>AppCompat</code>这个theme,所以要修改样式我们就须要继承<code>AppCompat</code>，覆盖相应属性。</p>
+
+<p>在styles.xml里加入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- 继承AppCompat.Light，覆盖actionBarStyle --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;CustomActionBarTheme&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/Theme.AppCompat.Light&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:actionBarStyle&#34;</span><span class="nt">&gt;</span>@style/BarStyle<span class="nt">&lt;/item&gt;</span>
+
+    <span class="c">&lt;!-- Support library compatibility --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;actionBarStyle&#34;</span><span class="nt">&gt;</span>@style/BarStyle<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="c">&lt;!-- 继承AppCompat.ActionBar，覆盖background，titleTextStyle --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;BarStyle&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/Widget.AppCompat.ActionBar&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:background&#34;</span><span class="nt">&gt;</span>@android:color/black<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:titleTextStyle&#34;</span><span class="nt">&gt;</span>@style/TitleTextStyle<span class="nt">&lt;/item&gt;</span>
+
+    <span class="c">&lt;!-- Support library compatibility --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;titleTextStyle&#34;</span><span class="nt">&gt;</span>@style/TitleTextStyle<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="c">&lt;!-- 继承AppCompat.Title，覆盖textColor --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;TitleTextStyle&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/TextAppearance.AppCompat.Widget.ActionBar.Title&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:textColor&#34;</span><span class="nt">&gt;</span>#fff<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>上面例子修改了默认的背景色和标题顔色，更多属性请参见<a href="http://developer.android.com/guide/topics/ui/actionbar.html#Style">这里</a>。</p>
+
+<h3 id="自定义action-bar-tab">自定义action bar tab</h3>
+
+<p>在上例中修改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- 继承AppCompat.Light，覆盖actionBarStyle --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;CustomActionBarTheme&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/Theme.AppCompat.Light&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:actionBarStyle&#34;</span><span class="nt">&gt;</span>@style/BarStyle<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:actionBarTabStyle&#34;</span><span class="nt">&gt;</span>@style/TabStyle<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:actionBarTabTextStyle&#34;</span><span class="nt">&gt;</span>@style/TabTextStyle<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:actionBarSize&#34;</span><span class="nt">&gt;</span>50dp<span class="nt">&lt;/item&gt;</span>
+
+    <span class="c">&lt;!-- Support library compatibility --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;actionBarStyle&#34;</span><span class="nt">&gt;</span>@style/BarStyle<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;actionBarTabStyle&#34;</span><span class="nt">&gt;</span>@style/TabStyle<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;actionBarTabTextStyle&#34;</span><span class="nt">&gt;</span>@style/TabTextStyle<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;actionBarSize&#34;</span><span class="nt">&gt;</span>50dp<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="c">&lt;!-- 继承AppCompat.ActionBar，覆盖background，titleTextStyle --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;BarStyle&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/Widget.AppCompat.ActionBar&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:background&#34;</span><span class="nt">&gt;</span>@android:color/black<span class="nt">&lt;/item&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:titleTextStyle&#34;</span><span class="nt">&gt;</span>@style/TitleTextStyle<span class="nt">&lt;/item&gt;</span>
+
+    <span class="c">&lt;!-- Support library compatibility --&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;titleTextStyle&#34;</span><span class="nt">&gt;</span>@style/TitleTextStyle<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="c">&lt;!-- 继承AppCompat.Title，覆盖textColor --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;TitleTextStyle&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/TextAppearance.AppCompat.Widget.ActionBar.Title&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:textColor&#34;</span><span class="nt">&gt;</span>#fff<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="c">&lt;!-- 继承TabView，覆盖background --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;TabStyle&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/Widget.AppCompat.ActionBar.TabView&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:background&#34;</span><span class="nt">&gt;</span>@android:color/black<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+<span class="c">&lt;!-- 继承TabText，覆盖textColor --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;TabTextStyle&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/Widget.AppCompat.ActionBar.TabText&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:textColor&#34;</span><span class="nt">&gt;</span>#fff<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>修改action bar tab高度须要设置<code>actionBarSize</code>，然而不幸的是这个属性具然是同时调整action
+bar和action bar tab的高度，没有办法做到分别调整。</p>
+</blockquote>
+
+<h3 id="加点效果">加点效果</h3>
+
+<p>我们还可以给action bar tab 加上点效果
+在drawable下创建文件action_bar_selector.xml,action_bar_tab.xml</p>
+
+<p>action_bar_tab_selector.xml内容如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+
+<span class="nt">&lt;selector</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:state_focused=</span><span class="s">&#34;false&#34;</span> <span class="na">android:state_selected=</span><span class="s">&#34;false&#34;</span> <span class="na">android:state_pressed=</span><span class="s">&#34;false&#34;</span> <span class="na">android:drawable=</span><span class="s">&#34;@color/tab_color&#34;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:state_focused=</span><span class="s">&#34;false&#34;</span> <span class="na">android:state_selected=</span><span class="s">&#34;true&#34;</span> <span class="na">android:state_pressed=</span><span class="s">&#34;false&#34;</span> <span class="na">android:drawable=</span><span class="s">&#34;@drawable/action_bar_tab.xml&#34;</span><span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;item</span> <span class="na">android:state_selected=</span><span class="s">&#34;true&#34;</span> <span class="na">android:state_pressed=</span><span class="s">&#34;true&#34;</span> <span class="na">android:drawable=</span><span class="s">&#34;@drawable/action_bar_tab&#34;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/selector&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>action_bar_tab.xml如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+
+<span class="nt">&lt;layer-list</span> <span class="na">xmlns:android=</span><span class="s">&#34;http://schemas.android.com/apk/res/android&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">android:top=</span><span class="s">&#34;-5dp&#34;</span> <span class="na">android:left=</span><span class="s">&#34;-5dp&#34;</span> <span class="na">android:right=</span><span class="s">&#34;-5dp&#34;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;shape</span> <span class="na">android:shape=</span><span class="s">&#34;rectangle&#34;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;stroke</span> <span class="na">android:color=</span><span class="s">&#34;#ff4ba587&#34;</span> <span class="na">android:width=</span><span class="s">&#34;5dp&#34;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;gradient</span> <span class="na">android:startColor=</span><span class="s">&#34;@color/tab_color&#34;</span> <span class="na">android:endColor=</span><span class="s">&#34;@color/tab_color&#34;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/shape&gt;</span>
+    <span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/layer-list&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>在values在创建colors.xml内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;color</span> <span class="na">name=</span><span class="s">&#34;tab_color&#34;</span><span class="nt">&gt;</span>#dc222222<span class="nt">&lt;/color&gt;</span>
+<span class="nt">&lt;/resources&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>让我们的效果生效，修改之前style</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml">......
+
+<span class="c">&lt;!-- 继承TabView，覆盖background --&gt;</span>
+<span class="nt">&lt;style</span> <span class="na">name=</span><span class="s">&#34;TabStyle&#34;</span> <span class="na">parent=</span><span class="s">&#34;@style/Widget.AppCompat.ActionBar.TabView&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;item</span> <span class="na">name=</span><span class="s">&#34;android:background&#34;</span><span class="nt">&gt;</span>@drawable/action_bar_tab_selector<span class="nt">&lt;/item&gt;</span>
+<span class="nt">&lt;/style&gt;</span>
+
+......</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="使用自定义主题">使用自定义主题</h3>
+
+<p>应用到全局</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;application</span> <span class="na">android:allowBackup=</span><span class="s">&#34;true&#34;</span>
+        <span class="na">android:icon=</span><span class="s">&#34;@drawable/app&#34;</span>
+        <span class="na">android:label=</span><span class="s">&#34;@string/app_name&#34;</span>
+        <span class="na">android:theme=</span><span class="s">&#34;@style/CustomActionBarTheme&#34;</span> <span class="nt">&gt;</span>
+    ....
+<span class="nt">&lt;/application&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>应用指定的activity</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&#34;.PagerActivity&#34;</span>
+        <span class="na">android:parentActivityName=</span><span class="s">&#34;.MMActivity&#34;</span> <span class="nt">&gt;</span>
+        android:theme=&#34;@style/CustomActionBarTheme&#34; &gt;
+        <span class="nt">&lt;meta-data</span> <span class="na">android:name=</span><span class="s">&#34;android.support.PARENT_ACTIVITY&#34;</span> <span class="na">android:value=</span><span class="s">&#34;com.mojidong.mnt.MMActivity&#34;</span> <span class="nt">/&gt;</span>
+    ....
+<span class="nt">&lt;/activity&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2014-08-23</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/android/">android</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2015-03-07-socket5-1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">socket5 协议学习与实现(一)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2014-07-06-linux-iptables-detail-2/">
+            <span class="next-text nav-default">linux防火墙iptables详解(二)</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2014-08-23-action-bar-tab-height/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>zsh autosuggestions在tmux环境下高亮问题处理 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="zsh autosuggestions在tmux下高亮问题处理" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2017-05-14-zsh-autosuggestions/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="zsh autosuggestions在tmux环境下高亮问题处理" />
+<meta property="og:description" content="zsh autosuggestions在tmux下高亮问题处理" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2017-05-14-zsh-autosuggestions/" /><meta property="article:published_time" content="2017-05-14T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2017-05-14T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="zsh autosuggestions在tmux环境下高亮问题处理">
+<meta itemprop="description" content="zsh autosuggestions在tmux下高亮问题处理">
+
+
+<meta itemprop="datePublished" content="2017-05-14T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2017-05-14T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="539">
+
+
+
+<meta itemprop="keywords" content="zsh,oh-my-zsh,zsh-autosuggestions," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="zsh autosuggestions在tmux环境下高亮问题处理"/>
+<meta name="twitter:description" content="zsh autosuggestions在tmux下高亮问题处理"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">zsh autosuggestions在tmux环境下高亮问题处理</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2017-05-14 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/linux/"> linux </a>
+            
+          </div>
+        <span class="more-meta"> 539 words </span>
+          <span class="more-meta"> 2 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#问题">问题</a></li>
+<li><a href="#处理">处理</a></li>
+<li><a href="#方案">方案</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h3 id="问题">问题</h3>
+
+<p>最近在尝试使用<a href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a>插件，在tmux中发现提示的高亮效果无效这里记录下解决方法。</p>
+
+<p>现象如下：</p>
+
+<ol>
+<li>在终端下zsh_ autosuggestions 正常工作，提标高亮正常。</li>
+<li>在tmux下zsh autosuggestions
+正常工作，提标高亮不正常（*提示为白色，不是正常的浅灰色*）。</li>
+</ol>
+
+<h3 id="处理">处理</h3>
+
+<p>首先在网上查了一下好像没有对应的处理方法，官方的<a href="https://github.com/zsh-users/zsh-autosuggestions/issues/229">issue</a>也有人提到了相同的问题但是也没有给出相应的解决方案。无耐只好自已动手解决。</p>
+
+<p>首先想到的就是zsh_ autosuggestions 的提标色在tmux环境可能没有生效，查了一下zsh
+autosuggestions
+的文档发现<code>ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE</code>可以控制高亮顔色。直接在tmux环境设置该配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nv">ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE</span><span class="o">=</span><span class="s2">&#34;fg=1&#34;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>发现没有效果。难道是配置不正确，直接打开新的终端进行验证，发现顔色可改变配置应该是没有问题。</p>
+
+<p>这时突然相到是不是终端的类型导致的，直接查看tmux环境的终端类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ env <span class="p">|</span> grep TERM
+<span class="nv">TERM</span><span class="o">=</span>screen</code></pre></td></tr></table>
+</div>
+</div>
+<p>果然是这样。在看一下终端环境下的类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ env <span class="p">|</span> grep TERM
+<span class="nv">TERM</span><span class="o">=</span>xterm-256color</code></pre></td></tr></table>
+</div>
+</div>
+<p>到这里基本就说明了为什么终端环境下高亮提示正常而在tmux环境不正常了。在tmux环境更改终端类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">TERM</span><span class="o">=</span>xterm-256color</code></pre></td></tr></table>
+</div>
+</div>
+<p>果然高亮提示正常了。</p>
+
+<h3 id="方案">方案</h3>
+
+<p>直接在<code>.zshrc</code>中加<code>TERM</code>配即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">echo</span> <span class="s2">&#34;export TERM=xterm-256color&#34;</span> &gt;&gt; ~/.zshrc</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>注：MacOS iTerm2 可能还须要修改iTerm2配置<code>Preferences -&gt; Profile -&gt; Terminal -&gt; Report Terminal Type :  xterm-256color</code></p>
+</blockquote>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2017-05-14</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/zsh/">zsh</a>
+          <a href="https://www.mojidong.com/tags/oh-my-zsh/">oh-my-zsh</a>
+          <a href="https://www.mojidong.com/tags/zsh-autosuggestions/">zsh-autosuggestions</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/2015-10-06-socket5-2/">
+            <span class="next-text nav-default">socket5 协议学习与实现(二)</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2017-05-14-zsh-autosuggestions/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

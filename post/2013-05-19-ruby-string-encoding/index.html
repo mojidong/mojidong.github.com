@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>ruby字符串的encoding,force_encoding,encode,encode! - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="ruby字符串的encoding,force_encoding,encode,encode" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="ruby字符串的encoding,force_encoding,encode,encode!" />
+<meta property="og:description" content="ruby字符串的encoding,force_encoding,encode,encode" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/" /><meta property="article:published_time" content="2013-05-19T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2013-05-19T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="ruby字符串的encoding,force_encoding,encode,encode!">
+<meta itemprop="description" content="ruby字符串的encoding,force_encoding,encode,encode">
+
+
+<meta itemprop="datePublished" content="2013-05-19T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2013-05-19T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="705">
+
+
+
+<meta itemprop="keywords" content="ruby," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ruby字符串的encoding,force_encoding,encode,encode!"/>
+<meta name="twitter:description" content="ruby字符串的encoding,force_encoding,encode,encode"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">ruby字符串的encoding,force_encoding,encode,encode!</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2013-05-19 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/ruby/"> ruby </a>
+            
+          </div>
+        <span class="more-meta"> 705 words </span>
+          <span class="more-meta"> 2 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#encoding">encoding</a></li>
+<li><a href="#force-encoding">force_encoding</a></li>
+<li><a href="#encode-encode">encode、encode!</a></li>
+<li><a href="#总结">总结</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>ruby1.9开始对字符串编码支持已经比较完善，我们可以直接通过使用String类的实例方法
+<code>encoding</code>,<code>force_encoding</code>,<code>encode</code>,<code>encode!</code>进行相关的编码操作。</p>
+
+<h3 id="encoding">encoding</h3>
+
+<p>ruby1.9中为每个字符串对象增加了encoding信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="m">1</span>.9.3p392 :001 &gt; <span class="s1">&#39;我还是不懂&#39;</span>.encoding
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt; 
+</span><span class="c1"></span><span class="m">1</span>.9.3p392 :002 &gt; </code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="force-encoding">force_encoding</h3>
+
+<p>某些情况下这个附加编码信息可能不正确我们可以修正它</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="m">1</span>.9.3p392 :011 &gt; <span class="nv">x</span><span class="o">=</span><span class="s1">&#39;我还是不懂&#39;</span>
+ <span class="o">=</span>&gt; <span class="s2">&#34;我还是不懂&#34;</span> 
+<span class="m">1</span>.9.3p392 :012 &gt; x.encoding
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt; 
+</span><span class="c1"></span><span class="m">1</span>.9.3p392 :013 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="o">[</span><span class="m">230</span>, <span class="m">136</span>, <span class="m">145</span>, <span class="m">232</span>, <span class="m">191</span>, <span class="m">152</span>, <span class="m">230</span>, <span class="m">152</span>, <span class="m">175</span>, <span class="m">228</span>, <span class="m">184</span>, <span class="m">141</span>, <span class="m">230</span>, <span class="m">135</span>, <span class="m">130</span><span class="o">]</span> 
+<span class="m">1</span>.9.3p392 :014 &gt; x.force_encoding <span class="s1">&#39;gbk&#39;</span>
+ <span class="o">=</span>&gt; <span class="s2">&#34;\x{E688}\x{91E8}\x{BF98}\x{E698}\x{AFE4}\x{B88D}\x{E687}\x82&#34;</span> 
+<span class="m">1</span>.9.3p392 :015 &gt; x.encoding
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt; 
+</span><span class="c1"></span><span class="m">1</span>.9.3p392 :016 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="o">[</span><span class="m">230</span>, <span class="m">136</span>, <span class="m">145</span>, <span class="m">232</span>, <span class="m">191</span>, <span class="m">152</span>, <span class="m">230</span>, <span class="m">152</span>, <span class="m">175</span>, <span class="m">228</span>, <span class="m">184</span>, <span class="m">141</span>, <span class="m">230</span>, <span class="m">135</span>, <span class="m">130</span><span class="o">]</span> 
+<span class="m">1</span>.9.3p392 :017 &gt;</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>注意：<code>force_encoding</code> 方法只是改变了字符串对象的编码信息，并没有改变字符串对象实际存储的内容。</p>
+</blockquote>
+
+<h3 id="encode-encode">encode、encode!</h3>
+
+<p>在ruby1.9之前如我我们需要编码转换则需要使用一些外部库，
+现在我们可以直接使用String对象的实例方法<code>encode</code>,<code>encode!</code>进行操作</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">encode(encoding [, options] ) → str click to toggle source
+encode(dst_encoding, src_encoding [, options] ) → str
+encode([options]) → str
+encode!(encoding [, options] ) → str click to toggle source
+encode!(dst_encoding, src_encoding [, options] ) → str</pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>详细的api请参考<a href="http://www.ruby-doc.org/core-1.9.3/String.html#method-i-encode">这里</a></p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="m">1</span>.9.3p392 :009 &gt; <span class="nv">x</span><span class="o">=</span><span class="s1">&#39;我还是不懂&#39;</span>
+ <span class="o">=</span>&gt; <span class="s2">&#34;我还是不懂&#34;</span> 
+<span class="m">1</span>.9.3p392 :010 &gt; x.encoding
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt; 
+</span><span class="c1"></span><span class="m">1</span>.9.3p392 :011 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="o">[</span><span class="m">230</span>, <span class="m">136</span>, <span class="m">145</span>, <span class="m">232</span>, <span class="m">191</span>, <span class="m">152</span>, <span class="m">230</span>, <span class="m">152</span>, <span class="m">175</span>, <span class="m">228</span>, <span class="m">184</span>, <span class="m">141</span>, <span class="m">230</span>, <span class="m">135</span>, <span class="m">130</span><span class="o">]</span> 
+<span class="m">1</span>.9.3p392 :012 &gt; <span class="nv">y</span><span class="o">=</span>x.encode <span class="s1">&#39;gbk&#39;</span>,<span class="s1">&#39;utf-8&#39;</span>
+ <span class="o">=</span>&gt; <span class="s2">&#34;\x{CED2}\x{BBB9}\x{CAC7}\x{B2BB}\x{B6AE}&#34;</span> 
+<span class="m">1</span>.9.3p392 :013 &gt; y.encoding
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt; 
+</span><span class="c1"></span><span class="m">1</span>.9.3p392 :014 &gt; y.bytes.to_a
+ <span class="o">=</span>&gt; <span class="o">[</span><span class="m">206</span>, <span class="m">210</span>, <span class="m">187</span>, <span class="m">185</span>, <span class="m">202</span>, <span class="m">199</span>, <span class="m">178</span>, <span class="m">187</span>, <span class="m">182</span>, <span class="m">174</span><span class="o">]</span> 
+<span class="m">1</span>.9.3p392 :015 &gt; x.encode! <span class="s1">&#39;gbk&#39;</span>,<span class="s1">&#39;utf-8&#39;</span>
+ <span class="o">=</span>&gt; <span class="s2">&#34;\x{CED2}\x{BBB9}\x{CAC7}\x{B2BB}\x{B6AE}&#34;</span> 
+<span class="m">1</span>.9.3p392 :016 &gt; x.encoding
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt; 
+</span><span class="c1"></span><span class="m">1</span>.9.3p392 :017 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="o">[</span><span class="m">206</span>, <span class="m">210</span>, <span class="m">187</span>, <span class="m">185</span>, <span class="m">202</span>, <span class="m">199</span>, <span class="m">178</span>, <span class="m">187</span>, <span class="m">182</span>, <span class="m">174</span><span class="o">]</span> 
+<span class="m">1</span>.9.3p392 :018 &gt;</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>可以看到<code>encode</code>改变了编码信息同时也改变了字符串对象存储的内容</p>
+</blockquote>
+
+<h3 id="总结">总结</h3>
+
+<ul>
+<li><code>encdoing</code> 用来查看字符串的编码信息。</li>
+<li><code>force_encoding</code> 用来修正字符串编码信息，注意是修正。</li>
+<li><code>encode</code>,<code>encode!</code> 用来转码字符串。</li>
+</ul>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2013-05-19</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/ruby/">ruby</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2013-11-05-chrome-extension-show-ip/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">chrome extension show ip</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2013-05-18-ruby-encoding/">
+            <span class="next-text nav-default">ruby编码详解</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

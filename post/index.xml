@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on mojidong blog</title>
+    <link>https://www.mojidong.com/post/</link>
+    <description>Recent content in Posts on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 14 May 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>zsh autosuggestions在tmux环境下高亮问题处理</title>
+      <link>https://www.mojidong.com/post/2017-05-14-zsh-autosuggestions/</link>
+      <pubDate>Sun, 14 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2017-05-14-zsh-autosuggestions/</guid>
+      <description>问题 最近在尝试使用zsh-autosuggestions插件，在tmux中发现提示的高亮效果无效这里记录下解决方法。 现象如下： 在终端下zsh</description>
+    </item>
+    
+    <item>
+      <title>socket5 协议学习与实现(二)</title>
+      <link>https://www.mojidong.com/post/2015-10-06-socket5-2/</link>
+      <pubDate>Mon, 01 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2015-10-06-socket5-2/</guid>
+      <description>今天我们就来实现一下socket5的tcp代理。根据之前的学习我们了解到建立socket5代理需要三个阶段 下面我们使用golang来实现它。</description>
+    </item>
+    
+    <item>
+      <title>vpn的iptables配置</title>
+      <link>https://www.mojidong.com/post/2016-02-01-vpn-of-iptables/</link>
+      <pubDate>Mon, 01 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2016-02-01-vpn-of-iptables/</guid>
+      <description>之前配置vpn在配置iptables这一块遇到一些问题这里总结一下。 我的iptables配置如下 1 2 3 4 5 6 7 8 9 iptables -A INPUT -i lo -j ACCEPT iptables -A INPUT -m state --state</description>
+    </item>
+    
+    <item>
+      <title>socket5 协议学习与实现(一)</title>
+      <link>https://www.mojidong.com/post/2015-03-07-socket5-1/</link>
+      <pubDate>Sat, 07 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2015-03-07-socket5-1/</guid>
+      <description>最近研究了下socket5协议,它是一个tcp、udp的代理协议(socket4不支持udp),大部分软件都支持socket5代理。 一般来说</description>
+    </item>
+    
+    <item>
+      <title>设置action bar、action bar tab 样式及高度</title>
+      <link>https://www.mojidong.com/post/2014-08-23-action-bar-tab-height/</link>
+      <pubDate>Sat, 23 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2014-08-23-action-bar-tab-height/</guid>
+      <description>android 3.0 引入了action bar,supper library支持2.1以上版本。 本文主要说下action bar样式的设置。 首先我们要使用action bar须要使用</description>
+    </item>
+    
+    <item>
+      <title>linux防火墙iptables详解(二)</title>
+      <link>https://www.mojidong.com/post/2014-07-06-linux-iptables-detail-2/</link>
+      <pubDate>Sun, 06 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2014-07-06-linux-iptables-detail-2/</guid>
+      <description>之前讲解了iptables基本语法和用法，今天详细讲下iptables规则链的整个执行流程。 ##规则链执行流程 先上一张图（借用下鸟哥的图） 从</description>
+    </item>
+    
+    <item>
+      <title>linux防火墙iptables详解(一)</title>
+      <link>https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/</link>
+      <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/</guid>
+      <description>今天详细讲下linux防火墙iptables。 ##1.表和链 iptables有如下几个表： mangle表主要功能是修改数据包 nat表主要用来</description>
+    </item>
+    
+    <item>
+      <title>linux防火墙iptable使用简介</title>
+      <link>https://www.mojidong.com/post/2013-11-12-linux-iptables/</link>
+      <pubDate>Tue, 12 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-11-12-linux-iptables/</guid>
+      <description>iptables是Linux上常用的防火墙软件。这里简单介绍下怎么使用，依葫芦画瓢就可以了，对于懒人来说足够了。如果你想更详细的了解ipta</description>
+    </item>
+    
+    <item>
+      <title>chrome extension show ip</title>
+      <link>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</link>
+      <pubDate>Tue, 05 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</guid>
+      <description>{% include JB/setup %} 最近开发了一个chrome插件show ip用来显示请求页面的ip地址。 ###起因 最近经常会在测试环境和线上环境切换（修改host），</description>
+    </item>
+    
+    <item>
+      <title>ruby字符串的encoding,force_encoding,encode,encode!</title>
+      <link>https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/</link>
+      <pubDate>Sun, 19 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/</guid>
+      <description>ruby1.9开始对字符串编码支持已经比较完善，我们可以直接通过使用String类的实例方法 encoding,force_encoding,</description>
+    </item>
+    
+    <item>
+      <title>ruby编码详解</title>
+      <link>https://www.mojidong.com/post/2013-05-18-ruby-encoding/</link>
+      <pubDate>Sat, 18 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-18-ruby-encoding/</guid>
+      <description>今天主要说下ruby编码，主要针对ruby1.9及以上版本。 &amp;gt; ruby1.8对编码的支持是比较弱的 ruby中的编码 ruby中编码大致分为两类</description>
+    </item>
+    
+    <item>
+      <title>浮点数在计算机中的存储方式</title>
+      <link>https://www.mojidong.com/post/2013-05-11-floating-point-numbers-in-the-computer-memory/</link>
+      <pubDate>Sat, 11 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-11-floating-point-numbers-in-the-computer-memory/</guid>
+      <description>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;今天来说下小数在计算机中是怎样存储的。 定点数与浮点数 小数点在计算机中通常有两种表示方法： 约定</description>
+    </item>
+    
+    <item>
+      <title>python的exec、eval详解</title>
+      <link>https://www.mojidong.com/post/2013-05-10-python-exec-eval/</link>
+      <pubDate>Fri, 10 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-10-python-exec-eval/</guid>
+      <description>简介 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;python 动态执行字符串代码片段（也可以是文件）， 一般会用到exec,eval。 exec 1 exec_stmt ::= &amp;#34;exec&amp;#34; or_expr [&amp;#34;in&amp;#34; expression [&amp;#34;,&amp;#34; expression]] 注意：exec 是一个语法声明，不是一个函数.</description>
+    </item>
+    
+    <item>
+      <title>rails部署nginx&#43;unicorn详解</title>
+      <link>https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/</link>
+      <pubDate>Sat, 20 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/</guid>
+      <description>rails部署方案众多，今天介绍下nginx+unicorn. 简介 unicorn是一个高性能的Rack HTTP server,它可以使用unix domain s</description>
+    </item>
+    
+    <item>
+      <title>nginx的location匹配规则详解</title>
+      <link>https://www.mojidong.com/post/2013-04-15-nginx-location-rule/</link>
+      <pubDate>Mon, 15 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-15-nginx-location-rule/</guid>
+      <description>nginx中我们会用location指令来匹配指定的uri进行一些逻辑处理。 location指令语法 1 location [ = | ~ | ~* | ^~ ] uri { ... } location 支持常规</description>
+    </item>
+    
+    <item>
+      <title>expect自动交互详解</title>
+      <link>https://www.mojidong.com/post/2013-04-14-expect-detail/</link>
+      <pubDate>Sun, 14 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-14-expect-detail/</guid>
+      <description>expect是Unix系统中用来进行自动化控制和测试的软件工具，应用在交互式软件中如telnet，ftp，Passwd，fsck，rlogi</description>
+    </item>
+    
+    <item>
+      <title>kaminari设置最大页数</title>
+      <link>https://www.mojidong.com/post/2013-04-03-kaminari-max-page/</link>
+      <pubDate>Wed, 03 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-03-kaminari-max-page/</guid>
+      <description>kaminari是一款非常优秀的分页插件，它支持 Rails/Sinatra/Padrino。 它基本上解决我所有的分页需求，不过最近发现一个不</description>
+    </item>
+    
+    <item>
+      <title>轻量级代码语法高亮插件Highlight.js</title>
+      <link>https://www.mojidong.com/post/2013-04-03-code-highlight/</link>
+      <pubDate>Wed, 03 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-03-code-highlight/</guid>
+      <description>Highlight.js是一款轻量级的语法高亮插件, 支持54种语言和26种主题，详情见这里 本站使用就是该插件。 简单使用 1 2 3 4 &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;styles/default.css&amp;#34;&amp;gt; &amp;lt;script src=&amp;#34;highlight.pack.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt; 默</description>
+    </item>
+    
+    <item>
+      <title>Rails3:ActiveSupport::Concern详解</title>
+      <link>https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/</link>
+      <pubDate>Wed, 27 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/</guid>
+      <description>模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)</description>
+    </item>
+    
+    <item>
+      <title>rails3中autoload_paths加载详解</title>
+      <link>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</link>
+      <pubDate>Sat, 16 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</guid>
+      <description>在rails3中默认不在加载lib目录下的rb文件。 config/application.rb文件中 1 2 #Custom directories with classes and modules you want to be autoloadable. #config.autoload_paths += %W(#{config.root}/exters) 显然被注</description>
+    </item>
+    
+  </channel>
+</rss>

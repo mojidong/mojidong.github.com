@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chrome on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/chrome/</link>
+    <description>Recent content in Chrome on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 05 Nov 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/chrome/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>chrome extension show ip</title>
+      <link>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</link>
+      <pubDate>Tue, 05 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</guid>
+      <description>{% include JB/setup %} 最近开发了一个chrome插件show ip用来显示请求页面的ip地址。 ###起因 最近经常会在测试环境和线上环境切换（修改host），</description>
+    </item>
+    
+  </channel>
+</rss>

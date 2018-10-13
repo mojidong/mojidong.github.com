@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rails on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/rails/</link>
+    <description>Recent content in Rails on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 20 Apr 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/rails/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>rails部署nginx&#43;unicorn详解</title>
+      <link>https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/</link>
+      <pubDate>Sat, 20 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/</guid>
+      <description>rails部署方案众多，今天介绍下nginx+unicorn. 简介 unicorn是一个高性能的Rack HTTP server,它可以使用unix domain s</description>
+    </item>
+    
+    <item>
+      <title>kaminari设置最大页数</title>
+      <link>https://www.mojidong.com/post/2013-04-03-kaminari-max-page/</link>
+      <pubDate>Wed, 03 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-03-kaminari-max-page/</guid>
+      <description>kaminari是一款非常优秀的分页插件，它支持 Rails/Sinatra/Padrino。 它基本上解决我所有的分页需求，不过最近发现一个不</description>
+    </item>
+    
+    <item>
+      <title>Rails3:ActiveSupport::Concern详解</title>
+      <link>https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/</link>
+      <pubDate>Wed, 27 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/</guid>
+      <description>模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)</description>
+    </item>
+    
+    <item>
+      <title>rails3中autoload_paths加载详解</title>
+      <link>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</link>
+      <pubDate>Sat, 16 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</guid>
+      <description>在rails3中默认不在加载lib目录下的rb文件。 config/application.rb文件中 1 2 #Custom directories with classes and modules you want to be autoloadable. #config.autoload_paths += %W(#{config.root}/exters) 显然被注</description>
+    </item>
+    
+  </channel>
+</rss>

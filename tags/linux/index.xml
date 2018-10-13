@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/linux/</link>
+    <description>Recent content in Linux on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 01 Feb 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>vpn的iptables配置</title>
+      <link>https://www.mojidong.com/post/2016-02-01-vpn-of-iptables/</link>
+      <pubDate>Mon, 01 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2016-02-01-vpn-of-iptables/</guid>
+      <description>之前配置vpn在配置iptables这一块遇到一些问题这里总结一下。 我的iptables配置如下 1 2 3 4 5 6 7 8 9 iptables -A INPUT -i lo -j ACCEPT iptables -A INPUT -m state --state</description>
+    </item>
+    
+    <item>
+      <title>linux防火墙iptables详解(二)</title>
+      <link>https://www.mojidong.com/post/2014-07-06-linux-iptables-detail-2/</link>
+      <pubDate>Sun, 06 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2014-07-06-linux-iptables-detail-2/</guid>
+      <description>之前讲解了iptables基本语法和用法，今天详细讲下iptables规则链的整个执行流程。 ##规则链执行流程 先上一张图（借用下鸟哥的图） 从</description>
+    </item>
+    
+    <item>
+      <title>linux防火墙iptables详解(一)</title>
+      <link>https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/</link>
+      <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/</guid>
+      <description>今天详细讲下linux防火墙iptables。 ##1.表和链 iptables有如下几个表： mangle表主要功能是修改数据包 nat表主要用来</description>
+    </item>
+    
+    <item>
+      <title>linux防火墙iptable使用简介</title>
+      <link>https://www.mojidong.com/post/2013-11-12-linux-iptables/</link>
+      <pubDate>Tue, 12 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-11-12-linux-iptables/</guid>
+      <description>iptables是Linux上常用的防火墙软件。这里简单介绍下怎么使用，依葫芦画瓢就可以了，对于懒人来说足够了。如果你想更详细的了解ipta</description>
+    </item>
+    
+    <item>
+      <title>python的exec、eval详解</title>
+      <link>https://www.mojidong.com/post/2013-05-10-python-exec-eval/</link>
+      <pubDate>Fri, 10 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-10-python-exec-eval/</guid>
+      <description>简介 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;python 动态执行字符串代码片段（也可以是文件）， 一般会用到exec,eval。 exec 1 exec_stmt ::= &amp;#34;exec&amp;#34; or_expr [&amp;#34;in&amp;#34; expression [&amp;#34;,&amp;#34; expression]] 注意：exec 是一个语法声明，不是一个函数.</description>
+    </item>
+    
+    <item>
+      <title>expect自动交互详解</title>
+      <link>https://www.mojidong.com/post/2013-04-14-expect-detail/</link>
+      <pubDate>Sun, 14 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-14-expect-detail/</guid>
+      <description>expect是Unix系统中用来进行自动化控制和测试的软件工具，应用在交互式软件中如telnet，ftp，Passwd，fsck，rlogi</description>
+    </item>
+    
+    <item>
+      <title>rsync命令使用介绍</title>
+      <link>https://www.mojidong.com/post/2012-12-29-rsync-introduction/</link>
+      <pubDate>Sat, 29 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-12-29-rsync-introduction/</guid>
+      <description>rsync是Unix下的一款应用软件，它能同步更新两处计算机的文件与目录，并适当利用差分编码以减少数据传输。rsync中一项与其他大部分类似</description>
+    </item>
+    
+    <item>
+      <title>shell中判断变量为null</title>
+      <link>https://www.mojidong.com/post/2012-09-08-shell-determine-variable-is-null/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-shell-determine-variable-is-null/</guid>
+      <description>方法一 1 2 3 4 5 if [ $x ];then echo &amp;#39;not null&amp;#39; else echo &amp;#39;is null&amp;#39; fi 方法二 1 2 3 4 5 if [ -z &amp;#34;$x&amp;#34; ]; echo &amp;#39;is null&amp;#39; else echo &amp;#39;not null&amp;#39; fi</description>
+    </item>
+    
+    <item>
+      <title>shell中给变量设置默认值</title>
+      <link>https://www.mojidong.com/post/2012-09-08-shell-set-default-value/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-shell-set-default-value/</guid>
+      <description>通常shell中我们需要给变量设置默认值，可能会写出如下代码 1 2 3 4 #!/bin/bash if [ ! $1 ]; then $1=&amp;#39;default&amp;#39; fi 显然这种方式在变量少的时候没啥问题，一旦变量多起来，我</description>
+    </item>
+    
+    <item>
+      <title>处理shell中未赋值变量造成的灾难</title>
+      <link>https://www.mojidong.com/post/2012-09-08-shell-process-unassigned-variables/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-shell-process-unassigned-variables/</guid>
+      <description>在编写shell的时候我们都需要万分小心，尤其是给root执行的脚本 1 2 3 4 #!/bin/bash .... rm -rf $1/$2/bin/ .... 假设上述脚本我执行的时候没有传递参数，造成的后果是相</description>
+    </item>
+    
+    <item>
+      <title>linux下安装mysql</title>
+      <link>https://www.mojidong.com/post/2012-08-07-linux-install-mysql/</link>
+      <pubDate>Tue, 07 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-07-linux-install-mysql/</guid>
+      <description>首先下载mysql源码包，我这里下载MySQL Community Server 5.5。 检查机器是否装有cmake,直接输入cmake显示帮助信息表示已安装 &amp;gt;现在m</description>
+    </item>
+    
+    <item>
+      <title>varnish安装及配置（三）</title>
+      <link>https://www.mojidong.com/post/2012-01-11-varnish-install-config-3/</link>
+      <pubDate>Wed, 11 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-01-11-varnish-install-config-3/</guid>
+      <description>varnish通过几个辅助命令行工具观察varnish的工作情况 varnishlog: varnish的日志是写入共享内存的，可以使用varnishlog命令行工</description>
+    </item>
+    
+    <item>
+      <title>varnish安装及配置（二）</title>
+      <link>https://www.mojidong.com/post/2012-01-10-varnish-install-config-2/</link>
+      <pubDate>Tue, 10 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-01-10-varnish-install-config-2/</guid>
+      <description>Varish Configuration Language 简称VCL，通过它我们可以完成一些复杂的逻辑处理。下面将详细介绍： Backend declarations: 1 2 3 4 5 6 7 backend www { .host = &amp;#34;www.example.com&amp;#34;; .port = &amp;#34;80&amp;#34;; .connect_timeout = 1s; .first_byte_timeout = 5s; .between_bytes_timeout = 2s; } 或者 1 2 3 4</description>
+    </item>
+    
+    <item>
+      <title>varnish安装及配置（一）</title>
+      <link>https://www.mojidong.com/post/2012-01-09-varnish-install-config-1/</link>
+      <pubDate>Mon, 09 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-01-09-varnish-install-config-1/</guid>
+      <description>varnish是一款高性能的开源HTTP加速器，用来缓存静态文件（图片,js,css）以减少后端服务器压力,性能要比squid高很多。 下载v</description>
+    </item>
+    
+  </channel>
+</rss>

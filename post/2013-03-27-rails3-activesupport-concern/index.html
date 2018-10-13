@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Rails3:ActiveSupport::Concern详解 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" />
+  <meta name="description" content="模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Rails3:ActiveSupport::Concern详解" />
+<meta property="og:description" content="模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/" /><meta property="article:published_time" content="2013-03-27T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2013-03-27T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="Rails3:ActiveSupport::Concern详解">
+<meta itemprop="description" content="模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)">
+
+
+<meta itemprop="datePublished" content="2013-03-27T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2013-03-27T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1325">
+
+
+
+<meta itemprop="keywords" content="rails,ruby," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rails3:ActiveSupport::Concern详解"/>
+<meta name="twitter:description" content="模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Rails3:ActiveSupport::Concern详解</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2013-03-27 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/rails/"> rails </a>
+            
+          </div>
+        <span class="more-meta"> 1325 words </span>
+          <span class="more-meta"> 3 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#activesupport-concern">ActiveSupport::Concern</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)。</p>
+
+<p>当一个类<code>include</code>(Mixin)一个模块时，模块中的实例方法会成为该类的实例方法，<code>expand</code>(Mixin)时,模块中的实例方法会成为该类的类方法。两种情况下模块方法都会被忽略。</p>
+
+<p>同时实现类方法和实例方法的混入看起来是鱼和熊掌的问题，要放弃吗？显然是不可能的，我们都是贪婪的。</p>
+
+<p>一个解决办法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">ClassMethods</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">InstanceMethods</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Foo</span>
+    <span class="kp">extend</span> <span class="no">ClassMethods</span>
+    <span class="kp">include</span> <span class="no">InstanceMethods</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>看起来可以正常工作，但是不那么优雅，粒度太大。</p>
+
+<p>聪明的程序员总是能想到解决办法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Mod</span>
+
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="no">ClassMothods</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">module</span> <span class="nn">ClassMethods</span>
+        <span class="c1"># 类方法定义</span>
+    <span class="k">end</span>
+
+    <span class="c1">#实例方法定义</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">M</span>
+    <span class="kp">include</span> <span class="no">Mod</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>嗯，看起来不错，比第一种方法优雅多了。但是用着用着问题就来</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Foo</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
+  <span class="k">end</span>
+
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">say</span>
+      <span class="nb">puts</span> <span class="s1">&#39;say&#39;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">Bar</span>
+  <span class="kp">include</span> <span class="no">Foo</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+      <span class="n">base</span><span class="o">.</span><span class="n">say</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Host</span>
+  <span class="kp">include</span> <span class="no">Bar</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>上面代码会抛出<code>NoMethodError: undefined method 'say' for Host:Class</code>异常</p>
+
+<p>原因在于<code>include Bar</code>的时候<code>Foo</code>中<code>included(base)</code>被执行,此时<code>base</code>是<code>Bar</code></p>
+
+<p>一个解决办法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Foo</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
+  <span class="k">end</span>
+
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">say</span>
+      <span class="nb">puts</span> <span class="s1">&#39;say&#39;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">Bar</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+      <span class="n">base</span><span class="o">.</span><span class="n">say</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Host</span>
+  <span class="kp">include</span> <span class="no">Foo</span>
+  <span class="kp">include</span> <span class="no">Bar</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>问题虽然解决的，但是引入了一个新的问题，所有使用<code>Bar</code>的地方都要知道它依赖<code>Foo</code>,需要分出额外的精力来维护这种依赖关系，我们应该把他们的依赖关系隐藏起来。</p>
+
+<p>看来我们还是太挑剔</p>
+
+<h3 id="activesupport-concern">ActiveSupport::Concern</h3>
+
+<p>本文重点来了</p>
+
+<p>为了解决这种依赖关系，rails中增加了<code>ActiveSupport::Concern</code>(<a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/concern.rb">源码</a>)这个工具。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">ActiveSupport</span>
+  <span class="c1"># A typical module looks like this:</span>
+  <span class="c1">#</span>
+  <span class="c1">#   module M</span>
+  <span class="c1">#     def self.included(base)</span>
+  <span class="c1">#       base.extend ClassMethods</span>
+  <span class="c1">#       base.class_eval do</span>
+  <span class="c1">#         scope :disabled, -&gt; { where(disabled: true) }</span>
+  <span class="c1">#       end</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#</span>
+  <span class="c1">#     module ClassMethods</span>
+  <span class="c1">#       ...</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1"># By using &lt;tt&gt;ActiveSupport::Concern&lt;/tt&gt; the above module could instead be</span>
+  <span class="c1"># written as:</span>
+  <span class="c1">#</span>
+  <span class="c1">#   require &#39;active_support/concern&#39;</span>
+  <span class="c1">#</span>
+  <span class="c1">#   module M</span>
+  <span class="c1">#     extend ActiveSupport::Concern</span>
+  <span class="c1">#</span>
+  <span class="c1">#     included do</span>
+  <span class="c1">#       scope :disabled, -&gt; { where(disabled: true) }</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#</span>
+  <span class="c1">#     module ClassMethods</span>
+  <span class="c1">#       ...</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1"># Moreover, it gracefully handles module dependencies. Given a +Foo+ module</span>
+  <span class="c1"># and a +Bar+ module which depends on the former, we would typically write the</span>
+  <span class="c1"># following:</span>
+  <span class="c1">#</span>
+  <span class="c1">#   module Foo</span>
+  <span class="c1">#     def self.included(base)</span>
+  <span class="c1">#       base.class_eval do</span>
+  <span class="c1">#         def self.method_injected_by_foo</span>
+  <span class="c1">#           ...</span>
+  <span class="c1">#         end</span>
+  <span class="c1">#       end</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1">#   module Bar</span>
+  <span class="c1">#     def self.included(base)</span>
+  <span class="c1">#       base.method_injected_by_foo</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1">#   class Host</span>
+  <span class="c1">#     include Foo # We need to include this dependency for Bar</span>
+  <span class="c1">#     include Bar # Bar is the module that Host really needs</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1"># But why should +Host+ care about +Bar+&#39;s dependencies, namely +Foo+? We</span>
+  <span class="c1"># could try to hide these from +Host+ directly including +Foo+ in +Bar+:</span>
+  <span class="c1">#</span>
+  <span class="c1">#   module Bar</span>
+  <span class="c1">#     include Foo</span>
+  <span class="c1">#     def self.included(base)</span>
+  <span class="c1">#       base.method_injected_by_foo</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1">#   class Host</span>
+  <span class="c1">#     include Bar</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1"># Unfortunately this won&#39;t work, since when +Foo+ is included, its &lt;tt&gt;base&lt;/tt&gt;</span>
+  <span class="c1"># is the +Bar+ module, not the +Host+ class. With &lt;tt&gt;ActiveSupport::Concern&lt;/tt&gt;,</span>
+  <span class="c1"># module dependencies are properly resolved:</span>
+  <span class="c1">#</span>
+  <span class="c1">#   require &#39;active_support/concern&#39;</span>
+  <span class="c1">#</span>
+  <span class="c1">#   module Foo</span>
+  <span class="c1">#     extend ActiveSupport::Concern</span>
+  <span class="c1">#     included do</span>
+  <span class="c1">#       def self.method_injected_by_foo</span>
+  <span class="c1">#         ...</span>
+  <span class="c1">#       end</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1">#   module Bar</span>
+  <span class="c1">#     extend ActiveSupport::Concern</span>
+  <span class="c1">#     include Foo</span>
+  <span class="c1">#</span>
+  <span class="c1">#     included do</span>
+  <span class="c1">#       self.method_injected_by_foo</span>
+  <span class="c1">#     end</span>
+  <span class="c1">#   end</span>
+  <span class="c1">#</span>
+  <span class="c1">#   class Host</span>
+  <span class="c1">#     include Bar # works, Bar takes care now of its dependencies</span>
+  <span class="c1">#   end</span>
+  <span class="k">module</span> <span class="nn">Concern</span>
+    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">extended</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="c1">#:nodoc:</span>
+      <span class="n">base</span><span class="o">.</span><span class="n">instance_variable_set</span><span class="p">(</span><span class="s2">&#34;@_dependencies&#34;</span><span class="p">,</span> <span class="o">[]</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">append_features</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">instance_variable_defined?</span><span class="p">(</span><span class="s2">&#34;@_dependencies&#34;</span><span class="p">)</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">instance_variable_get</span><span class="p">(</span><span class="s2">&#34;@_dependencies&#34;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+        <span class="k">return</span> <span class="kp">false</span>
+      <span class="k">else</span>
+        <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">base</span> <span class="o">&lt;</span> <span class="nb">self</span>
+        <span class="vi">@_dependencies</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">dep</span><span class="o">|</span> <span class="n">base</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="n">dep</span><span class="p">)</span> <span class="p">}</span>
+        <span class="k">super</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="nb">const_get</span><span class="p">(</span><span class="s2">&#34;ClassMethods&#34;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">const_defined?</span><span class="p">(</span><span class="s2">&#34;ClassMethods&#34;</span><span class="p">)</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">class_eval</span><span class="p">(</span><span class="o">&amp;</span><span class="vi">@_included_block</span><span class="p">)</span> <span class="k">if</span> <span class="n">instance_variable_defined?</span><span class="p">(</span><span class="s2">&#34;@_included_block&#34;</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">included</span><span class="p">(</span><span class="n">base</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">base</span><span class="o">.</span><span class="n">nil?</span>
+        <span class="vi">@_included_block</span> <span class="o">=</span> <span class="n">block</span>
+      <span class="k">else</span>
+        <span class="k">super</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>实现代码相当简短，使用也非常简单</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">M</span>
+    <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+    <span class="n">included</span> <span class="k">do</span>
+        <span class="nb">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:do_host_something</span><span class="p">)</span>
+    <span class="k">end</span>
+
+   <span class="k">module</span> <span class="nn">ClassMethods</span>
+      <span class="k">def</span> <span class="nf">wo</span>
+        <span class="c1"># do something</span>
+      <span class="k">end</span>
+   <span class="k">end</span>
+
+   <span class="k">module</span> <span class="nn">InstanceMethods</span>
+      <span class="k">def</span> <span class="nf">ni</span>
+         <span class="c1"># do something</span>
+      <span class="k">end</span>
+   <span class="k">end</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>终极版</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;active_support/concern&#39;</span>
+<span class="k">module</span> <span class="nn">Foo</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">say</span>
+      <span class="nb">puts</span> <span class="s1">&#39;say&#39;</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">module</span> <span class="nn">Bar</span>
+  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+  <span class="kp">include</span> <span class="no">Foo</span>
+  <span class="n">included</span> <span class="k">do</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">say</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">Host</span>
+  <span class="kp">include</span> <span class="no">Bar</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>洗洗睡觉</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2013-03-27</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/rails/">rails</a>
+          <a href="https://www.mojidong.com/tags/ruby/">ruby</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2013-04-03-code-highlight/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">轻量级代码语法高亮插件Highlight.js</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2013-03-16-rails3-autoload_paths-principle/">
+            <span class="next-text nav-default">rails3中autoload_paths加载详解</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

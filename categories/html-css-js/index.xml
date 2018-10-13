@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Html/Css/Js on mojidong blog</title>
+    <link>https://www.mojidong.com/categories/html-css-js/</link>
+    <description>Recent content in Html/Css/Js on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 05 Nov 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/categories/html-css-js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>chrome extension show ip</title>
+      <link>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</link>
+      <pubDate>Tue, 05 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</guid>
+      <description>{% include JB/setup %} 最近开发了一个chrome插件show ip用来显示请求页面的ip地址。 ###起因 最近经常会在测试环境和线上环境切换（修改host），</description>
+    </item>
+    
+    <item>
+      <title>轻量级代码语法高亮插件Highlight.js</title>
+      <link>https://www.mojidong.com/post/2013-04-03-code-highlight/</link>
+      <pubDate>Wed, 03 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-03-code-highlight/</guid>
+      <description>Highlight.js是一款轻量级的语法高亮插件, 支持54种语言和26种主题，详情见这里 本站使用就是该插件。 简单使用 1 2 3 4 &amp;lt;link rel=&amp;#34;stylesheet&amp;#34; href=&amp;#34;styles/default.css&amp;#34;&amp;gt; &amp;lt;script src=&amp;#34;highlight.pack.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt; 默</description>
+    </item>
+    
+    <item>
+      <title>页面回到顶部的实现及原理</title>
+      <link>https://www.mojidong.com/post/2013-03-03-page-top-to-achieve/</link>
+      <pubDate>Sun, 03 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-03-03-page-top-to-achieve/</guid>
+      <description>现在很多网页都有一个回到顶部的功能，当你拖动滚动条往下拉到一定程度就会在右下方显示一个回到顶部的按钮，点击则可以立即回到页面顶部，非常贴心的</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>rails部署nginx&#43;unicorn详解 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="rails部署nginx&#43;unicorn详解" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="rails部署nginx&#43;unicorn详解" />
+<meta property="og:description" content="rails部署nginx&#43;unicorn详解" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/" /><meta property="article:published_time" content="2013-04-20T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2013-04-20T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="rails部署nginx&#43;unicorn详解">
+<meta itemprop="description" content="rails部署nginx&#43;unicorn详解">
+
+
+<meta itemprop="datePublished" content="2013-04-20T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2013-04-20T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2665">
+
+
+
+<meta itemprop="keywords" content="rails,ruby,nginx," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="rails部署nginx&#43;unicorn详解"/>
+<meta name="twitter:description" content="rails部署nginx&#43;unicorn详解"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">rails部署nginx&#43;unicorn详解</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2013-04-20 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/rails/"> rails </a>
+            
+          </div>
+        <span class="more-meta"> 2665 words </span>
+          <span class="more-meta"> 6 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#简介">简介</a></li>
+<li><a href="#安装">安装</a></li>
+<li><a href="#使用">使用</a></li>
+<li><a href="#配置">配置</a></li>
+<li><a href="#我的配置">我的配置</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>rails部署方案众多，今天介绍下nginx+unicorn.</p>
+
+<h3 id="简介">简介</h3>
+
+<p><a href="http://unicorn.bogomips.org/">unicorn</a>是一个高性能的Rack HTTP server,它可以使用unix domain socket通信，获得更好的性能。</p>
+
+<p><strong>官方列举了诸多特性</strong></p>
+
+<blockquote>
+<p>更好的进程管理。<br />
+由内核调度的负载均衡。<br />
+类似nginx的无缝升级。<br />
+更好的内存管理。<br />
+Ruby DSL 的简单配置。<br />
+等等特性</p>
+</blockquote>
+
+<h3 id="安装">安装</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">gem install unicorn</code></pre></td></tr></table>
+</div>
+</div>
+<p>或者在Gemfile加入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;unicorn&#39;</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="使用">使用</h3>
+
+<ol>
+<li>非rails的rack应用</li>
+</ol>
+
+<p>在应用跟目录运行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">  unicorn #默认会监听8080端口</code></pre></td></tr></table>
+</div>
+</div>
+<ol>
+<li>Rails应用</li>
+</ol>
+
+<p>在rails跟目录运行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">  unicorn_rails #默认会监听8080端口</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>我们可以使用<code>-l</code>选项改变默认监听的地址和端口。<br />
+我们可以使用 <code>unicorn -h</code> 或 <code>unicorn_rails -h</code> 查看更多选项说明</p>
+</blockquote>
+
+<h3 id="配置">配置</h3>
+
+<p><strong>unicorn</strong>提供配置文件,让我们进行详细的设置。详细的说明请看<a href="http://unicorn.bogomips.org/Unicorn/Configurator.html">这里</a>。</p>
+
+<ul>
+<li><p><strong>after_fork(*args, &amp;block)</strong></p>
+
+<p>worker fork 之后被调用。</p></li>
+
+<li><p><strong>before_exec(*args, &amp;block)</strong></p>
+
+<p>在启动unicorn master之前被调用。</p></li>
+
+<li><p><strong>before_fork(*args, &amp;block)</strong></p>
+
+<p>在master fork work之前被调用。</p></li>
+
+<li><p><strong>check_client_connection(bool)</strong></p>
+
+<p>检查客户端链接是否断开，防止断开的请求调用。<code>:tcp_nopush</code>选项下无效。</p></li>
+
+<li><p><strong>listen(address, options = {})</strong></p>
+
+<p>监听地址，可以使是<code>tcp</code>地址，也可以是<code>UNIX domain sockets</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="n">listen</span> <span class="mi">3000</span> <span class="c1"># listen to port 3000 on all TCP interfaces</span>
+<span class="n">listen</span> <span class="s2">&#34;127.0.0.1:3000&#34;</span>  <span class="c1"># listen to port 3000 on the loopback interface</span>
+<span class="n">listen</span> <span class="s2">&#34;/tmp/.unicorn.sock&#34;</span> <span class="c1"># listen on the given Unix domain socket</span>
+<span class="n">listen</span> <span class="s2">&#34;[::1]:3000&#34;</span> <span class="c1"># listen to port 3000 on the IPv6 loopback interface</span></code></pre></td></tr></table>
+</div>
+</div></li>
+
+<li><p><strong>logger(obj)</strong></p>
+
+<p>设置logger级别</p>
+
+<ul>
+<li>debug</li>
+<li>info</li>
+<li>warn</li>
+<li>error</li>
+<li>fatal
+默认情况下log将输出到<code>stderr_path</code>,如果<code>unicorn</code>运行在<code>daemonized</code>模式下，
+则必须设置详细的<code>stderr_path</code>避免错误信息进入<code>/dev/null</code>
+<br /></li>
+</ul></li>
+
+<li><p><strong>pid(path)</strong></p>
+
+<p>设置pid文件的位置</p></li>
+
+<li><p><strong>preload_app(bool)</strong></p>
+
+<p>在forking worker processes之前预加载程序</p></li>
+
+<li><p><strong>rewindable_input(bool)</strong></p>
+
+<p>禁止rewindability，可以提高上传的性能，降低io和内存使用</p></li>
+
+<li><p><strong>stderr_path(path)</strong></p>
+
+<p>重定向<code>stderr</code>到指定文件</p></li>
+
+<li><p><strong>stdout_path(path)</strong></p>
+
+<p>重定向<code>stdout</code>到指定文件</p></li>
+
+<li><p><strong>timeout(seconds)</strong></p>
+
+<p>设置worker processes的超时时间</p></li>
+
+<li><p><strong>user(user, group = nil)</strong></p>
+
+<p>设置运行worker processes的用户和组</p></li>
+
+<li><p><strong>worker_processes(nr)</strong></p>
+
+<p>设置worker_processes数量</p></li>
+
+<li><p><strong>working_directory(path)</strong></p>
+
+<p>设置unicorn工作目录，SIGUSR2将启动一个新的unicorn实例在这个目录。</p></li>
+</ul>
+
+<hr />
+
+<p>官方给出的<a href="http://unicorn.bogomips.org/examples/unicorn.conf.minimal.rb">最小化配置</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="c1"># Minimal sample configuration file for Unicorn (not Rack) when used</span>
+<span class="c1"># with daemonization (unicorn -D) started in your working directory.</span>
+<span class="c1">#</span>
+<span class="c1"># See http://unicorn.bogomips.org/Unicorn/Configurator.html for complete</span>
+<span class="c1"># documentation.</span>
+<span class="c1"># See also http://unicorn.bogomips.org/examples/unicorn.conf.rb for</span>
+<span class="c1"># a more verbose configuration using more features.</span>
+
+<span class="n">listen</span> <span class="mi">2007</span> <span class="c1"># by default Unicorn listens on port 8080</span>
+<span class="n">worker_processes</span> <span class="mi">2</span> <span class="c1"># this should be &gt;= nr_cpus</span>
+<span class="n">pid</span> <span class="s2">&#34;/path/to/app/shared/pids/unicorn.pid&#34;</span>
+<span class="n">stderr_path</span> <span class="s2">&#34;/path/to/app/shared/log/unicorn.log&#34;</span>
+<span class="n">stdout_path</span> <span class="s2">&#34;/path/to/app/shared/log/unicorn.log&#34;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>官方给出的<a href="http://unicorn.bogomips.org/examples/unicorn.conf.rb">完整配置</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="c1"># Sample verbose configuration file for Unicorn (not Rack)</span>
+<span class="c1">#</span>
+<span class="c1"># This configuration file documents many features of Unicorn</span>
+<span class="c1"># that may not be needed for some applications. See</span>
+<span class="c1"># http://unicorn.bogomips.org/examples/unicorn.conf.minimal.rb</span>
+<span class="c1"># for a much simpler configuration file.</span>
+<span class="c1">#</span>
+<span class="c1"># See http://unicorn.bogomips.org/Unicorn/Configurator.html for complete</span>
+<span class="c1"># documentation.</span>
+
+<span class="c1"># Use at least one worker per core if you&#39;re on a dedicated server,</span>
+<span class="c1"># more will usually help for _short_ waits on databases/caches.</span>
+<span class="n">worker_processes</span> <span class="mi">4</span>
+
+<span class="c1"># Since Unicorn is never exposed to outside clients, it does not need to</span>
+<span class="c1"># run on the standard HTTP port (80), there is no reason to start Unicorn</span>
+<span class="c1"># as root unless it&#39;s from system init scripts.</span>
+<span class="c1"># If running the master process as root and the workers as an unprivileged</span>
+<span class="c1"># user, do this to switch euid/egid in the workers (also chowns logs):</span>
+<span class="c1"># user &#34;unprivileged_user&#34;, &#34;unprivileged_group&#34;</span>
+
+<span class="c1"># Help ensure your application will always spawn in the symlinked</span>
+<span class="c1"># &#34;current&#34; directory that Capistrano sets up.</span>
+<span class="n">working_directory</span> <span class="s2">&#34;/path/to/app/current&#34;</span> <span class="c1"># available in 0.94.0+</span>
+
+<span class="c1"># listen on both a Unix domain socket and a TCP port,</span>
+<span class="c1"># we use a shorter backlog for quicker failover when busy</span>
+<span class="n">listen</span> <span class="s2">&#34;/tmp/.sock&#34;</span><span class="p">,</span> <span class="ss">:backlog</span> <span class="o">=&gt;</span> <span class="mi">64</span>
+<span class="n">listen</span> <span class="mi">8080</span><span class="p">,</span> <span class="ss">:tcp_nopush</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+
+<span class="c1"># nuke workers after 30 seconds instead of 60 seconds (the default)</span>
+<span class="n">timeout</span> <span class="mi">30</span>
+
+<span class="c1"># feel free to point this anywhere accessible on the filesystem</span>
+<span class="n">pid</span> <span class="s2">&#34;/path/to/app/shared/pids/unicorn.pid&#34;</span>
+
+<span class="c1"># By default, the Unicorn logger will write to stderr.</span>
+<span class="c1"># Additionally, ome applications/frameworks log to stderr or stdout,</span>
+<span class="c1"># so prevent them from going to /dev/null when daemonized here:</span>
+<span class="n">stderr_path</span> <span class="s2">&#34;/path/to/app/shared/log/unicorn.stderr.log&#34;</span>
+<span class="n">stdout_path</span> <span class="s2">&#34;/path/to/app/shared/log/unicorn.stdout.log&#34;</span>
+
+<span class="c1"># combine Ruby 2.0.0dev or REE with &#34;preload_app true&#34; for memory savings</span>
+<span class="c1"># http://rubyenterpriseedition.com/faq.html#adapt_apps_for_cow</span>
+<span class="n">preload_app</span> <span class="kp">true</span>
+<span class="no">GC</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:copy_on_write_friendly</span><span class="o">=</span><span class="p">)</span> <span class="ow">and</span>
+  <span class="no">GC</span><span class="o">.</span><span class="n">copy_on_write_friendly</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="c1"># Enable this flag to have unicorn test client connections by writing the</span>
+<span class="c1"># beginning of the HTTP headers before calling the application.  This</span>
+<span class="c1"># prevents calling the application for connections that have disconnected</span>
+<span class="c1"># while queued.  This is only guaranteed to detect clients on the same</span>
+<span class="c1"># host unicorn runs on, and unlikely to detect disconnects even on a</span>
+<span class="c1"># fast LAN.</span>
+<span class="n">check_client_connection</span> <span class="kp">false</span>
+
+<span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+  <span class="c1"># the following is highly recomended for Rails + &#34;preload_app true&#34;</span>
+  <span class="c1"># as there&#39;s no need for the master process to hold a connection</span>
+  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect!</span>
+
+  <span class="c1"># The following is only recommended for memory/DB-constrained</span>
+  <span class="c1"># installations.  It is not needed if your system can house</span>
+  <span class="c1"># twice as many worker_processes as you have configured.</span>
+  <span class="c1">#</span>
+  <span class="c1"># # This allows a new master process to incrementally</span>
+  <span class="c1"># # phase out the old master process with SIGTTOU to avoid a</span>
+  <span class="c1"># # thundering herd (especially in the &#34;preload_app false&#34; case)</span>
+  <span class="c1"># # when doing a transparent upgrade.  The last worker spawned</span>
+  <span class="c1"># # will then kill off the old master process with a SIGQUIT.</span>
+  <span class="c1"># old_pid = &#34;#{server.config[:pid]}.oldbin&#34;</span>
+  <span class="c1"># if old_pid != server.pid</span>
+  <span class="c1">#   begin</span>
+  <span class="c1">#     sig = (worker.nr + 1) &gt;= server.worker_processes ? :QUIT : :TTOU</span>
+  <span class="c1">#     Process.kill(sig, File.read(old_pid).to_i)</span>
+  <span class="c1">#   rescue Errno::ENOENT, Errno::ESRCH</span>
+  <span class="c1">#   end</span>
+  <span class="c1"># end</span>
+  <span class="c1">#</span>
+  <span class="c1"># Throttle the master from forking too quickly by sleeping.  Due</span>
+  <span class="c1"># to the implementation of standard Unix signal handlers, this</span>
+  <span class="c1"># helps (but does not completely) prevent identical, repeated signals</span>
+  <span class="c1"># from being lost when the receiving process is busy.</span>
+  <span class="c1"># sleep 1</span>
+<span class="k">end</span>
+
+<span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+  <span class="c1"># per-process listener ports for debugging/admin/migrations</span>
+  <span class="c1"># addr = &#34;127.0.0.1:#{9293 + worker.nr}&#34;</span>
+  <span class="c1"># server.listen(addr, :tries =&gt; -1, :delay =&gt; 5, :tcp_nopush =&gt; true)</span>
+
+  <span class="c1"># the following is *required* for Rails + &#34;preload_app true&#34;,</span>
+  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span>
+
+  <span class="c1"># if preload_app is true, then you may also want to check and</span>
+  <span class="c1"># restart any other shared sockets/descriptors such as Memcached,</span>
+  <span class="c1"># and Redis.  TokyoCabinet file handles are safe to reuse</span>
+  <span class="c1"># between any number of forked children (assuming your kernel</span>
+  <span class="c1"># correctly implements pread()/pwrite() system calls)</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>github的<a href="https://github.com/blog/517-unicorn">配置</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="c1"># unicorn_rails -c /data/github/current/config/unicorn.rb -E production -D</span>
+ 
+<span class="n">rails_env</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;RAILS_ENV&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;production&#39;</span>
+ 
+<span class="c1"># 16 workers and 1 master</span>
+<span class="n">worker_processes</span> <span class="p">(</span><span class="n">rails_env</span> <span class="o">==</span> <span class="s1">&#39;production&#39;</span> <span class="p">?</span> <span class="mi">16</span> <span class="p">:</span> <span class="mi">4</span><span class="p">)</span>
+ 
+<span class="c1"># Load rails+github.git into the master before forking workers</span>
+<span class="c1"># for super-fast worker spawn times</span>
+<span class="n">preload_app</span> <span class="kp">true</span>
+ 
+<span class="c1"># Restart any workers that haven&#39;t responded in 30 seconds</span>
+<span class="n">timeout</span> <span class="mi">30</span>
+ 
+<span class="c1"># Listen on a Unix data socket</span>
+<span class="n">listen</span> <span class="s1">&#39;/data/github/current/tmp/sockets/unicorn.sock&#39;</span><span class="p">,</span> <span class="ss">:backlog</span> <span class="o">=&gt;</span> <span class="mi">2048</span>
+ 
+ 
+<span class="c1">##</span>
+<span class="c1"># REE</span>
+ 
+<span class="c1"># http://www.rubyenterpriseedition.com/faq.html#adapt_apps_for_cow</span>
+<span class="k">if</span> <span class="no">GC</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:copy_on_write_friendly</span><span class="o">=</span><span class="p">)</span>
+  <span class="no">GC</span><span class="o">.</span><span class="n">copy_on_write_friendly</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+ 
+ 
+<span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+  <span class="c1">##</span>
+  <span class="c1"># When sent a USR2, Unicorn will suffix its pidfile with .oldbin and</span>
+  <span class="c1"># immediately start loading up a new version of itself (loaded with a new</span>
+  <span class="c1"># version of our app). When this new Unicorn is completely loaded</span>
+  <span class="c1"># it will begin spawning workers. The first worker spawned will check to</span>
+  <span class="c1"># see if an .oldbin pidfile exists. If so, this means we&#39;ve just booted up</span>
+  <span class="c1"># a new Unicorn and need to tell the old one that it can now die. To do so</span>
+  <span class="c1"># we send it a QUIT.</span>
+  <span class="c1">#</span>
+  <span class="c1"># Using this method we get 0 downtime deploys.</span>
+ 
+  <span class="n">old_pid</span> <span class="o">=</span> <span class="no">RAILS_ROOT</span> <span class="o">+</span> <span class="s1">&#39;/tmp/pids/unicorn.pid.oldbin&#39;</span>
+  <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">server</span><span class="o">.</span><span class="n">pid</span> <span class="o">!=</span> <span class="n">old_pid</span>
+    <span class="k">begin</span>
+      <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="s2">&#34;QUIT&#34;</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+    <span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="p">,</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ESRCH</span>
+      <span class="c1"># someone else did our job for us</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+ 
+ 
+<span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+  <span class="c1">##</span>
+  <span class="c1"># Unicorn master loads the app then forks off workers - because of the way</span>
+  <span class="c1"># Unix forking works, we need to make sure we aren&#39;t using any of the parent&#39;s</span>
+  <span class="c1"># sockets, e.g. db connection</span>
+ 
+  <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span>
+  <span class="no">CHIMNEY</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">connect_to_server</span>
+  <span class="c1"># Redis and Memcached would go here but their connections are established</span>
+  <span class="c1"># on demand, so the master never opens a socket</span>
+ 
+ 
+  <span class="c1">##</span>
+  <span class="c1"># Unicorn master is started as root, which is fine, but let&#39;s</span>
+  <span class="c1"># drop the workers to git:git</span>
+ 
+  <span class="k">begin</span>
+    <span class="n">uid</span><span class="p">,</span> <span class="n">gid</span> <span class="o">=</span> <span class="no">Process</span><span class="o">.</span><span class="n">euid</span><span class="p">,</span> <span class="no">Process</span><span class="o">.</span><span class="n">egid</span>
+    <span class="n">user</span><span class="p">,</span> <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;git&#39;</span>
+    <span class="n">target_uid</span> <span class="o">=</span> <span class="no">Etc</span><span class="o">.</span><span class="n">getpwnam</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">uid</span>
+    <span class="n">target_gid</span> <span class="o">=</span> <span class="no">Etc</span><span class="o">.</span><span class="n">getgrnam</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">gid</span>
+    <span class="n">worker</span><span class="o">.</span><span class="n">tmp</span><span class="o">.</span><span class="n">chown</span><span class="p">(</span><span class="n">target_uid</span><span class="p">,</span> <span class="n">target_gid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">uid</span> <span class="o">!=</span> <span class="n">target_uid</span> <span class="o">||</span> <span class="n">gid</span> <span class="o">!=</span> <span class="n">target_gid</span>
+      <span class="no">Process</span><span class="o">.</span><span class="n">initgroups</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">target_gid</span><span class="p">)</span>
+      <span class="no">Process</span><span class="o">::</span><span class="no">GID</span><span class="o">.</span><span class="n">change_privilege</span><span class="p">(</span><span class="n">target_gid</span><span class="p">)</span>
+      <span class="no">Process</span><span class="o">::</span><span class="no">UID</span><span class="o">.</span><span class="n">change_privilege</span><span class="p">(</span><span class="n">target_uid</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
+    <span class="k">if</span> <span class="no">RAILS_ENV</span> <span class="o">==</span> <span class="s1">&#39;development&#39;</span>
+      <span class="no">STDERR</span><span class="o">.</span><span class="n">puts</span> <span class="s2">&#34;couldn&#39;t change user, oh well&#34;</span>
+    <span class="k">else</span>
+      <span class="k">raise</span> <span class="n">e</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="我的配置">我的配置</h3>
+
+<p>unicorn.rb(此配置文件在rails项目config目录下)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Rails</span>
+  <span class="k">class</span> <span class="o">&lt;&lt;</span><span class="nb">self</span>
+    <span class="k">def</span> <span class="nf">root</span>
+      <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">..-</span><span class="mi">3</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">worker_processes</span> <span class="mi">4</span>
+
+<span class="n">working_directory</span> <span class="no">Rails</span><span class="o">.</span><span class="n">root</span>
+
+<span class="n">listen</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/tmp/sockets/socket&#34;</span><span class="p">,</span> <span class="ss">:backlog</span> <span class="o">=&gt;</span> <span class="mi">64</span>
+
+<span class="n">timeout</span> <span class="mi">30</span>
+
+<span class="n">pid</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/tmp/pids/unicorn.pid&#34;</span>
+
+<span class="n">stderr_path</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/log/unicorn.log&#34;</span>
+<span class="n">stdout_path</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/log/unicorn.log&#34;</span>
+
+<span class="c1"># combine Ruby 2.0.0dev or REE with &#34;preload_app true&#34; for memory savings</span>
+<span class="c1"># http://rubyenterpriseedition.com/faq.html#adapt_apps_for_cow</span>
+<span class="n">preload_app</span> <span class="kp">true</span>
+<span class="no">GC</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:copy_on_write_friendly</span><span class="o">=</span><span class="p">)</span> <span class="ow">and</span>
+  <span class="no">GC</span><span class="o">.</span><span class="n">copy_on_write_friendly</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="n">check_client_connection</span> <span class="kp">false</span>
+
+<span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+  <span class="c1"># the following is highly recomended for Rails + &#34;preload_app true&#34;</span>
+  <span class="c1"># as there&#39;s no need for the master process to hold a connection</span>
+  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect!</span>
+
+  <span class="n">old_pid</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="n">server</span><span class="o">.</span><span class="n">config</span><span class="o">[</span><span class="ss">:pid</span><span class="o">]</span><span class="si">}</span><span class="s2">.oldbin&#34;</span>
+  <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">old_pid</span> <span class="o">!=</span> <span class="n">server</span><span class="o">.</span><span class="n">pid</span>
+    <span class="k">begin</span>
+      <span class="n">sig</span> <span class="o">=</span> <span class="p">(</span><span class="n">worker</span><span class="o">.</span><span class="n">nr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">server</span><span class="o">.</span><span class="n">worker_processes</span> <span class="p">?</span> <span class="ss">:QUIT</span> <span class="p">:</span> <span class="ss">:TTOU</span>
+      <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+    <span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="p">,</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ESRCH</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  <span class="c1"># Throttle the master from forking too quickly by sleeping.  Due</span>
+  <span class="c1"># to the implementation of standard Unix signal handlers, this</span>
+  <span class="c1"># helps (but does not completely) prevent identical, repeated signals</span>
+  <span class="c1"># from being lost when the receiving process is busy.</span>
+  <span class="nb">sleep</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+
+  <span class="c1"># the following is *required* for Rails + &#34;preload_app true&#34;,</span>
+  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span>
+
+  <span class="c1"># if preload_app is true, then you may also want to check and</span>
+  <span class="c1"># restart any other shared sockets/descriptors such as Memcached,</span>
+  <span class="c1"># and Redis.  TokyoCabinet file handles are safe to reuse</span>
+  <span class="c1"># between any number of forked children (assuming your kernel</span>
+  <span class="c1"># correctly implements pread()/pwrite() system calls)</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>nginx.conf</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="k">worker_processes</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="k">events</span> <span class="p">{</span>
+  <span class="kn">worker_connections</span> <span class="mi">1024</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">http</span> <span class="p">{</span>
+  
+  <span class="kn">include</span> <span class="s">mime.types</span><span class="p">;</span>
+
+  <span class="kn">default_type</span> <span class="s">application/octet-stream</span><span class="p">;</span>
+
+  <span class="kn">sendfile</span> <span class="no">on</span><span class="p">;</span>
+  
+  <span class="kn">keepalive_timeout</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="kn">upstream</span> <span class="s">app_server</span> <span class="p">{</span>
+    <span class="c1"># fail_timeout=0 means we always retry an upstream even if it failed
+</span><span class="c1"></span>    <span class="c1"># to return a good HTTP response (in case the Unicorn master nukes a
+</span><span class="c1"></span>    <span class="c1"># single worker for timing out).
+</span><span class="c1"></span>
+    <span class="c1"># for UNIX domain socket setups:
+</span><span class="c1"></span>    <span class="kn">server</span> <span class="s">unix:</span> <span class="s">/path/to/app/tmp/sockets/socket</span> <span class="s">fail_timeout=0</span><span class="p">;</span>
+  <span class="p">}</span>
+  
+  <span class="kn">server</span> <span class="p">{</span>
+        <span class="kn">listen</span> <span class="mi">8080</span> <span class="s">default</span><span class="p">;</span>
+        <span class="kn">return</span> <span class="mi">403</span><span class="p">;</span> 
+  <span class="p">}</span>
+
+  <span class="kn">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">8080</span><span class="p">;</span>
+
+    <span class="kn">server_name</span> <span class="s">www.explame.com</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+      <span class="kn">proxy_pass</span> <span class="s">http://app_server</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Rails error pages
+</span><span class="c1"></span>    <span class="kn">error_page</span> <span class="mi">500</span> <span class="mi">502</span> <span class="mi">503</span> <span class="mi">504</span> <span class="s">/500.html</span><span class="p">;</span>
+    <span class="kn">location</span> <span class="p">=</span> <span class="s">/500.html</span> <span class="p">{</span>
+      <span class="kn">root</span> <span class="s">/path/to/app/current/public</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>启动unicorn</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-sh" data-lang="sh">unicorn_rails -c /path/to/app/config/unicorn.rb -D -E production</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>无缝重启服务使用<code>kill -USR2  `cat path/to/app/tmp/pids/unicorn.pid`</code>
+这样会启动一个新的<code>unicorn master</code>然后关闭旧的<code>unicorn master</code></p>
+
+<p>有可能你会发现你执行了上述命令但是没起作用，这是因为你可能没有在你的<code>Gemfile</code>中加入<code>gem 'unicorn'</code></p>
+</blockquote>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2013-04-20</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/rails/">rails</a>
+          <a href="https://www.mojidong.com/tags/ruby/">ruby</a>
+          <a href="https://www.mojidong.com/tags/nginx/">nginx</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2013-05-10-python-exec-eval/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">python的exec、eval详解</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2013-04-15-nginx-location-rule/">
+            <span class="next-text nav-default">nginx的location匹配规则详解</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

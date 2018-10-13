@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nginx on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/nginx/</link>
+    <description>Recent content in Nginx on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 20 Apr 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>rails部署nginx&#43;unicorn详解</title>
+      <link>https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/</link>
+      <pubDate>Sat, 20 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-20-rails-nginx-unicorn/</guid>
+      <description>rails部署方案众多，今天介绍下nginx+unicorn. 简介 unicorn是一个高性能的Rack HTTP server,它可以使用unix domain s</description>
+    </item>
+    
+    <item>
+      <title>nginx的location匹配规则详解</title>
+      <link>https://www.mojidong.com/post/2013-04-15-nginx-location-rule/</link>
+      <pubDate>Mon, 15 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-04-15-nginx-location-rule/</guid>
+      <description>nginx中我们会用location指令来匹配指定的uri进行一些逻辑处理。 location指令语法 1 location [ = | ~ | ~* | ^~ ] uri { ... } location 支持常规</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Oh My Zsh on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/oh-my-zsh/</link>
+    <description>Recent content in Oh My Zsh on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 14 May 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/oh-my-zsh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>zsh autosuggestions在tmux环境下高亮问题处理</title>
+      <link>https://www.mojidong.com/post/2017-05-14-zsh-autosuggestions/</link>
+      <pubDate>Sun, 14 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2017-05-14-zsh-autosuggestions/</guid>
+      <description>问题 最近在尝试使用zsh-autosuggestions插件，在tmux中发现提示的高亮效果无效这里记录下解决方法。 现象如下： 在终端下zsh</description>
+    </item>
+    
+  </channel>
+</rss>

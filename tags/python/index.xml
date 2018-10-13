@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/python/</link>
+    <description>Recent content in Python on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 10 May 2013 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>python的exec、eval详解</title>
+      <link>https://www.mojidong.com/post/2013-05-10-python-exec-eval/</link>
+      <pubDate>Fri, 10 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-05-10-python-exec-eval/</guid>
+      <description>简介 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;python 动态执行字符串代码片段（也可以是文件）， 一般会用到exec,eval。 exec 1 exec_stmt ::= &amp;#34;exec&amp;#34; or_expr [&amp;#34;in&amp;#34; expression [&amp;#34;,&amp;#34; expression]] 注意：exec 是一个语法声明，不是一个函数.</description>
+    </item>
+    
+    <item>
+      <title>python多版本管理工具pythonbrew</title>
+      <link>https://www.mojidong.com/post/2013-01-06-python-pythonbrew-multi-version-management-tools/</link>
+      <pubDate>Sun, 06 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-06-python-pythonbrew-multi-version-management-tools/</guid>
+      <description>当你需要在一台机器上同时安装多个不同版本的python的时候，你可能就需要使用pythonbrew。 pythonbrew可以帮你下载安装不同</description>
+    </item>
+    
+    <item>
+      <title>python获取mac地址</title>
+      <link>https://www.mojidong.com/post/2013-01-03-python-get-mac/</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-03-python-get-mac/</guid>
+      <description>1 2 3 4  import uuid node = uuid.getnode() mac = uuid.UUID(int = node).hex[-12:] print mac  </description>
+    </item>
+    
+    <item>
+      <title>python获取机器名</title>
+      <link>https://www.mojidong.com/post/2013-01-03-python-get-hostname/</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-03-python-get-hostname/</guid>
+      <description>1 2  import socket print socket.gethostname()  </description>
+    </item>
+    
+    <item>
+      <title>urllib2上传文件</title>
+      <link>https://www.mojidong.com/post/2013-01-03-urllib2-upload-file/</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-03-urllib2-upload-file/</guid>
+      <description>httplib2好像不支持文件上传,无奈不得不回去使用urllib2。 urllib2本身是不支持文件上传的，但是其良好的扩展性使得其实现这一</description>
+    </item>
+    
+    <item>
+      <title>由urlib2转向使用httplib2</title>
+      <link>https://www.mojidong.com/post/2013-01-02-urllib2-migrate-httplib2/</link>
+      <pubDate>Wed, 02 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-02-urllib2-migrate-httplib2/</guid>
+      <description>提到python下http相关的库一般都会想到urllib、urllib2、httplib。 httplib实现了HTTP和HTTPS的客户端</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy 六 </title>
+      <link>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-6/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-6/</guid>
+      <description>webpy中获取get和post参数的方式非常简单 1 2 3 4 args=web.input() name=args.get(&amp;#39;name&amp;#39;) age=args.get(&amp;#39;age&amp;#39;) sex=args.get(&amp;#39;sex&amp;#39;) 需要注意的是上面方法获得的参数的类型全是unicode,所以对于数值需要作</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy【session 和 cookie】五</title>
+      <link>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-session-cookie-5/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-session-cookie-5/</guid>
+      <description>webpty中使用session非常简单 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import web web.config.debug = False urls = ( &amp;#34;/count&amp;#34;, &amp;#34;count&amp;#34;, &amp;#34;/reset&amp;#34;, &amp;#34;reset&amp;#34; ) app = web.application(urls, locals()) session = web.session.Session(app, web.session.DiskStore(&amp;#39;sessions&amp;#39;), initializer={&amp;#39;count&amp;#39;: 0}) class count: def GET(self): session.count +=</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy(一) </title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-1/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-1/</guid>
+      <description>python的web框架是一个百花齐放的世界，完全列表请看这里。 面对如此众多的框架我们要如何选择！它们都有各自的优缺点，你不可能找到一款完美</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy(二)</title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-2/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-2/</guid>
+      <description>之前介绍了webpy，还写了一个自己的web程序，下面我们就来分析下代码。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # coding:utf-8 import web urls=( &amp;#39;/&amp;#39;,&amp;#39;index&amp;#39; ) app=web.application(urls,globals()) class index: def GET(self): return &amp;#39;hello webpy!&amp;#39; if __name__==&amp;#39;__main__&amp;#39;: app.run()</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy【Templetor】（四）</title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-template-4/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-template-4/</guid>
+      <description>之前我们讲的都是简单的返回文本到浏览器，例如下面将会返回hello word到浏览器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # coding:utf-8 import web urls=( &amp;#39;/&amp;#39;,&amp;#39;index&amp;#39; ) app=web.application(urls,globals()) class index: def GET(self): return &amp;#39;hello</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy【路由规则】（三）</title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-route-3/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-route-3/</guid>
+      <description>今天重点说下webpy的路由规则。 1 2 3 4 5 6 7 8 #这里声明了三条路由规则，它是一个tuple,由url匹配规则和处理类组成 #url匹配规则</description>
+    </item>
+    
+    <item>
+      <title>python修改图片尺寸</title>
+      <link>https://www.mojidong.com/post/2012-08-07-python-resize-image/</link>
+      <pubDate>Tue, 07 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-07-python-resize-image/</guid>
+      <description>python对图片的操作需要使用到(Python Imaging Library)PIL库，PIL可以处理几乎所有的图片类型，了解更多请点击这里。 下载PIL</description>
+    </item>
+    
+    <item>
+      <title>python操作mysql数据库</title>
+      <link>https://www.mojidong.com/post/2012-08-07-python-operate-mysql/</link>
+      <pubDate>Tue, 07 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-07-python-operate-mysql/</guid>
+      <description>python操作mysql需要用到MySQLdb这个库。 下载MySQLdb，点击这里下载 使用 1 2 3 4 5 6 7 8 9 10 11 12 13 14 import MySQLdb try: con = MySQLdb.connect(host=&amp;#39;192.168.1.100&amp;#39;, user=&amp;#39;myuser&amp;#39;, passwd=&amp;#39;123456&amp;#39;, port=&amp;#39;3306&amp;#39;, db=&amp;#39;mydb&amp;#39;,charset=&amp;#39;utf8&amp;#39;)</description>
+    </item>
+    
+  </channel>
+</rss>

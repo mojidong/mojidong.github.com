@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>kaminari设置最大页数 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" />
+  <meta name="description" content="kaminari是一款非常优秀的分页插件，它支持 Rails/Sinatra/Padrino。 它基本上解决我所有的分页需求，不过最近发现一个不" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2013-04-03-kaminari-max-page/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="kaminari设置最大页数" />
+<meta property="og:description" content="kaminari是一款非常优秀的分页插件，它支持 Rails/Sinatra/Padrino。 它基本上解决我所有的分页需求，不过最近发现一个不" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2013-04-03-kaminari-max-page/" /><meta property="article:published_time" content="2013-04-03T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2013-04-03T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="kaminari设置最大页数">
+<meta itemprop="description" content="kaminari是一款非常优秀的分页插件，它支持 Rails/Sinatra/Padrino。 它基本上解决我所有的分页需求，不过最近发现一个不">
+
+
+<meta itemprop="datePublished" content="2013-04-03T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2013-04-03T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="930">
+
+
+
+<meta itemprop="keywords" content="rails,ruby," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="kaminari设置最大页数"/>
+<meta name="twitter:description" content="kaminari是一款非常优秀的分页插件，它支持 Rails/Sinatra/Padrino。 它基本上解决我所有的分页需求，不过最近发现一个不"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">kaminari设置最大页数</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2013-04-03 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/rails/"> rails </a>
+            
+          </div>
+        <span class="more-meta"> 930 words </span>
+          <span class="more-meta"> 2 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p><a href="https://github.com/amatsuda/kaminari">kaminari</a>是一款非常优秀的分页插件，它支持 <strong>Rails/Sinatra/Padrino</strong>。</p>
+
+<p>它基本上解决我所有的分页需求，不过最近发现一个不足，好像没有设置最大页数的功能。</p>
+
+<p>例如我的数据有1000页，但是我只想显示100页，这个时候就搞不定了。</p>
+
+<p>初步来看有两个办法来解决问题</p>
+
+<p>1.修改源代码</p>
+
+<p>2.修改template</p>
+
+<p>个人倾向第二种，侵入性小，方案确定那么就开始动手</p>
+
+<hr />
+
+<p>走起</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb">&lt;%= paginate @blogs %&gt;</code></pre></td></tr></table>
+</div>
+</div>
+<p>该方法定义在
+<code>~/.rvm/gems/ruby-1.9.3-p392/gems/kaminari-0.14.1/lib/kaminari/helpers/action_view_extension.rb</code> (<a href="https://github.com/amatsuda/kaminari/blob/master/lib/kaminari/helpers/action_view_extension.rb">源码</a>)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"> 	<span class="c1"># A helper that renders the pagination links.</span>
+    <span class="c1">#</span>
+    <span class="c1">#   &lt;%= paginate @articles %&gt;</span>
+    <span class="c1">#</span>
+    <span class="c1"># ==== Options</span>
+    <span class="c1"># * &lt;tt&gt;:window&lt;/tt&gt; - The &#34;inner window&#34; size (4 by default).</span>
+    <span class="c1"># * &lt;tt&gt;:outer_window&lt;/tt&gt; - The &#34;outer window&#34; size (0 by default).</span>
+    <span class="c1"># * &lt;tt&gt;:left&lt;/tt&gt; - The &#34;left outer window&#34; size (0 by default).</span>
+    <span class="c1"># * &lt;tt&gt;:right&lt;/tt&gt; - The &#34;right outer window&#34; size (0 by default).</span>
+    <span class="c1"># * &lt;tt&gt;:params&lt;/tt&gt; - url_for parameters for the links (:controller, :action, etc.)</span>
+    <span class="c1"># * &lt;tt&gt;:param_name&lt;/tt&gt; - parameter name for page number in the links (:page by default)</span>
+    <span class="c1"># * &lt;tt&gt;:remote&lt;/tt&gt; - Ajax? (false by default)</span>
+    <span class="c1"># * &lt;tt&gt;:ANY_OTHER_VALUES&lt;/tt&gt; - Any other hash key &amp; values would be directly passed into each tag as :locals value.</span>
+    <span class="k">def</span> <span class="nf">paginate</span><span class="p">(</span><span class="n">scope</span><span class="p">,</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+      <span class="n">paginator</span> <span class="o">=</span> <span class="no">Kaminari</span><span class="o">::</span><span class="no">Helpers</span><span class="o">::</span><span class="no">Paginator</span><span class="o">.</span><span class="n">new</span> <span class="nb">self</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">reverse_merge</span><span class="p">(</span><span class="ss">:current_page</span> <span class="o">=&gt;</span> <span class="n">scope</span><span class="o">.</span><span class="n">current_page</span><span class="p">,</span> <span class="ss">:total_pages</span> <span class="o">=&gt;</span> <span class="n">scope</span><span class="o">.</span><span class="n">total_pages</span><span class="p">,</span> <span class="ss">:per_page</span> <span class="o">=&gt;</span> <span class="n">scope</span><span class="o">.</span><span class="n">limit_value</span><span class="p">,</span> <span class="ss">:param_name</span> <span class="o">=&gt;</span> <span class="no">Kaminari</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">param_name</span><span class="p">,</span> <span class="ss">:remote</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span>
+      <span class="n">paginator</span><span class="o">.</span><span class="n">to_s</span>
+    <span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>看看<code>Kaminari::Helpers::Paginator#initialize</code> (<a href="https://github.com/amatsuda/kaminari/blob/master/lib/kaminari/helpers/paginator.rb">源码</a>)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"> <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span> <span class="c1">#:nodoc:</span>
+        <span class="vi">@window_options</span> <span class="o">=</span> <span class="p">{}</span><span class="o">.</span><span class="n">tap</span> <span class="k">do</span> <span class="o">|</span><span class="n">h</span><span class="o">|</span>
+          <span class="n">h</span><span class="o">[</span><span class="ss">:window</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:window</span><span class="p">)</span> <span class="o">||</span> <span class="n">options</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:inner_window</span><span class="p">)</span> <span class="o">||</span> <span class="no">Kaminari</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">window</span>
+          <span class="n">outer_window</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:outer_window</span><span class="p">)</span> <span class="o">||</span> <span class="no">Kaminari</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">outer_window</span>
+          <span class="n">h</span><span class="o">[</span><span class="ss">:left</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:left</span><span class="p">)</span> <span class="o">||</span> <span class="no">Kaminari</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">left</span>
+          <span class="n">h</span><span class="o">[</span><span class="ss">:left</span><span class="o">]</span> <span class="o">=</span> <span class="n">outer_window</span> <span class="k">if</span> <span class="n">h</span><span class="o">[</span><span class="ss">:left</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span>
+          <span class="n">h</span><span class="o">[</span><span class="ss">:right</span><span class="o">]</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="ss">:right</span><span class="p">)</span> <span class="o">||</span> <span class="no">Kaminari</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">right</span>
+          <span class="n">h</span><span class="o">[</span><span class="ss">:right</span><span class="o">]</span> <span class="o">=</span> <span class="n">outer_window</span> <span class="k">if</span> <span class="n">h</span><span class="o">[</span><span class="ss">:right</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">end</span>
+        <span class="vi">@template</span><span class="p">,</span> <span class="vi">@options</span> <span class="o">=</span> <span class="n">template</span><span class="p">,</span> <span class="n">options</span>
+        <span class="vi">@theme</span> <span class="o">=</span> <span class="vi">@options</span><span class="o">[</span><span class="ss">:theme</span><span class="o">]</span> <span class="p">?</span> <span class="s2">&#34;</span><span class="si">#{</span><span class="vi">@options</span><span class="o">[</span><span class="ss">:theme</span><span class="o">]</span><span class="si">}</span><span class="s2">/&#34;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span>
+        <span class="vi">@options</span><span class="o">[</span><span class="ss">:current_page</span><span class="o">]</span> <span class="o">=</span> <span class="no">PageProxy</span><span class="o">.</span><span class="n">new</span> <span class="vi">@window_options</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="vi">@options</span><span class="p">),</span> <span class="vi">@options</span><span class="o">[</span><span class="ss">:current_page</span><span class="o">]</span><span class="p">,</span> <span class="kp">nil</span>
+        <span class="c1">#FIXME for compatibility. remove num_pages at some time in the future</span>
+        <span class="vi">@options</span><span class="o">[</span><span class="ss">:total_pages</span><span class="o">]</span> <span class="o">||=</span> <span class="vi">@options</span><span class="o">[</span><span class="ss">:num_pages</span><span class="o">]</span>
+        <span class="vi">@last</span> <span class="o">=</span> <span class="kp">nil</span>
+        <span class="c1"># initialize the output_buffer for Context</span>
+        <span class="vi">@output_buffer</span> <span class="o">=</span> <span class="no">ActionView</span><span class="o">::</span><span class="no">OutputBuffer</span><span class="o">.</span><span class="n">new</span>
+      <span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>显然<code>@window_options</code>和<code>@options</code>是重点，它里面包含了我们需要的数据。</p>
+
+<p>继续</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb">&lt;%= paginator.render do -%&gt;
+	# ...
+&lt;% end -%&gt;</code></pre></td></tr></table>
+</div>
+</div>
+<p>该方法定义在<code>~/.rvm/gems/ruby-1.9.3-p392/gems/kaminari-0.14.1/lib/kaminari/helpers/paginator.rb</code> (<a href="https://github.com/amatsuda/kaminari/blob/master/lib/kaminari/helpers/paginator.rb">源码</a>)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ruby" data-lang="ruby"><span class="c1"># render given block as a view template</span>
+<span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="nb">instance_eval</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> <span class="k">if</span> <span class="vi">@options</span><span class="o">[</span><span class="ss">:total_pages</span><span class="o">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
+  <span class="vi">@output_buffer</span>
+<span class="k">end</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>显然这个block可以访问<code>@window_options</code>和<code>@options</code>,那么问题就解决了，于是修改如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb">&lt;%= paginator.render do -%&gt;
+	# 默认max_page等于total_pages
+	&lt;% @options[:max_page] ||= total_pages %&gt;
+	&lt;div class=&#34;page-bar&#34;&gt;
+		&lt;%#= first_page_tag unless current_page.first? -%&gt;
+		&lt;%= prev_page_tag unless current_page.first? %&gt;
+		&lt;% each_page do |page| -%&gt;
+        	# 达到max_pages则不在渲染按钮
+			&lt;% break if page &gt; @options[:max_page] %&gt;
+			&lt;% if page.left_outer? || page.right_outer? || page.inside_window? -%&gt;
+				&lt;%= page_tag page %&gt;
+			&lt;% elsif !page.was_truncated? -%&gt;
+				&lt;%= gap_tag %&gt;
+			&lt;% end -%&gt;
+		&lt;% end -%&gt;
+        # 隐藏下一页按钮
+		&lt;% if current_page &lt; @options[:max_page] %&gt;
+			&lt;%= next_page_tag unless current_page.last? %&gt;
+		&lt;% end %&gt;
+		&lt;%#= last_page_tag unless current_page.last? -%&gt;
+	&lt;/div&gt;
+&lt;% end -%&gt;</code></pre></td></tr></table>
+</div>
+</div>
+<p>如果只要显示100页则</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-erb" data-lang="erb">&lt;%= paginate @blogs, :max_page =&gt; 100 %&gt;</code></pre></td></tr></table>
+</div>
+</div>
+<p>嗯，有些小瑕疵，不过这显然难不倒我们。</p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2013-04-03</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/rails/">rails</a>
+          <a href="https://www.mojidong.com/tags/ruby/">ruby</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2013-04-14-expect-detail/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">expect自动交互详解</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2013-04-03-code-highlight/">
+            <span class="next-text nav-default">轻量级代码语法高亮插件Highlight.js</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2013-04-03-kaminari-max-page/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>python操作mysql数据库 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="python操作mysql数据库" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2012-08-07-python-operate-mysql/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="python操作mysql数据库" />
+<meta property="og:description" content="python操作mysql数据库" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2012-08-07-python-operate-mysql/" /><meta property="article:published_time" content="2012-08-07T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2012-08-07T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="python操作mysql数据库">
+<meta itemprop="description" content="python操作mysql数据库">
+
+
+<meta itemprop="datePublished" content="2012-08-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2012-08-07T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="484">
+
+
+
+<meta itemprop="keywords" content="python," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="python操作mysql数据库"/>
+<meta name="twitter:description" content="python操作mysql数据库"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">python操作mysql数据库</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2012-08-07 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/python/"> python </a>
+            
+          </div>
+        <span class="more-meta"> 484 words </span>
+          <span class="more-meta"> 1 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p><strong>python操作mysql需要用到<a href="http://mysql-python.sourceforge.net/">MySQLdb</a>这个库。</strong></p>
+
+<ol>
+<li>下载MySQLdb，点击<a href="http://sourceforge.net/projects/mysql-python/">这里下载</a></li>
+
+<li><p>使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">MySQLdb</span>  
+<span class="k">try</span><span class="p">:</span>  
+    <span class="n">con</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;192.168.1.100&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="s1">&#39;3306&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;mydb&#39;</span><span class="p">,</span><span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>  
+    <span class="n">c</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>  
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;select * from user&#39;</span><span class="p">);</span>  
+    <span class="n">rows</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span> <span class="c1">#一次读取所有数据,返回的数据结构[(?,?,...),(?,?,..),..]  </span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>  
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>  
+            <span class="k">print</span> <span class="n">column</span>  
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>  
+    <span class="k">print</span> <span class="n">e</span>  
+<span class="k">finally</span><span class="p">:</span>  
+    <span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  
+    <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  </code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">MySQLdb</span>  
+<span class="k">try</span><span class="p">:</span>  
+    <span class="n">con</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;192.168.1.100&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="s1">&#39;3306&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;mydb&#39;</span><span class="p">,</span><span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>  
+    <span class="n">c</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>  
+    <span class="c1">#使用占位符传递参数，参数是一个tuple  </span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;select * from user where user=</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,(</span><span class="s1">&#39;root&#39;</span><span class="p">));</span>  
+    <span class="n">rows</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span> <span class="c1">#一次读取所有数据,返回的数据结构[(?,?,...),(?,?,..),..]  </span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>  
+        <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>  
+            <span class="k">print</span> <span class="n">column</span>  
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>  
+    <span class="k">print</span> <span class="n">e</span>  
+<span class="k">finally</span><span class="p">:</span>  
+    <span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  
+    <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  </code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">MySQLdb</span>  
+<span class="k">try</span><span class="p">:</span>  
+    <span class="n">con</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;192.168.1.100&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="s1">&#39;3306&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;mydb&#39;</span><span class="p">,</span><span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>  
+    <span class="n">c</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>  
+    <span class="c1">#使用占位符传递参数，参数是一个tuple  </span>
+    <span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;update user set host=</span><span class="si">%s</span><span class="s1"> where user=</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,(</span><span class="s1">&#39;root&#39;</span><span class="p">,</span><span class="s1">&#39;192.168.1.200&#39;</span><span class="p">));</span>  
+    <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span> <span class="c1">#更新操作记得提交事物，否则更改不会生效  </span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>  
+    <span class="k">print</span> <span class="n">e</span>  
+<span class="k">finally</span><span class="p">:</span>  
+    <span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  
+    <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  </code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">MySQLdb</span>  
+<span class="k">try</span><span class="p">:</span>  
+    <span class="n">con</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;192.168.1.100&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="s1">&#39;3306&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s1">&#39;mydb&#39;</span><span class="p">,</span><span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>  
+    <span class="n">c</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>  
+    <span class="n">vs</span><span class="o">=</span><span class="p">[]</span>  
+    <span class="n">vs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;root&#39;</span><span class="p">,</span><span class="s1">&#39;192.168.1.100&#39;</span><span class="p">))</span>  
+    <span class="n">vs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;db&#39;</span><span class="p">,</span><span class="s1">&#39;192.168.1.101&#39;</span><span class="p">))</span>  
+    <span class="n">vs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;pdb&#39;</span><span class="p">,</span><span class="s1">&#39;192.168.1.101&#39;</span><span class="p">))</span>  
+    <span class="c1">#使用占位符传递参数，参数是一个list tuple  </span>
+    <span class="n">c</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s1">&#39;insert into user(user,host)values(</span><span class="si">%s</span><span class="s1">,</span><span class="si">%s</span><span class="s1">)&#39;</span><span class="p">,</span><span class="n">vs</span><span class="p">);</span>  
+    <span class="n">con</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span> <span class="c1">#更新操作记得提交事物，否则更改不会生效  </span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>  
+    <span class="k">print</span> <span class="n">e</span>  
+<span class="k">finally</span><span class="p">:</span>  
+    <span class="n">c</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  
+    <span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  </code></pre></td></tr></table>
+</div>
+</div></li>
+
+<li><p><strong>注意事项</strong></p></li>
+</ol>
+
+<blockquote>
+<p>咋看一下其中占位符和字符串格式化差不多，天真的以为数字用%d,浮点数用%f,字符串用%s,那你可以就要悲剧了</p>
+
+<p>事实上这里的占位符只能是%s</p>
+</blockquote>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2012-08-07</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/python/">python</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2012-08-07-python-resize-image/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">python修改图片尺寸</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2012-01-11-varnish-install-config-3/">
+            <span class="next-text nav-default">varnish安装及配置（三）</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2012-08-07-python-operate-mysql/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

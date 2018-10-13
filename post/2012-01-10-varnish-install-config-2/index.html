@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>varnish安装及配置（二） - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="Varish Configuration Language 简称VCL，通过它我们可以完成一些复杂的逻辑处理。下面将详细介绍：" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2012-01-10-varnish-install-config-2/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="varnish安装及配置（二）" />
+<meta property="og:description" content="Varish Configuration Language 简称VCL，通过它我们可以完成一些复杂的逻辑处理。下面将详细介绍：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2012-01-10-varnish-install-config-2/" /><meta property="article:published_time" content="2012-01-10T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2012-01-10T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="varnish安装及配置（二）">
+<meta itemprop="description" content="Varish Configuration Language 简称VCL，通过它我们可以完成一些复杂的逻辑处理。下面将详细介绍：">
+
+
+<meta itemprop="datePublished" content="2012-01-10T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2012-01-10T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1810">
+
+
+
+<meta itemprop="keywords" content="linux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="varnish安装及配置（二）"/>
+<meta name="twitter:description" content="Varish Configuration Language 简称VCL，通过它我们可以完成一些复杂的逻辑处理。下面将详细介绍："/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">varnish安装及配置（二）</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2012-01-10 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/linux/"> linux </a>
+            
+          </div>
+        <span class="more-meta"> 1810 words </span>
+          <span class="more-meta"> 4 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>Varish Configuration Language 简称VCL，通过它我们可以完成一些复杂的逻辑处理。下面将详细介绍：</p>
+
+<p><strong>Backend declarations:</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">backend www {  
+  .host = &#34;www.example.com&#34;;  
+  .port = &#34;80&#34;;  
+  .connect_timeout = 1s;  
+  .first_byte_timeout = 5s;  
+  .between_bytes_timeout = 2s;  
+}</pre></td></tr></table>
+</div>
+</div>
+<p>或者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">backend www {  
+  .host = &#34;www.example.com&#34;;  
+  .port = &#34;80&#34;;  
+}</pre></td></tr></table>
+</div>
+</div>
+<p><em>.host和.port为必填项</em></p>
+
+<p><strong>Directors:</strong></p>
+
+<p>varnish支持负载均衡，其中有random,client.hash,round-robin,dns,fallback等算法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">director b2 random {//设置调度算法为random  
+  .retries = 5;  
+  {  
+    // 这里可以引用之前定义的backend  
+    .backend = b1;  
+    .weight  = 7;  
+  }  
+  {  
+    // 也可以直接定义backend  
+    .backend  = {  
+      .host = &#34;www.example.com&#34;;  
+      .port=&#34;80&#34;;  
+    }  
+   .weight  = 3;  
+  }  
+}</pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">director b2 round-robin {//设置调度算法为round-robin  
+  {  
+    .backend = b1;//引用之前定义的backend  
+  }  
+  {  
+    .backend = b2;//引用之前定义的backend  
+  }  
+}</pre></td></tr></table>
+</div>
+</div>
+<p>其他调度算法的设置都大同小异具体可参考官方文档</p>
+
+<p><strong>ACLs：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">acl local {  
+  &#34;localhost&#34;;           
+  &#34;192.0.2.0&#34;/24;       
+  ! &#34;192.0.2.23&#34;;       
+}</pre></td></tr></table>
+</div>
+</div>
+<p>在vcl子程序中使用(子程序将在下面讲到)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">if (client.ip ~ local) {//来源ip符合上面定义则直接访问后端服务器，不缓存  
+  return (pass);  
+}</pre></td></tr></table>
+</div>
+</div>
+<p><strong>Regular Expressions：</strong></p>
+
+<p>vcl中还支持正则表达式</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">if (req.http.host ~ &#34;(?i)example.com$&#34;) {  
+        //一些逻辑  
+}</pre></td></tr></table>
+</div>
+</div>
+<p><strong>Functions：</strong></p>
+
+<p>hash_data(str) //主要用来生成缓存对象的hash key</p>
+
+<p>regsub(str, regex, sub) //替换字符换str中匹配上正则表达式的内容为sub字符串，只替换一次</p>
+
+<p>regsuball(str, regex, sub) //同上，不过这个方法是替换所有匹配的</p>
+
+<p>ban(ban expression) //使符合表达式的对象不被缓存</p>
+
+<p>ban_url(regex) //使符合的url的对象不被缓存</p>
+
+<p><strong>Subroutines：</strong></p>
+
+<p>子程序这个说白了就是方法。
+我们可以把一个请求分为多个阶段，每个阶段都会调用不同的方法，这样我们只要写出相应阶段的方法，我们的方法就会在相应的阶段被执行，想想这有多么美妙，我们可以干很多事情，我们对请求完全可控！</p>
+
+<p>说白就是方法名称别人定义好了返回类型别人也定义好了你只需要填写你的逻辑就OK了！
+下面介绍各个阶段的方法</p>
+
+<ul>
+<li><p>vcl_init</p>
+
+<p>当vcl被load的时候被调用，一般情况下你基本不需要更改这里，当然你有这个需求那就另说</p></li>
+
+<li><p>vcl_recv</p>
+
+<p>当请求到达的时候被调用，我们大部分的逻辑都在这里，访问控制，是否需要缓存等</p></li>
+
+<li><p>vcl_pipe</p>
+
+<p>管道模式下被调用</p></li>
+
+<li><p>vcl_pass</p>
+
+<p>请求直接到后端时被调用</p></li>
+
+<li><p>vcl_hash</p>
+
+<p>缓存对象生成hash key时被调用</p></li>
+
+<li><p>vcl_hit</p>
+
+<p>缓存命中时调用</p></li>
+
+<li><p>vcl_miss</p>
+
+<p>缓存未命中时调用</p></li>
+
+<li><p>vcl_fetch</p>
+
+<p>后端请求成功返回时调用</p></li>
+
+<li><p>vcl_deliver</p>
+
+<p>缓存对象被传递到客户端前被调用</p></li>
+
+<li><p>vcl_error</p>
+
+<p>当其他方法但会error时被调用</p></li>
+
+<li><p>vcl_fini</p>
+
+<p>请求结束时调用</p></li>
+</ul>
+
+<hr />
+
+<p>从上面几个方法大家可以看出一个请求需要经过好几个阶段，下面的图清晰的说明一个请求在不同的条件下所要经过的阶段，每个阶段都有不同的内置变量可以使用，所有精华都在这张图中！</p>
+
+<p><img src="http://lh5.googleusercontent.com/-yIUFZCAN7Xo/UMCsBvVi0KI/AAAAAAAAAEs/fT65P-D2TP0/s1600/084ffd42-3795-380d-92eb-bc902d034373.png" alt="image" /></p>
+
+<hr />
+
+<p>下面贴几个官方的例子</p>
+
+<p>Example</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">backend default {  
+ .host = &#34;www.example.com&#34;;  
+ .port = &#34;80&#34;;  
+}  
+  
+sub vcl_recv {  
+    if (req.restarts == 0) {  
+        if (req.http.x-forwarded-for) {  
+            set req.http.X-Forwarded-For =  
+                req.http.X-Forwarded-For + &#34;, &#34; + client.ip;  
+        } else {  
+            set req.http.X-Forwarded-For = client.ip;  
+        }  
+    }  
+    if (req.request != &#34;GET&#34; &amp;&amp;  
+      req.request != &#34;HEAD&#34; &amp;&amp;  
+      req.request != &#34;PUT&#34; &amp;&amp;  
+      req.request != &#34;POST&#34; &amp;&amp;  
+      req.request != &#34;TRACE&#34; &amp;&amp;  
+      req.request != &#34;OPTIONS&#34; &amp;&amp;  
+      req.request != &#34;DELETE&#34;) {  
+        /* Non-RFC2616 or CONNECT which is weird. */  
+        return (pipe);  
+    }  
+    if (req.request != &#34;GET&#34; &amp;&amp; req.request != &#34;HEAD&#34;) {  
+        /* We only deal with GET and HEAD by default */  
+        return (pass);  
+    }  
+    if (req.http.Authorization || req.http.Cookie) {  
+        /* Not cacheable by default */  
+        return (pass);  
+    }  
+    return (lookup);  
+}  
+  
+sub vcl_pipe {  
+    # Note that only the first request to the backend will have  
+    # X-Forwarded-For set.  If you use X-Forwarded-For and want to  
+    # have it set for all requests, make sure to have:  
+    # set bereq.http.connection = &#34;close&#34;;  
+    # here.  It is not set by default as it might break some broken web  
+    # applications, like IIS with NTLM authentication.  
+    return (pipe);  
+}  
+  
+sub vcl_pass {  
+    return (pass);  
+}  
+  
+sub vcl_hash {  
+    hash_data(req.url);  
+    if (req.http.host) {  
+        hash_data(req.http.host);  
+    } else {  
+        hash_data(server.ip);  
+    }  
+    return (hash);  
+}  
+  
+sub vcl_hit {  
+    return (deliver);  
+}  
+  
+sub vcl_miss {  
+    return (fetch);  
+}  
+  
+sub vcl_fetch {  
+    if (beresp.ttl &lt;= 0s ||  
+        beresp.http.Set-Cookie ||  
+        beresp.http.Vary == &#34;*&#34;) {  
+                /* 
+                 * Mark as &#34;Hit-For-Pass&#34; for the next 2 minutes 
+                 */  
+                set beresp.ttl = 120 s;  
+                return (hit_for_pass);  
+    }  
+    return (deliver);  
+}  
+  
+sub vcl_deliver {  
+    return (deliver);  
+}  
+  
+sub vcl_error {  
+    set obj.http.Content-Type = &#34;text/html; charset=utf-8&#34;;  
+    set obj.http.Retry-After = &#34;5&#34;;  
+    synthetic {&#34;  
+&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;  
+&lt;!DOCTYPE html PUBLIC &#34;-//W3C//DTD XHTML 1.0 Strict//EN&#34;  
+ &#34;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&#34;&gt;  
+&lt;html&gt;  
+  &lt;head&gt;  
+    &lt;title&gt;&#34;} + obj.status + &#34; &#34; + obj.response + {&#34;&lt;/title&gt;  
+  &lt;/head&gt;  
+  &lt;body&gt;  
+    &lt;h1&gt;Error &#34;} + obj.status + &#34; &#34; + obj.response + {&#34;&lt;/h1&gt;  
+    &lt;p&gt;&#34;} + obj.response + {&#34;&lt;/p&gt;  
+    &lt;h3&gt;Guru Meditation:&lt;/h3&gt;  
+    &lt;p&gt;XID: &#34;} + req.xid + {&#34;&lt;/p&gt;  
+    &lt;hr&gt;  
+    &lt;p&gt;Varnish cache server&lt;/p&gt;  
+  &lt;/body&gt;  
+&lt;/html&gt;  
+&#34;};  
+    return (deliver);  
+}  
+  
+sub vcl_init {  
+        return (ok);  
+}  
+  
+sub vcl_fini {  
+        return (ok);  
+}</pre></td></tr></table>
+</div>
+</div>
+<p>Example</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">backend www {  
+  .host = &#34;www.example.com&#34;;  
+  .port = &#34;80&#34;;  
+}  
+  
+backend images {  
+  .host = &#34;images.example.com&#34;;  
+  .port = &#34;80&#34;;  
+}  
+  
+sub vcl_recv {  
+  if (req.http.host ~ &#34;(?i)^(www.)?example.com$&#34;) {  
+    set req.http.host = &#34;www.example.com&#34;;  
+    set req.backend = www;  
+  } elsif (req.http.host ~ &#34;(?i)^images.example.com$&#34;) {  
+    set req.backend = images;  
+  } else {  
+    error 404 &#34;Unknown virtual host&#34;;  
+  }  
+}  
+  
+The following snippet demonstrates how to force a minimum TTL for  
+all documents.  Note that this is not the same as setting the  
+default_ttl run-time parameter, as that only affects document for  
+which the backend did not specify a TTL:::  
+  
+import std; # needed for std.log  
+  
+sub vcl_fetch {  
+  if (beresp.ttl &lt; 120s) {  
+    std.log(&#34;Adjusting TTL&#34;);  
+    set beresp.ttl = 120s;  
+  }  
+}</pre></td></tr></table>
+</div>
+</div>
+<p>Example</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">acl purge {  
+  &#34;localhost&#34;;  
+  &#34;192.0.2.1&#34;/24;  
+}  
+  
+sub vcl_recv {  
+  if (req.request == &#34;PURGE&#34;) {  
+    if (!client.ip ~ purge) {  
+      error 405 &#34;Not allowed.&#34;;  
+    }  
+    return(lookup);  
+  }  
+}  
+  
+sub vcl_hit {  
+  if (req.request == &#34;PURGE&#34;) {  
+    purge;  
+    error 200 &#34;Purged.&#34;;  
+  }  
+}  
+  
+sub vcl_miss {  
+  if (req.request == &#34;PURGE&#34;) {  
+    purge;  
+    error 200 &#34;Purged.&#34;;  
+  }  
+}</pre></td></tr></table>
+</div>
+</div>
+<p>官方参考文档：<a href="https://www.varnish-cache.org/docs/3.0/reference/vcl.html">https://www.varnish-cache.org/docs/3.0/reference/vcl.html</a></p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2012-01-10</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/linux/">linux</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2012-01-11-varnish-install-config-3/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">varnish安装及配置（三）</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2012-01-09-varnish-install-config-1/">
+            <span class="next-text nav-default">varnish安装及配置（一）</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2012-01-10-varnish-install-config-2/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/mysql/</link>
+    <description>Recent content in Mysql on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 07 Aug 2012 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>linux下安装mysql</title>
+      <link>https://www.mojidong.com/post/2012-08-07-linux-install-mysql/</link>
+      <pubDate>Tue, 07 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-07-linux-install-mysql/</guid>
+      <description>首先下载mysql源码包，我这里下载MySQL Community Server 5.5。 检查机器是否装有cmake,直接输入cmake显示帮助信息表示已安装 &amp;gt;现在m</description>
+    </item>
+    
+  </channel>
+</rss>

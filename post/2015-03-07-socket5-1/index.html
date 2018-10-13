@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>socket5 协议学习与实现(一) - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="socket5 协议学习与实现,socket5 代理协议,socket5 代理服务器" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2015-03-07-socket5-1/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="socket5 协议学习与实现(一)" />
+<meta property="og:description" content="socket5 协议学习与实现,socket5 代理协议,socket5 代理服务器" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2015-03-07-socket5-1/" /><meta property="article:published_time" content="2015-03-07T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2015-03-07T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="socket5 协议学习与实现(一)">
+<meta itemprop="description" content="socket5 协议学习与实现,socket5 代理协议,socket5 代理服务器">
+
+
+<meta itemprop="datePublished" content="2015-03-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2015-03-07T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1938">
+
+
+
+<meta itemprop="keywords" content="socket5,network," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="socket5 协议学习与实现(一)"/>
+<meta name="twitter:description" content="socket5 协议学习与实现,socket5 代理协议,socket5 代理服务器"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">socket5 协议学习与实现(一)</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2015-03-07 </span>
+        
+        <span class="more-meta"> 1938 words </span>
+          <span class="more-meta"> 4 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#阶段一-验证">阶段一: 验证</a></li>
+<li><a href="#阶段二-建立代理连接">阶段二：建立代理连接</a></li>
+<li><a href="#阶段三-数据包转发">阶段三：数据包转发</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>最近研究了下socket5协议,它是一个tcp、udp的代理协议(socket4不支持udp),大部分软件都支持socket5代理。</p>
+
+<p><strong>一般来说要建立起一个代理的连接要经过三个阶段。</strong></p>
+
+<h3 id="阶段一-验证">阶段一: 验证</h3>
+
+<ul>
+<li><p>客户端告诉代理服务器自已支持的验证方式，可以有多种验证方式。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="o">+---------+-----------------+------------------+</span>
+<span class="o">|</span><span class="err">协议版本</span>  <span class="o">|</span> <span class="err">支持的验证式数量</span>   <span class="o">|</span> <span class="err">验证方式</span>          <span class="o">|</span>
+<span class="o">+---------+-----------------+------------------+</span>
+<span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>   <span class="o">|</span> <span class="mi">1</span><span class="err">个字节</span>          <span class="o">|</span> <span class="mi">1</span><span class="err">种式占一个字节</span>    <span class="o">|</span>
+<span class="o">+---------+-----------------+------------------+</span>
+<span class="o">|</span><span class="mh">0x05</span>     <span class="o">|</span><span class="mh">0x02</span>             <span class="o">|</span><span class="mh">0x00</span><span class="p">,</span><span class="mh">0x02</span>         <span class="o">|</span>
+<span class="o">+---------+-----------------+------------------+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>上面例子，客户端告诉代理服务器自已支持两种验证方式。</p>
+
+<blockquote>
+<p>0x00 无验证需求</p>
+
+<p>0x01 通用安全服务应用程序接口(GSSAPI)</p>
+
+<p>0x02 用户名/密码(USERNAME/PASSWORD)</p>
+
+<p>0x03 至 X&rsquo;7F&rsquo; IANA 分配(IANA ASSIGNED)</p>
+
+<p>0x80 至 X&rsquo;FE&rsquo; 私人方法保留(RESERVED FOR PRIVATE METHODS)</p>
+
+<p>0xFF 无可接受方法(NO ACCEPTABLE METHODS)</p>
+</blockquote></li>
+
+<li><p>代理服务器收到上面的报文，选择自已所能支持的验证方式,并返回相应的数所包</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="o">+----------+------------------+</span>
+<span class="o">|</span><span class="err">协议版本</span>   <span class="o">|</span>  <span class="err">支持的验证方式</span>     <span class="o">|</span>
+<span class="o">+----------+------------------+</span>
+<span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>    <span class="o">|</span>  <span class="mi">1</span><span class="err">个字节</span>          <span class="o">|</span>
+<span class="o">+----------+------------------+</span>
+<span class="o">|</span><span class="mh">0x05</span>      <span class="o">|</span>  <span class="mh">0x00</span>            <span class="o">|</span>
+<span class="o">+----------+------------------+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>上面例子，服务端告诉客户端不需要验证。
+&gt; 注：如果代服务器不支持客户凋端给出的所有验证方式则代理服务器返回的验证方式为<code>0xFF</code>,即表示无可验证的方式,
+客户端收到该报文后必須要关闭当前连接。</p></li>
+</ul>
+
+<hr />
+
+<p>除了无需验证，其它的验证方式还需要子协议来进行验证。这里我们用<code>0x02</code>来举例，即用户/密码这种验证方式，这个也是用得最多的。</p>
+
+<ul>
+<li><p>当客户端收到代理服务器支持<code>0x02</code>验证方式（用户密码验证），客户端要发送用户密码给代理服务器</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="o">+--------+-----------+-------------------------+---------+-------------------------------+</span>
+<span class="o">|</span><span class="err">协议版本</span> <span class="o">|</span> <span class="err">用户名长度</span>  <span class="o">|</span><span class="err">用户名</span>                    <span class="o">|</span> <span class="err">密码长度</span> <span class="o">|</span>  <span class="err">密码</span>                          <span class="o">|</span>
+<span class="o">+--------+-----------+-------------------------+---------+-------------------------------+</span>
+<span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>  <span class="o">|</span> <span class="mi">1</span><span class="err">个字节</span>    <span class="o">|</span><span class="err">用户名字节数据</span>             <span class="o">|</span> <span class="mi">1</span><span class="err">个字节</span>  <span class="o">|</span>  <span class="err">密码字节数据</span>                   <span class="o">|</span>
+<span class="o">+--------+-----------+-------------------------+---------+-------------------------------+</span>
+<span class="o">|</span><span class="mh">0x01</span>    <span class="o">|</span> <span class="mh">0x05</span>      <span class="o">|</span><span class="mh">0x70</span><span class="p">,</span><span class="mh">0x61</span><span class="p">,</span><span class="mh">0x6b</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x72</span> <span class="o">|</span> <span class="mh">0x06</span>    <span class="o">|</span>  <span class="mh">0x31</span><span class="p">,</span><span class="mh">0x32</span><span class="p">,</span><span class="mh">0x33</span><span class="p">,</span><span class="mh">0x34</span><span class="p">,</span><span class="mh">0x35</span><span class="p">,</span><span class="mh">0x36</span><span class="o">|</span>
+<span class="o">+--------+-----------+-------------------------+---------+-------------------------------+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>上面的例子用户名为<code>pakor</code>对应的字节长度为5,密码为<code>12345</code>对应的字节数为6。
+&gt; 注：这里的协议版本是子协议版本不是socket5的协议版本。
+&gt; 目前用户名/密码验证这个子议的版本是<code>0x01</code></p></li>
+
+<li><p>代理服务器接收到客户端的用户名和密码进行验证，然后返回验证状态。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="o">+--------+-------+</span>
+<span class="o">|</span><span class="err">协议版本</span> <span class="o">|</span><span class="err">状态</span>    <span class="o">|</span>
+<span class="o">+--------+-------+</span>
+<span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>  <span class="o">|</span><span class="mi">1</span><span class="err">个字节</span> <span class="o">|</span>
+<span class="o">+--------+-------+</span>
+<span class="o">|</span><span class="mh">0x01</span>    <span class="o">|</span><span class="mh">0x00</span>   <span class="o">|</span>
+<span class="o">+--------+-------+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>如果验证成功则返回装态<code>0x00</code>,否则返回任何非<code>0x00</code>的值。客户端收到未成功验的状态必须关闭当前连接。</p></li>
+</ul>
+
+<p>更多关于用户名／密码子协议信息请参看<a href="https://www.ietf.org/rfc/rfc1929.txt">rfc1929</a></p>
+
+<h3 id="阶段二-建立代理连接">阶段二：建立代理连接</h3>
+
+<p>完成了校验过程接下来就是让代理服务器建立代理连接。</p>
+
+<ul>
+<li><p>客户端发送要建立的的代理连接的地址及端口，地址可以是域名、IPv4、IPv6。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="o">+----------+------------+---------+-----------+-----------------------+------------+</span>
+<span class="o">|</span><span class="err">协议版本号</span>  <span class="o">|</span> <span class="err">请求的类型</span>  <span class="o">|</span><span class="err">保留字段</span>   <span class="o">|</span>  <span class="err">地址类型</span>  <span class="o">|</span>  <span class="err">地址数据</span>              <span class="o">|</span>  <span class="err">地址端口</span>    <span class="o">|</span>
+<span class="o">+----------+------------+---------+-----------+-----------------------+------------+</span>
+<span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>    <span class="o">|</span> <span class="mi">1</span><span class="err">个字节</span>     <span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>   <span class="o">|</span>  <span class="mi">1</span><span class="err">个字节</span>   <span class="o">|</span>  <span class="err">变长</span>                  <span class="o">|</span>  <span class="mi">2</span><span class="err">个字节</span>    <span class="o">|</span>
+<span class="o">+----------+------------+---------+-----------+-----------------------+------------+</span>
+<span class="o">|</span><span class="mh">0x05</span>      <span class="o">|</span> <span class="mh">0x01</span>       <span class="o">|</span><span class="mh">0x00</span>     <span class="o">|</span>  <span class="mh">0x01</span>     <span class="o">|</span>  <span class="mh">0x0a</span><span class="p">,</span><span class="mh">0x00</span><span class="p">,</span><span class="mh">0x01</span><span class="p">,</span><span class="mh">0x0a</span>  <span class="o">|</span>  <span class="mh">0x00</span><span class="p">,</span><span class="mh">0x50</span> <span class="o">|</span>
+<span class="o">+----------+------------+---------+-----------+-----------------------+------------+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>上面例子,客户端告诉代理服务器建立一个连接到<code>10.0.1.10</code>的<code>80</code>端口。这里的保留字段是固定的<code>0x00</code>。<br />
+<strong>地址类型有下面几种：</strong></p>
+
+<ul>
+<li>IPV4 : <code>0x01</code></li>
+<li>域名 : <code>0x03</code></li>
+<li>IPV6 : <code>0x04</code></li>
+</ul>
+
+<hr />
+
+<p><strong>请求类型有下面几种：</strong>
+<ul>
+<li> CONNECT : <code>0x01</code>, 建立代理连接</li>
+<li> BIND : <code>0x02</code>,告诉代理服务器监听目标机器的连接,也就是让代理服务器创建socket监听来自目标机器的连接。FTP这类需要服务端主动联接客户端的的应用场景。 </li>
+   <ul>
+       <li>1. 只有在完成了connnect操作之后才能进行bind操作</li>
+       <li>2. bind操作之后，代理服务器会有两次响应, 第一次响应是在创建socket监听完成之后，第二次是在目标机器连接到代理服务器上之后。</li>
+   </ul>
+<li> UDP ASSOCIATE : <code>0x03</code>, udp 协议请求代理。</li>
+</ul></p>
+
+<blockquote>
+<p>注：UDP ASSOCIATE
+时这里请求的地址和端口是告诉代理服务器客户端要使用这个地址发送数据到代理服务器。
+代理服务器可以用这个信息对访问进行一些限制。</p>
+</blockquote></li>
+
+<li><p>代理服务器收到客户端的请求后，要创建到目标机器的连接或创建监听目标机器的socket,然后返回相应的信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="o">+----------+--------+---------+-----------+---------------------+------------+</span>
+<span class="o">|</span><span class="err">协议版本号</span>  <span class="o">|</span> <span class="err">状态码</span>  <span class="o">|</span><span class="err">保留字段</span>  <span class="o">|</span>  <span class="err">地址类型</span>  <span class="o">|</span>  <span class="err">绑定的地址</span>           <span class="o">|</span><span class="err">顷绑定的端口</span>  <span class="o">|</span>   
+<span class="o">+----------+--------+---------+-----------+---------------------+------------+</span>
+<span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>    <span class="o">|</span> <span class="mi">1</span><span class="err">个字节</span> <span class="o">|</span><span class="mi">1</span><span class="err">个字节</span>   <span class="o">|</span>  <span class="mi">1</span><span class="err">个字节</span>   <span class="o">|</span>  <span class="err">变长</span>                <span class="o">|</span><span class="mi">2</span><span class="err">个字节</span>     <span class="o">|</span>
+<span class="o">+----------+--------+---------+-----------+---------------------+------------+</span>
+<span class="o">|</span><span class="mh">0x05</span>      <span class="o">|</span> <span class="mh">0x00</span>   <span class="o">|</span><span class="mh">0x00</span>     <span class="o">|</span>  <span class="mh">0x01</span>     <span class="o">|</span>  <span class="mh">0x0a</span><span class="p">,</span><span class="mh">0x00</span><span class="p">,</span><span class="mh">0x01</span><span class="p">,</span><span class="mh">0x0a</span><span class="o">|</span><span class="mh">0x00</span><span class="p">,</span><span class="mh">0x50</span>   <span class="o">|</span>
+<span class="o">+----------+--------+---------+-----------+---------------------+------------+</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>上面的例子，代理服务器连接目标服务器<code>10.0.1.10</code>端口<code>80</code>成功。<br />
+<strong>状态码有下面几种：</strong></p>
+
+<ul>
+<li><code>X00</code> succeeded</li>
+<li><code>X01</code> general SOCKS server failure</li>
+<li><code>X02</code> connection not allowed by ruleset</li>
+<li><code>X03</code> Network unreachable</li>
+<li><code>X04</code> Host unreachable</li>
+<li><code>X05</code> Connection refused</li>
+<li><code>X06</code> TTL expired</li>
+<li><code>X07</code> Command not supported</li>
+<li><code>X08</code> Address type not supported</li>
+<li><code>X09</code> to X&rsquo;FF&rsquo; unassigned</li>
+</ul>
+
+<hr />
+
+<p><strong>绑定的地址和端口根据请求中的CMD的不同而不同</strong><br />
+<ul>
+    <li>CONNECT : 此时绑定的地址是指代理服务器连接到目标机器时的ip和端口</li>
+    <li>
+        BIND :  这里会有两次响应
+        <ul>
+            <li>第一次响应中是指代理服务器创建监听socket时绑定的ip和端口</li>
+            <li>第二次响应中是指代理服务器监听的scoket收来自目标机器连接时的ip和端口</li>
+        </ul>
+    </li>
+    <li>UDP ASSOCIATE : 此时绑定地址指明了客户发送UDP消息至服务器的端口和地址</li>
+</ul></p></li>
+</ul>
+
+<h3 id="阶段三-数据包转发">阶段三：数据包转发</h3>
+
+<p>到了这个阶段基本就是数据转发了,tcp就直接转发,udp还须要做点工作。</p>
+
+<ul>
+<li><p>客户端发送给代理服务器和代理服务器返回给客户端的数据都需要包装下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="o">+----+------+------+----------+----------+----------+</span>
+<span class="o">|</span><span class="n">RSV</span> <span class="o">|</span> <span class="n">FRAG</span> <span class="o">|</span> <span class="n">ATYP</span> <span class="o">|</span> <span class="n">DST</span><span class="p">.</span><span class="n">ADDR</span> <span class="o">|</span> <span class="n">DST</span><span class="p">.</span><span class="n">PORT</span> <span class="o">|</span>   <span class="n">DATA</span>   <span class="o">|</span>
+<span class="o">+----+------+------+----------+----------+----------+</span>
+<span class="o">|</span> <span class="mi">2</span>  <span class="o">|</span>  <span class="mi">1</span>   <span class="o">|</span>  <span class="mi">1</span>   <span class="o">|</span> <span class="n">Variable</span> <span class="o">|</span>    <span class="mi">2</span>     <span class="o">|</span> <span class="n">Variable</span> <span class="o">|</span>
+<span class="o">+----+------+------+----------+----------+----------+</span> </code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>RSV  Reserved <code>0x00,0x00</code>
+
+<ul>
+<li>FRAG    Current fragment number</li>
+<li>ATYP    address type of following addresses:
+
+<ul>
+<li>IP V4 address: <code>0x01</code></li>
+<li>DOMAINNAME: <code>0x03</code></li>
+<li>IP V6 address: <code>0x04</code></li>
+</ul></li>
+<li>DST.ADDR       desired destination address</li>
+<li>DST.PORT       desired destination port</li>
+<li>DATA     user data</li>
+</ul></li>
+</ul>
+
+<p>详细文档参考<a href="https://www.ietf.org/rfc/rfc1928.txt">rfc1928</a></p></li>
+</ul>
+
+<hr />
+
+<p>相关参考文档</p>
+
+<ul>
+<li><a href="https://www.ietf.org/rfc/rfc1928.txt">rfc1928</a></li>
+<li><a href="https://www.ietf.org/rfc/rfc1929.txt">rfc1929</a></li>
+</ul>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2015-03-07</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/socket5/">socket5</a>
+          <a href="https://www.mojidong.com/tags/network/">network</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2016-02-01-vpn-of-iptables/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">vpn的iptables配置</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2014-08-23-action-bar-tab-height/">
+            <span class="next-text nav-default">设置action bar、action bar tab 样式及高度</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2015-03-07-socket5-1/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

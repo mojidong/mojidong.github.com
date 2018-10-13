@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>浮点数在计算机中的存储方式 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="浮点数在计算机中的存储方式" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2013-05-11-floating-point-numbers-in-the-computer-memory/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="浮点数在计算机中的存储方式" />
+<meta property="og:description" content="浮点数在计算机中的存储方式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2013-05-11-floating-point-numbers-in-the-computer-memory/" /><meta property="article:published_time" content="2013-05-11T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2013-05-11T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="浮点数在计算机中的存储方式">
+<meta itemprop="description" content="浮点数在计算机中的存储方式">
+
+
+<meta itemprop="datePublished" content="2013-05-11T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2013-05-11T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1403">
+
+
+
+<meta itemprop="keywords" content="other," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="浮点数在计算机中的存储方式"/>
+<meta name="twitter:description" content="浮点数在计算机中的存储方式"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">浮点数在计算机中的存储方式</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2013-05-11 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/other/"> other </a>
+            
+          </div>
+        <span class="more-meta"> 1403 words </span>
+          <span class="more-meta"> 3 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#定点数与浮点数">定点数与浮点数</a>
+<ul>
+<li><a href="#1-定点数表示法-fixed-point">1. 定点数表示法(fixed-point)</a></li>
+<li><a href="#2-浮点数表示法-floating-point-number">2. 浮点数表示法(floating-point number)</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>&nbsp;&nbsp;&nbsp;&nbsp;今天来说下小数在计算机中是怎样存储的。</p>
+
+<h3 id="定点数与浮点数">定点数与浮点数</h3>
+
+<p>小数点在计算机中通常有两种表示方法：</p>
+
+<ul>
+<li>约定所有数值数据的小数点隐含在某一个固定位置上，称为定点表示法，简称 <strong>定点数</strong>。</li>
+<li>小数点位置可以浮动，称为浮点表示法，简称 <strong>浮点数</strong>。</li>
+</ul>
+
+<h4 id="1-定点数表示法-fixed-point">1. 定点数表示法(fixed-point)</h4>
+
+<p>所谓定点格式，即约定机器中所有数据的小数点位置是固定不变的。在计算机中通常采用两种简单的约定：</p>
+
+<ul>
+<li>将小数点的位置固定在数据的最高位之前。</li>
+<li>将小数点的位置固定在最低位之后。</li>
+</ul>
+
+<blockquote>
+<p>一般常称前者为 <strong>定点小数</strong>，后者为 <strong>定点整数</strong>。</p>
+</blockquote>
+
+<ul>
+<li><strong>定点小数</strong>是纯小数，约定的小数点位置在符号位之后、有效数值部分最高位之前。</li>
+</ul>
+
+<p>若数据 x 的形式为 x = x0.x1x2…xn ( 其中x0为 <strong>符号位</strong>，x1～xn是数值的有效部分，也称为 <strong>尾数</strong>， x1为最高有效位 )，则在计算机中的表示形式为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">  |符号位 |小数点位置 |数值部分
+  +------+----------+-------+-------+----------------+-----------+
+  |  x0  |          |  x1   |  x2   |     .......    |    xn     |
+  +------+----------+-------+-------+----------------+-----------+</pre></td></tr></table>
+</div>
+</div>
+<p>一般说来，如果最末位 x^n = 1，前面各位都为 0 ，则数的绝对值最小，即 |x|min = 2^-n 。如果各位均为 1，则数的绝对值最大，即 |x|max =1-2^-n 。</p>
+
+<p>所以定点小数的表示范围是：<code>2^-n  ≤ | x | ≤ 1 -  2^-n</code></p>
+
+<ul>
+<li><strong>定点整数</strong>是纯整数，约定的小数点位置在有效数值部分最低位之后。</li>
+</ul>
+
+<p>若数据 x 的形式为 x = x0 x1x2…xn ( 其中x0为 <strong>符号位</strong>，x1～xn 是 <strong>尾数</strong>， xn 为最低有效位 )，则在计算机中的表示形式为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">  |符号位 |数值部分                                  |小数点位置
+  +------+------+------------------------+---------+-------------+
+  |  x0  |  x1  |      ..........        |    xn   |             |
+  +------+------+------------------------+---------+-------------+</pre></td></tr></table>
+</div>
+</div>
+<p>定点整数的表示范围是：<code>1≤ | x | ≤ 2^n  -  1</code></p>
+
+<p>当数据小于定点数能表示的最小值时，计算机将它们作0处理，称为 <strong>下溢</strong>；大于定点数能表示的最大值时，计算机将无法表示，称为 <strong>上溢</strong>，上溢和下溢统称 <strong>溢出</strong>。</p>
+
+<p>计算机采用定点数表示时，对于既有整数又有小数的原始数据，需要设定一个比例因子，数据按其缩小成定点小数或扩大成定点整数再参加运算，运算结果，根据比例因子，还原成实际数值。若比例因子选择不当，往往会使运算结果产生溢出或降低数据的有效精度。
+用定点数进行运算处理的计算机被称为定点机。</p>
+
+<h4 id="2-浮点数表示法-floating-point-number">2. 浮点数表示法(floating-point number)</h4>
+
+<p>与科学计数法相似，任意一个J进制数N，总可以写成<code>N = J^E × M</code></p>
+
+<blockquote>
+<p>式中M称为数 N 的尾数(mantissa)，是一个纯小数；E 为数 N 的阶码(exponent)，是一个整数，J称为比例因子 J^E 的底数。这种表示方法相当于数的小数点位置随比例因子的不同而在一定范围内可以自由浮动，所以称为浮点表示法。</p>
+</blockquote>
+
+<p>底数是事先约定好的(常取2)，在计算机中不出现。在机器中表示一个浮点数时，一是要给出尾数，用定点小数形式表示。
+尾数部分给出有效数字的位数，因而决定了浮点数的表示精度。二是要给出阶码，用整数形式表示，阶码指明小数点在数据中的位置，因而决定了浮点数的表示范围。
+浮点数也要有符号位。因此一个机器浮点数应当由阶码和尾数及其符号位组成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">|阶符   |阶码            |尾符   |尾数                            
++------+----------------+-------+------------------------------+ 
+| Es   |     E          |  Ms   |           M                  | 
++------+----------------+-------+------------------------------+ </pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>当底数取 2 时，二进制数 N 的小数点每右移一位，阶码减小 1，相应尾数右移一位；反之，小数点每左移一位，阶码加 1，相应尾数左移一位。</p>
+</blockquote>
+
+<p>若不对浮点数的表示作出明确规定，同一个浮点数的表示就不是唯一的。例如 11.01 也可以表示成 0.011012-3 ，0.1101×2-2 等等。
+这个时候就需要一个统一的标准，现在比较通用的标准是<a href="https://zh.wikipedia.org/zh-cn/IEEE_754">IEEE 754</a>:</p>
+
+<p>float(32位单精度)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">|符号位|指数位            |尾数位
++------+----------------+--------------------------------------+
+|1bit  |     8bit       |               23bit                  |
++------+----------------+--------------------------------------+</pre></td></tr></table>
+</div>
+</div>
+<p>double(64位双精度)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">|符号位|指数位            |尾数位
++------+----------------+--------------------------------------+
+|1bit  |     11bit      |               52bit                  |
++------+----------------+--------------------------------------+</pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2013-05-11</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/other/">other</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2013-05-18-ruby-encoding/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">ruby编码详解</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2013-05-10-python-exec-eval/">
+            <span class="next-text nav-default">python的exec、eval详解</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2013-05-11-floating-point-numbers-in-the-computer-memory/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

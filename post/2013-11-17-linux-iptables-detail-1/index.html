@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>linux防火墙iptables详解(一) - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="linux防火墙iptables详解" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.49.2" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="linux防火墙iptables详解(一)" />
+<meta property="og:description" content="linux防火墙iptables详解" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/" /><meta property="article:published_time" content="2013-11-17T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2013-11-17T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="linux防火墙iptables详解(一)">
+<meta itemprop="description" content="linux防火墙iptables详解">
+
+
+<meta itemprop="datePublished" content="2013-11-17T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2013-11-17T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1350">
+
+
+
+<meta itemprop="keywords" content="linux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="linux防火墙iptables详解(一)"/>
+<meta name="twitter:description" content="linux防火墙iptables详解"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">Home</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">linux防火墙iptables详解(一)</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2013-11-17 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/linux/"> linux </a>
+            
+          </div>
+        <span class="more-meta"> 1350 words </span>
+          <span class="more-meta"> 3 min read </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>今天详细讲下linux防火墙iptables。</p>
+
+<p>##1.表和链</p>
+
+<p>iptables有如下几个表：</p>
+
+<ul>
+<li>mangle表主要功能是修改数据包</li>
+<li>nat表主要用来修改包的源地址和目标地址</li>
+<li>filter表主要用来对包进行过滤</li>
+</ul>
+
+<blockquote>
+<p>对于mangle一般不建议使用，会出现一些意想不到的问题，如果你愿意完全可以忘掉mangle的存在，后面主要围绕nat和filter讲解。</p>
+</blockquote>
+
+<p>####1.1 mangle
+说了忘掉的。</p>
+
+<p>####1.2 nat
+nat有如下几条链</p>
+
+<ul>
+<li>PREROUTING 对进来的包进行处理</li>
+<li>POSTROUTING 对出去的包进行处理</li>
+<li>OUTPUT 对本地产生的出去的包进行处理
+<br /></li>
+</ul>
+
+<p>####1.3 filter
+filter有如下几条链</p>
+
+<ul>
+<li>INPUT 对进来得包进行处理</li>
+<li>OUTPUT 对出去的包进行处理</li>
+<li>FORWARD 对转发的包进行处理</li>
+</ul>
+
+<p>##2.规则</p>
+
+<p>一条规则一定是挂在某条链上的，一条链一定是挂在某张表上的，所以一条规则一定是挂在某张表的某条链上的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">table
+  |
+  ---chain
+    	|
+  		---rule</pre></td></tr></table>
+</div>
+</div>
+<p>####2.1 语法</p>
+
+<p>新增一条规则需要使用<code>iptables</code>命令（需要root权限）。</p>
+
+<p>我们先来看下<code>iptables</code>的基本语法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-A<span class="p">|</span>-D<span class="o">}</span> chain rule-specification           <span class="c1">#添加或删除规则
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -I chain <span class="o">[</span>rulenum<span class="o">]</span> rule-specification      <span class="c1">#插入规则
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -R chain rulenum rule-specification        <span class="c1">#替换规则
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -D chain rulenum                           <span class="c1">#删除规则
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -S <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span>                       <span class="c1">#列出某条链下的规则
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-F<span class="p">|</span>-L<span class="p">|</span>-Z<span class="o">}</span> <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span> <span class="o">[</span>options...<span class="o">]</span>  <span class="c1">#-F删除规则，-L列出规则，-Z清空数据包计数
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -N chain                                   <span class="c1">#创建链，一般用于自定义链
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -X <span class="o">[</span>chain<span class="o">]</span>					                <span class="c1">#删除链
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -P chain target			                <span class="c1">#设置链的默认行为
+</span><span class="c1"></span>
+iptables <span class="o">[</span>-t table<span class="o">]</span> -E old-chain-name new-chain-name          <span class="c1">#编辑规则
+</span><span class="c1"></span>
+rule-specification <span class="o">=</span> <span class="o">[</span>matches...<span class="o">]</span> <span class="o">[</span>target<span class="o">]</span>                    <span class="c1">#规则语法
+</span><span class="c1"></span>
+<span class="nv">match</span> <span class="o">=</span> -m matchname <span class="o">[</span>per-match-options<span class="o">]</span>                      <span class="c1">#规则语法matches部分
+</span><span class="c1"></span>
+<span class="nv">target</span> <span class="o">=</span> -j targetname <span class="o">[</span>per-target-options<span class="o">]</span>                   #规则语法target部分</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>参数table是可选的，如果没有设置table默认则是filter。</p>
+</blockquote>
+
+<p>####2.2 初始化</p>
+
+<p>在添加规则之前我们一般会初始化防火墙</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables -P INPUT ACCEPT   <span class="c1">#设置filter表INPUT链的默认行为为ACCEPT
+</span><span class="c1"></span>iptables -P OUPUT ACCEPT   <span class="c1">#设置filter表OUTPUT链的默认行为为ACCEPT
+</span><span class="c1"></span>iptables -F                <span class="c1">#删除filter表所有规则
+</span><span class="c1"></span>iptables -X                <span class="c1">#删除filter表所有自定义的链
+</span><span class="c1"></span>iptables -Z                #清空包计数器</code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>这里有个值得注意的地方就是一定要记得设置<code>filter</code>的<code>INPUT</code>,<code>OUTPUT</code>的默认行为为<code>ACCEPT</code>,因为如果不设置，后面的命令把所有规则删除了，这个时候就会走到链的默认行为，如果之前的默认行为是<code>DROP</code>或<code>REJECT</code>那就会把自己挡在外面（假定你是ssh登录），到时候真是欲哭无泪。</p>
+</blockquote>
+
+<p>####2.3 添加规则</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables <span class="o">[</span>-t table<span class="o">]</span> -A chain rule-specification 
+rule-specification <span class="o">=</span> <span class="o">[</span>matches...<span class="o">]</span> <span class="o">[</span>target<span class="o">]</span> 
+<span class="nv">target</span> <span class="o">=</span> -j targetname <span class="o">[</span>per-target-options<span class="o">]</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>根据上面的语法我们得知规则就是<code>matches</code>和<code>target</code>。</p>
+
+<blockquote>
+<p>一旦<code>matches</code>成功就执行后面的<code>target</code>，如果不成功则继续下一条规则。</p>
+</blockquote>
+
+<p>例如开放22端口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables -A INPUT -p tcp -m tcp --dport <span class="m">22</span> -j ACCEPT</code></pre></td></tr></table>
+</div>
+</div>
+<p>这里的<code>matches</code>就是<code>-p tcp -m tcp --dport 22</code>，<code>target</code>就是<code>-j ACCEPT</code></p>
+
+<blockquote>
+<p>target比较常用的有<code>ACCEPT</code>,<code>DROP</code>,<code>REJECT</code></p>
+</blockquote>
+
+<p>我们还可以修改<code>matches</code>以达到更精确的控制</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables -A INPUT -s <span class="m">192</span>.168.1.0/24 -p tcp -m tcp --dport <span class="m">22</span> -j ACCEPT</code></pre></td></tr></table>
+</div>
+</div>
+<p>上面命令仅当网段是<code>192.168.1.1-225</code>的ip访问22端口时才会匹配，所以你可以不断调整你的<code>matches</code>来达到你的目的。</p>
+
+<hr />
+
+<p>说到这里你可能会有疑问了，如果所有的规则都没匹配上怎么办。还记得之前说的链的默认规则吗？</p>
+
+<p>我们之前把<code>INPUT</code>设置为了<code>ACCEPT</code>，之所以把它设置为<code>ACCEPT</code>是为了避免我们设置规则的时候把自己关在外面，当你把所有规则设置好之后确认没有任何问题之后记得把它设置为<code>DROP</code>，这个时候你的防火墙才真真正正有效了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables -P INPUT DROP</code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2013-11-17</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/linux/">linux</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/2014-07-06-linux-iptables-detail-2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">linux防火墙iptables详解(二)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/2013-11-12-linux-iptables/">
+            <span class="next-text nav-default">linux防火墙iptable使用简介</span>
+            <span class="prev-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    Show Disqus Comments
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
