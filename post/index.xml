@@ -6,10 +6,19 @@
     <description>Recent content in Posts on mojidong blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 14 May 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 14 Oct 2018 12:53:58 +0800</lastBuildDate>
     
 	<atom:link href="https://www.mojidong.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>迁移博客到hugo</title>
+      <link>https://www.mojidong.com/post/2018-10-14-migrate-blog-to-hugo/</link>
+      <pubDate>Sun, 14 Oct 2018 12:53:58 +0800</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2018-10-14-migrate-blog-to-hugo/</guid>
+      <description>这两天把blog从jekyll迁移到了hugo。下面是hugo对自已的简介： The world’s fastest framework for building websites. Hugo is one of the most popular open-source static site generators. With its amazing speed and flexibility, Hugo makes</description>
+    </item>
     
     <item>
       <title>zsh autosuggestions在tmux环境下高亮问题处理</title>
@@ -180,15 +189,6 @@
       
       <guid>https://www.mojidong.com/post/2013-03-27-rails3-activesupport-concern/</guid>
       <description>模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)</description>
-    </item>
-    
-    <item>
-      <title>rails3中autoload_paths加载详解</title>
-      <link>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</link>
-      <pubDate>Sat, 16 Mar 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</guid>
-      <description>在rails3中默认不在加载lib目录下的rb文件。 config/application.rb文件中 1 2 #Custom directories with classes and modules you want to be autoloadable. #config.autoload_paths += %W(#{config.root}/exters) 显然被注</description>
     </item>
     
   </channel>
