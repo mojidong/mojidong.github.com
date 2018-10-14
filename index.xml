@@ -124,7 +124,7 @@ autosuggestions
         <description>
 
 &lt;p&gt;今天我们就来实现一下socket5的tcp代理。根据之前的学习我们了解到建立socket5代理需要三个阶段
-&lt;img src=&#34;https://www.mojidong.com/assets/img/socket5.jpg&#34; alt=&#34;socke5&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;https://www.mojidong.com/images/socket5.jpg&#34; alt=&#34;socke5&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;下面我们使用golang来实现它。&lt;/p&gt;
 
@@ -1209,11 +1209,11 @@ bar和action bar tab的高度，没有办法做到分别调整。&lt;/p&gt;
 
 &lt;p&gt;之前讲解了iptables基本语法和用法，今天详细讲下iptables规则链的整个执行流程。&lt;/p&gt;
 
-&lt;p&gt;##规则链执行流程&lt;/p&gt;
+&lt;h2 id=&#34;规则链执行流程&#34;&gt;规则链执行流程&lt;/h2&gt;
 
 &lt;p&gt;先上一张图（借用下&lt;a href=&#34;http://linux.vbird.org/&#34;&gt;鸟哥&lt;/a&gt;的图）&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://www.mojidong.com/assets/img/iptables.gif&#34; alt=&#34;iptables规则执行流程&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.mojidong.com/images/iptables.gif&#34; alt=&#34;iptables规则执行流程&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;从上图可以很清晰的看到数据包在规则链中的流动路径:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1392,9 +1392,11 @@ iptables -t nat -A PREROUTING -p tcp -m tcp --dport &lt;span class=&#34;m&#34;&g
       
       <guid>https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/</guid>
       
-        <description>&lt;p&gt;今天详细讲下linux防火墙iptables。&lt;/p&gt;
+        <description>
 
-&lt;p&gt;##1.表和链&lt;/p&gt;
+&lt;p&gt;今天详细讲下linux防火墙iptables。&lt;/p&gt;
+
+&lt;h2 id=&#34;1-表和链&#34;&gt;1.表和链&lt;/h2&gt;
 
 &lt;p&gt;iptables有如下几个表：&lt;/p&gt;
 
@@ -1408,11 +1410,13 @@ iptables -t nat -A PREROUTING -p tcp -m tcp --dport &lt;span class=&#34;m&#34;&g
 &lt;p&gt;对于mangle一般不建议使用，会出现一些意想不到的问题，如果你愿意完全可以忘掉mangle的存在，后面主要围绕nat和filter讲解。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;####1.1 mangle
-说了忘掉的。&lt;/p&gt;
+&lt;h4 id=&#34;1-1-mangle&#34;&gt;1.1 mangle&lt;/h4&gt;
 
-&lt;p&gt;####1.2 nat
-nat有如下几条链&lt;/p&gt;
+&lt;p&gt;说了忘掉的。&lt;/p&gt;
+
+&lt;h4 id=&#34;1-2-nat&#34;&gt;1.2 nat&lt;/h4&gt;
+
+&lt;p&gt;nat有如下几条链&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;PREROUTING 对进来的包进行处理&lt;/li&gt;
@@ -1421,8 +1425,9 @@ nat有如下几条链&lt;/p&gt;
 &lt;br /&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;####1.3 filter
-filter有如下几条链&lt;/p&gt;
+&lt;h4 id=&#34;1-3-filter&#34;&gt;1.3 filter&lt;/h4&gt;
+
+&lt;p&gt;filter有如下几条链&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;INPUT 对进来得包进行处理&lt;/li&gt;
@@ -1430,7 +1435,7 @@ filter有如下几条链&lt;/p&gt;
 &lt;li&gt;FORWARD 对转发的包进行处理&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;##2.规则&lt;/p&gt;
+&lt;h2 id=&#34;2-规则&#34;&gt;2.规则&lt;/h2&gt;
 
 &lt;p&gt;一条规则一定是挂在某条链上的，一条链一定是挂在某张表上的，所以一条规则一定是挂在某张表的某条链上的。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1449,7 +1454,7 @@ filter有如下几条链&lt;/p&gt;
   		---rule&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;####2.1 语法&lt;/p&gt;
+&lt;h4 id=&#34;2-1-语法&#34;&gt;2.1 语法&lt;/h4&gt;
 
 &lt;p&gt;新增一条规则需要使用&lt;code&gt;iptables&lt;/code&gt;命令（需要root权限）。&lt;/p&gt;
 
@@ -1514,7 +1519,7 @@ rule-specification &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&
 &lt;p&gt;参数table是可选的，如果没有设置table默认则是filter。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;####2.2 初始化&lt;/p&gt;
+&lt;h4 id=&#34;2-2-初始化&#34;&gt;2.2 初始化&lt;/h4&gt;
 
 &lt;p&gt;在添加规则之前我们一般会初始化防火墙&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1537,7 +1542,7 @@ rule-specification &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&
 &lt;p&gt;这里有个值得注意的地方就是一定要记得设置&lt;code&gt;filter&lt;/code&gt;的&lt;code&gt;INPUT&lt;/code&gt;,&lt;code&gt;OUTPUT&lt;/code&gt;的默认行为为&lt;code&gt;ACCEPT&lt;/code&gt;,因为如果不设置，后面的命令把所有规则删除了，这个时候就会走到链的默认行为，如果之前的默认行为是&lt;code&gt;DROP&lt;/code&gt;或&lt;code&gt;REJECT&lt;/code&gt;那就会把自己挡在外面（假定你是ssh登录），到时候真是欲哭无泪。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;####2.3 添加规则&lt;/p&gt;
+&lt;h4 id=&#34;2-3-添加规则&#34;&gt;2.3 添加规则&lt;/h4&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1605,13 +1610,15 @@ rule-specification &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&
       
       <guid>https://www.mojidong.com/post/2013-11-12-linux-iptables/</guid>
       
-        <description>&lt;p&gt;iptables是Linux上常用的防火墙软件。这里简单介绍下怎么使用，依葫芦画瓢就可以了，对于懒人来说足够了。如果你想更详细的了解iptables,以后会详细的讲解。&lt;/p&gt;
+        <description>
+
+&lt;p&gt;iptables是Linux上常用的防火墙软件。这里简单介绍下怎么使用，依葫芦画瓢就可以了，对于懒人来说足够了。如果你想更详细的了解iptables,以后会详细的讲解。&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;iptables命令要在root下执行&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;###初始化防火墙&lt;/p&gt;
+&lt;h3 id=&#34;初始化防火墙&#34;&gt;初始化防火墙&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1632,7 +1639,7 @@ rule-specification &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&
 &lt;/div&gt;
 &lt;p&gt;经过上述操作之后你的防火墙现在没有任何规则，也就说你的机器完全暴露在了网络之中，跟没穿衣服没两样。&lt;/p&gt;
 
-&lt;p&gt;###新增规则&lt;/p&gt;
+&lt;h3 id=&#34;新增规则&#34;&gt;新增规则&lt;/h3&gt;
 
 &lt;p&gt;对于进来的封包过滤的规则都是在INPUT chain上设置的。&lt;/p&gt;
 
@@ -1686,7 +1693,7 @@ iptables -A INPUT -p tcp -m udp --dport &lt;span class=&#34;m&#34;&gt;3721&lt;/s
 &lt;p&gt;要开放什么端口按这样加就好了&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;###切换默认策略&lt;/p&gt;
+&lt;h3 id=&#34;切换默认策略&#34;&gt;切换默认策略&lt;/h3&gt;
 
 &lt;p&gt;把衣服穿起来&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1699,7 +1706,7 @@ iptables -A INPUT -p tcp -m udp --dport &lt;span class=&#34;m&#34;&gt;3721&lt;/s
 &lt;/div&gt;
 &lt;p&gt;如果之前的规则一个都没匹配上最终这里的默认行为会触发。&lt;/p&gt;
 
-&lt;p&gt;###查看规则&lt;/p&gt;
+&lt;h3 id=&#34;查看规则&#34;&gt;查看规则&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1714,7 +1721,7 @@ iptables-save&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;p&gt;个人比较喜欢用&lt;code&gt;iptables-save&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;###保存规则&lt;/p&gt;
+&lt;h3 id=&#34;保存规则&#34;&gt;保存规则&lt;/h3&gt;
 
 &lt;p&gt;如果你是redhat或centos&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;

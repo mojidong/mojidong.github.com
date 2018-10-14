@@ -26,7 +26,7 @@
       <pubDate>Sun, 06 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://www.mojidong.com/post/2014-07-06-linux-iptables-detail-2/</guid>
-      <description>之前讲解了iptables基本语法和用法，今天详细讲下iptables规则链的整个执行流程。 ##规则链执行流程 先上一张图（借用下鸟哥的图） 从</description>
+      <description>之前讲解了iptables基本语法和用法，今天详细讲下iptables规则链的整个执行流程。 规则链执行流程 先上一张图（借用下鸟哥的图） 从上图</description>
     </item>
     
     <item>
@@ -35,7 +35,7 @@
       <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
       
       <guid>https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/</guid>
-      <description>今天详细讲下linux防火墙iptables。 ##1.表和链 iptables有如下几个表： mangle表主要功能是修改数据包 nat表主要用来</description>
+      <description>今天详细讲下linux防火墙iptables。 1.表和链 iptables有如下几个表： mangle表主要功能是修改数据包 nat表主要用来修改</description>
     </item>
     
     <item>
