@@ -89,7 +89,7 @@
       <pubDate>Tue, 05 Nov 2013 00:00:00 +0000</pubDate>
       
       <guid>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</guid>
-      <description>{% include JB/setup %} 最近开发了一个chrome插件show ip用来显示请求页面的ip地址。 ###起因 最近经常会在测试环境和线上环境切换（修改host），</description>
+      <description>最近开发了一个chrome插件show ip用来显示请求页面的ip地址。 起因 最近经常会在测试环境和线上环境切换（修改host），由于chrom</description>
     </item>
     
     <item>

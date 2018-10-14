@@ -1746,14 +1746,15 @@ iptables-save&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
       
       <guid>https://www.mojidong.com/post/2013-11-05-chrome-extension-show-ip/</guid>
       
-        <description>&lt;p&gt;{% include JB/setup %}&lt;/p&gt;
+        <description>
 
 &lt;p&gt;最近开发了一个chrome插件&lt;a href=&#34;https://chrome.google.com/webstore/detail/show-ip/nfdipejbaaclaioanjipeblnbplaeabl&#34;&gt;show ip&lt;/a&gt;用来显示请求页面的ip地址。&lt;/p&gt;
 
-&lt;p&gt;###起因
-最近经常会在测试环境和线上环境切换（修改host），由于chrome有dns缓存，以至于不确定是否已经切换到相应环境，chrome的开发工具网络里没有显示ip，又不想换firefox，于是到chrome store里寻找下看有没有相应的扩展，找了下还比较多，试用了几款感觉多多少少有点小问题，于是决定自己搞一个。&lt;/p&gt;
+&lt;h3 id=&#34;起因&#34;&gt;起因&lt;/h3&gt;
 
-&lt;p&gt;###结果&lt;/p&gt;
+&lt;p&gt;最近经常会在测试环境和线上环境切换（修改host），由于chrome有dns缓存，以至于不确定是否已经切换到相应环境，chrome的开发工具网络里没有显示ip，又不想换firefox，于是到chrome store里寻找下看有没有相应的扩展，找了下还比较多，试用了几款感觉多多少少有点小问题，于是决定自己搞一个。&lt;/p&gt;
+
+&lt;h3 id=&#34;结果&#34;&gt;结果&lt;/h3&gt;
 
 &lt;p&gt;经过一天的折腾就有了现在的&lt;a href=&#34;https://chrome.google.com/webstore/detail/show-ip/nfdipejbaaclaioanjipeblnbplaeabl&#34;&gt;show
 ip&lt;/a&gt;&lt;/p&gt;
