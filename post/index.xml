@@ -191,5 +191,212 @@
       <description>模块是方法和常量的集合，模块和类一样，其中的可以包括两种方法：实例方法(Instance Method)、模块方法(Module Method)</description>
     </item>
     
+    <item>
+      <title>rails3中autoload_paths加载详解</title>
+      <link>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</link>
+      <pubDate>Sat, 16 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-03-16-rails3-autoload_paths-principle/</guid>
+      <description>在rails3中默认不在加载lib目录下的rb文件。 config/application.rb文件中 1 2 #Custom directories with classes and modules you want to be autoloadable. #config.autoload_paths += %W(#{config.root}/exters) 显然被注</description>
+    </item>
+    
+    <item>
+      <title>页面回到顶部的实现及原理</title>
+      <link>https://www.mojidong.com/post/2013-03-03-page-top-to-achieve/</link>
+      <pubDate>Sun, 03 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-03-03-page-top-to-achieve/</guid>
+      <description>现在很多网页都有一个回到顶部的功能，当你拖动滚动条往下拉到一定程度就会在右下方显示一个回到顶部的按钮，点击则可以立即回到页面顶部，非常贴心的</description>
+    </item>
+    
+    <item>
+      <title>python多版本管理工具pythonbrew</title>
+      <link>https://www.mojidong.com/post/2013-01-06-python-pythonbrew-multi-version-management-tools/</link>
+      <pubDate>Sun, 06 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-06-python-pythonbrew-multi-version-management-tools/</guid>
+      <description>当你需要在一台机器上同时安装多个不同版本的python的时候，你可能就需要使用pythonbrew。 pythonbrew可以帮你下载安装不同</description>
+    </item>
+    
+    <item>
+      <title>python获取mac地址</title>
+      <link>https://www.mojidong.com/post/2013-01-03-python-get-mac/</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-03-python-get-mac/</guid>
+      <description>1 2 3 4  import uuid node = uuid.getnode() mac = uuid.UUID(int = node).hex[-12:] print mac  </description>
+    </item>
+    
+    <item>
+      <title>python获取机器名</title>
+      <link>https://www.mojidong.com/post/2013-01-03-python-get-hostname/</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-03-python-get-hostname/</guid>
+      <description>1 2  import socket print socket.gethostname()  </description>
+    </item>
+    
+    <item>
+      <title>urllib2上传文件</title>
+      <link>https://www.mojidong.com/post/2013-01-03-urllib2-upload-file/</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-03-urllib2-upload-file/</guid>
+      <description>httplib2好像不支持文件上传,无奈不得不回去使用urllib2。 urllib2本身是不支持文件上传的，但是其良好的扩展性使得其实现这一</description>
+    </item>
+    
+    <item>
+      <title>由urlib2转向使用httplib2</title>
+      <link>https://www.mojidong.com/post/2013-01-02-urllib2-migrate-httplib2/</link>
+      <pubDate>Wed, 02 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2013-01-02-urllib2-migrate-httplib2/</guid>
+      <description>提到python下http相关的库一般都会想到urllib、urllib2、httplib。 httplib实现了HTTP和HTTPS的客户端</description>
+    </item>
+    
+    <item>
+      <title>rsync命令使用介绍</title>
+      <link>https://www.mojidong.com/post/2012-12-29-rsync-introduction/</link>
+      <pubDate>Sat, 29 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-12-29-rsync-introduction/</guid>
+      <description>rsync是Unix下的一款应用软件，它能同步更新两处计算机的文件与目录，并适当利用差分编码以减少数据传输。rsync中一项与其他大部分类似</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy 六 </title>
+      <link>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-6/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-6/</guid>
+      <description>webpy中获取get和post参数的方式非常简单 1 2 3 4 args=web.input() name=args.get(&amp;#39;name&amp;#39;) age=args.get(&amp;#39;age&amp;#39;) sex=args.get(&amp;#39;sex&amp;#39;) 需要注意的是上面方法获得的参数的类型全是unicode,所以对于数值需要作</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy【session 和 cookie】五</title>
+      <link>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-session-cookie-5/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-python-web-framework-webpy-session-cookie-5/</guid>
+      <description>webpty中使用session非常简单 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import web web.config.debug = False urls = ( &amp;#34;/count&amp;#34;, &amp;#34;count&amp;#34;, &amp;#34;/reset&amp;#34;, &amp;#34;reset&amp;#34; ) app = web.application(urls, locals()) session = web.session.Session(app, web.session.DiskStore(&amp;#39;sessions&amp;#39;), initializer={&amp;#39;count&amp;#39;: 0}) class count: def GET(self): session.count +=</description>
+    </item>
+    
+    <item>
+      <title>shell中判断变量为null</title>
+      <link>https://www.mojidong.com/post/2012-09-08-shell-determine-variable-is-null/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-shell-determine-variable-is-null/</guid>
+      <description>方法一 1 2 3 4 5 if [ $x ];then echo &amp;#39;not null&amp;#39; else echo &amp;#39;is null&amp;#39; fi 方法二 1 2 3 4 5 if [ -z &amp;#34;$x&amp;#34; ]; echo &amp;#39;is null&amp;#39; else echo &amp;#39;not null&amp;#39; fi</description>
+    </item>
+    
+    <item>
+      <title>shell中给变量设置默认值</title>
+      <link>https://www.mojidong.com/post/2012-09-08-shell-set-default-value/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-shell-set-default-value/</guid>
+      <description>通常shell中我们需要给变量设置默认值，可能会写出如下代码 1 2 3 4 #!/bin/bash if [ ! $1 ]; then $1=&amp;#39;default&amp;#39; fi 显然这种方式在变量少的时候没啥问题，一旦变量多起来，我</description>
+    </item>
+    
+    <item>
+      <title>处理shell中未赋值变量造成的灾难</title>
+      <link>https://www.mojidong.com/post/2012-09-08-shell-process-unassigned-variables/</link>
+      <pubDate>Sat, 08 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-09-08-shell-process-unassigned-variables/</guid>
+      <description>在编写shell的时候我们都需要万分小心，尤其是给root执行的脚本 1 2 3 4 #!/bin/bash .... rm -rf $1/$2/bin/ .... 假设上述脚本我执行的时候没有传递参数，造成的后果是相</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy(一) </title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-1/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-1/</guid>
+      <description>python的web框架是一个百花齐放的世界，完全列表请看这里。 面对如此众多的框架我们要如何选择！它们都有各自的优缺点，你不可能找到一款完美</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy(二)</title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-2/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-2/</guid>
+      <description>之前介绍了webpy，还写了一个自己的web程序，下面我们就来分析下代码。 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # coding:utf-8 import web urls=( &amp;#39;/&amp;#39;,&amp;#39;index&amp;#39; ) app=web.application(urls,globals()) class index: def GET(self): return &amp;#39;hello webpy!&amp;#39; if __name__==&amp;#39;__main__&amp;#39;: app.run()</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy【Templetor】（四）</title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-template-4/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-template-4/</guid>
+      <description>之前我们讲的都是简单的返回文本到浏览器，例如下面将会返回hello word到浏览器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 # coding:utf-8 import web urls=( &amp;#39;/&amp;#39;,&amp;#39;index&amp;#39; ) app=web.application(urls,globals()) class index: def GET(self): return &amp;#39;hello</description>
+    </item>
+    
+    <item>
+      <title>python的web框架webpy【路由规则】（三）</title>
+      <link>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-route-3/</link>
+      <pubDate>Wed, 08 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-08-python-web-framework-webpy-route-3/</guid>
+      <description>今天重点说下webpy的路由规则。 1 2 3 4 5 6 7 8 #这里声明了三条路由规则，它是一个tuple,由url匹配规则和处理类组成 #url匹配规则</description>
+    </item>
+    
+    <item>
+      <title>linux下安装mysql</title>
+      <link>https://www.mojidong.com/post/2012-08-07-linux-install-mysql/</link>
+      <pubDate>Tue, 07 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-07-linux-install-mysql/</guid>
+      <description>首先下载mysql源码包，我这里下载MySQL Community Server 5.5。 检查机器是否装有cmake,直接输入cmake显示帮助信息表示已安装 &amp;gt;现在m</description>
+    </item>
+    
+    <item>
+      <title>python修改图片尺寸</title>
+      <link>https://www.mojidong.com/post/2012-08-07-python-resize-image/</link>
+      <pubDate>Tue, 07 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-07-python-resize-image/</guid>
+      <description>python对图片的操作需要使用到(Python Imaging Library)PIL库，PIL可以处理几乎所有的图片类型，了解更多请点击这里。 下载PIL</description>
+    </item>
+    
+    <item>
+      <title>python操作mysql数据库</title>
+      <link>https://www.mojidong.com/post/2012-08-07-python-operate-mysql/</link>
+      <pubDate>Tue, 07 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-08-07-python-operate-mysql/</guid>
+      <description>python操作mysql需要用到MySQLdb这个库。 下载MySQLdb，点击这里下载 使用 1 2 3 4 5 6 7 8 9 10 11 12 13 14 import MySQLdb try: con = MySQLdb.connect(host=&amp;#39;192.168.1.100&amp;#39;, user=&amp;#39;myuser&amp;#39;, passwd=&amp;#39;123456&amp;#39;, port=&amp;#39;3306&amp;#39;, db=&amp;#39;mydb&amp;#39;,charset=&amp;#39;utf8&amp;#39;)</description>
+    </item>
+    
+    <item>
+      <title>varnish安装及配置（三）</title>
+      <link>https://www.mojidong.com/post/2012-01-11-varnish-install-config-3/</link>
+      <pubDate>Wed, 11 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-01-11-varnish-install-config-3/</guid>
+      <description>varnish通过几个辅助命令行工具观察varnish的工作情况 varnishlog: varnish的日志是写入共享内存的，可以使用varnishlog命令行工</description>
+    </item>
+    
+    <item>
+      <title>varnish安装及配置（二）</title>
+      <link>https://www.mojidong.com/post/2012-01-10-varnish-install-config-2/</link>
+      <pubDate>Tue, 10 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-01-10-varnish-install-config-2/</guid>
+      <description>Varish Configuration Language 简称VCL，通过它我们可以完成一些复杂的逻辑处理。下面将详细介绍： Backend declarations: 1 2 3 4 5 6 7 backend www { .host = &amp;#34;www.example.com&amp;#34;; .port = &amp;#34;80&amp;#34;; .connect_timeout = 1s; .first_byte_timeout = 5s; .between_bytes_timeout = 2s; } 或者 1 2 3 4</description>
+    </item>
+    
+    <item>
+      <title>varnish安装及配置（一）</title>
+      <link>https://www.mojidong.com/post/2012-01-09-varnish-install-config-1/</link>
+      <pubDate>Mon, 09 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2012-01-09-varnish-install-config-1/</guid>
+      <description>varnish是一款高性能的开源HTTP加速器，用来缓存静态文件（图片,js,css）以减少后端服务器压力,性能要比squid高很多。 下载v</description>
+    </item>
+    
   </channel>
 </rss>
