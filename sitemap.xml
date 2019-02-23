@@ -10,6 +10,13 @@
   </url>
   
   <url>
+    <loc>https://www.mojidong.com/post/2019-02-23-java-sort-contract/</loc>
+    <lastmod>2019-02-23T20:33:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://www.mojidong.com/post/2018-10-14-migrate-blog-to-hugo/</loc>
     <lastmod>2018-10-14T12:53:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -339,14 +346,14 @@
   </url>
   
   <url>
-    <loc>https://www.mojidong.com/tags/html-css-js/</loc>
+    <loc>https://www.mojidong.com/tags/html/css/js/</loc>
     <lastmod>2013-04-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.mojidong.com/categories/html-css-js/</loc>
+    <loc>https://www.mojidong.com/categories/html/css/js/</loc>
     <lastmod>2013-11-05T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -355,6 +362,13 @@
   <url>
     <loc>https://www.mojidong.com/tags/iptables/</loc>
     <lastmod>2016-02-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mojidong.com/categories/java/</loc>
+    <lastmod>2019-02-23T20:33:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -424,7 +438,7 @@
   
   <url>
     <loc>https://www.mojidong.com/post/</loc>
-    <lastmod>2018-10-14T12:53:58+08:00</lastmod>
+    <lastmod>2019-02-23T20:33:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

@@ -33,7 +33,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.49.2" />
+<meta name="generator" content="Hugo 0.54.0" />
 
 
 <link rel="canonical" href="https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/" />
@@ -59,7 +59,8 @@
 <meta property="og:title" content="linux防火墙iptables详解(一)" />
 <meta property="og:description" content="linux防火墙iptables详解" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/" /><meta property="article:published_time" content="2013-11-17T00:00:00&#43;00:00"/>
+<meta property="og:url" content="https://www.mojidong.com/post/2013-11-17-linux-iptables-detail-1/" />
+<meta property="article:published_time" content="2013-11-17T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2013-11-17T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="linux防火墙iptables详解(一)">
@@ -447,31 +448,31 @@ if (!doNotTrack) {
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-A<span class="p">|</span>-D<span class="o">}</span> chain rule-specification           <span class="c1">#添加或删除规则
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -I chain <span class="o">[</span>rulenum<span class="o">]</span> rule-specification      <span class="c1">#插入规则
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -R chain rulenum rule-specification        <span class="c1">#替换规则
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -D chain rulenum                           <span class="c1">#删除规则
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -S <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span>                       <span class="c1">#列出某条链下的规则
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-F<span class="p">|</span>-L<span class="p">|</span>-Z<span class="o">}</span> <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span> <span class="o">[</span>options...<span class="o">]</span>  <span class="c1">#-F删除规则，-L列出规则，-Z清空数据包计数
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -N chain                                   <span class="c1">#创建链，一般用于自定义链
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -X <span class="o">[</span>chain<span class="o">]</span>					                <span class="c1">#删除链
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -P chain target			                <span class="c1">#设置链的默认行为
-</span><span class="c1"></span>
-iptables <span class="o">[</span>-t table<span class="o">]</span> -E old-chain-name new-chain-name          <span class="c1">#编辑规则
-</span><span class="c1"></span>
-rule-specification <span class="o">=</span> <span class="o">[</span>matches...<span class="o">]</span> <span class="o">[</span>target<span class="o">]</span>                    <span class="c1">#规则语法
-</span><span class="c1"></span>
-<span class="nv">match</span> <span class="o">=</span> -m matchname <span class="o">[</span>per-match-options<span class="o">]</span>                      <span class="c1">#规则语法matches部分
-</span><span class="c1"></span>
-<span class="nv">target</span> <span class="o">=</span> -j targetname <span class="o">[</span>per-target-options<span class="o">]</span>                   #规则语法target部分</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-A<span class="p">|</span>-D<span class="o">}</span> chain rule-specification           <span class="c1">#添加或删除规则</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -I chain <span class="o">[</span>rulenum<span class="o">]</span> rule-specification      <span class="c1">#插入规则</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -R chain rulenum rule-specification        <span class="c1">#替换规则</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -D chain rulenum                           <span class="c1">#删除规则</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -S <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span>                       <span class="c1">#列出某条链下的规则</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> <span class="o">{</span>-F<span class="p">|</span>-L<span class="p">|</span>-Z<span class="o">}</span> <span class="o">[</span>chain <span class="o">[</span>rulenum<span class="o">]]</span> <span class="o">[</span>options...<span class="o">]</span>  <span class="c1">#-F删除规则，-L列出规则，-Z清空数据包计数</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -N chain                                   <span class="c1">#创建链，一般用于自定义链</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -X <span class="o">[</span>chain<span class="o">]</span>					                <span class="c1">#删除链</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -P chain target			                <span class="c1">#设置链的默认行为</span>
+
+iptables <span class="o">[</span>-t table<span class="o">]</span> -E old-chain-name new-chain-name          <span class="c1">#编辑规则</span>
+
+rule-specification <span class="o">=</span> <span class="o">[</span>matches...<span class="o">]</span> <span class="o">[</span>target<span class="o">]</span>                    <span class="c1">#规则语法</span>
+
+<span class="nv">match</span> <span class="o">=</span> -m matchname <span class="o">[</span>per-match-options<span class="o">]</span>                      <span class="c1">#规则语法matches部分</span>
+
+<span class="nv">target</span> <span class="o">=</span> -j targetname <span class="o">[</span>per-target-options<span class="o">]</span>                   <span class="c1">#规则语法target部分</span></code></pre></td></tr></table>
 </div>
 </div>
 <blockquote>
@@ -490,11 +491,11 @@ rule-specification <span class="o">=</span> <span class="o">[</span>matches...<s
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">iptables -P INPUT ACCEPT   <span class="c1">#设置filter表INPUT链的默认行为为ACCEPT
-</span><span class="c1"></span>iptables -P OUPUT ACCEPT   <span class="c1">#设置filter表OUTPUT链的默认行为为ACCEPT
-</span><span class="c1"></span>iptables -F                <span class="c1">#删除filter表所有规则
-</span><span class="c1"></span>iptables -X                <span class="c1">#删除filter表所有自定义的链
-</span><span class="c1"></span>iptables -Z                #清空包计数器</code></pre></td></tr></table>
+<pre class="chroma"><code class="language-bash" data-lang="bash">iptables -P INPUT ACCEPT   <span class="c1">#设置filter表INPUT链的默认行为为ACCEPT</span>
+iptables -P OUPUT ACCEPT   <span class="c1">#设置filter表OUTPUT链的默认行为为ACCEPT</span>
+iptables -F                <span class="c1">#删除filter表所有规则</span>
+iptables -X                <span class="c1">#删除filter表所有自定义的链</span>
+iptables -Z                <span class="c1">#清空包计数器</span></code></pre></td></tr></table>
 </div>
 </div>
 <blockquote>
@@ -671,7 +672,7 @@ rule-specification <span class="o">=</span> <span class="o">[</span>matches...<s
     &copy;
     
       2015 -
-    2018
+    2019
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span><span class="author">

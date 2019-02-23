@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on mojidong blog</title>
+    <link>https://www.mojidong.com/categories/java/</link>
+    <description>Recent content in Java on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 23 Feb 2019 20:33:39 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>java排序违返规约错误</title>
+      <link>https://www.mojidong.com/post/2019-02-23-java-sort-contract/</link>
+      <pubDate>Sat, 23 Feb 2019 20:33:39 +0800</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2019-02-23-java-sort-contract/</guid>
+      <description>问题 最近发现线上一段大半年都没有变动的代码报错。 错误栈如下： 1 2 3 4 5 6 7 Exception in thread &amp;#34;main&amp;#34; java.lang.IllegalArgumentException: Comparison method violates its general contract! at java.util.TimSort.mergeHi(TimSort.java:899) at java.util.TimSort.mergeAt(TimSort.java:516) at java.util.TimSort.mergeCollapse(TimSort.java:441) at java.util.TimSort.sort(TimSort.java:245) at java.util.Arrays.sort(Arrays.java:1438) at java.util.Arrays$ArrayList.sort(Arrays.java:3895) 通过日志定位代码发现</description>
+    </item>
+    
+  </channel>
+</rss>

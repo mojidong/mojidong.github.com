@@ -33,7 +33,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.49.2" />
+<meta name="generator" content="Hugo 0.54.0" />
 
 
 <link rel="canonical" href="https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/" />
@@ -59,7 +59,8 @@
 <meta property="og:title" content="ruby字符串的encoding,force_encoding,encode,encode!" />
 <meta property="og:description" content="ruby字符串的encoding,force_encoding,encode,encode" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/" /><meta property="article:published_time" content="2013-05-19T00:00:00&#43;00:00"/>
+<meta property="og:url" content="https://www.mojidong.com/post/2013-05-19-ruby-string-encoding/" />
+<meta property="article:published_time" content="2013-05-19T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2013-05-19T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="ruby字符串的encoding,force_encoding,encode,encode!">
@@ -356,8 +357,8 @@ if (!doNotTrack) {
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-bash" data-lang="bash"><span class="m">1</span>.9.3p392 :001 &gt; <span class="s1">&#39;我还是不懂&#39;</span>.encoding
- <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt; 
-</span><span class="c1"></span><span class="m">1</span>.9.3p392 :002 &gt; </code></pre></td></tr></table>
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt;</span> 
+<span class="m">1</span>.9.3p392 :002 &gt; </code></pre></td></tr></table>
 </div>
 </div>
 <h3 id="force-encoding">force_encoding</h3>
@@ -383,14 +384,14 @@ if (!doNotTrack) {
 <pre class="chroma"><code class="language-bash" data-lang="bash"><span class="m">1</span>.9.3p392 :011 &gt; <span class="nv">x</span><span class="o">=</span><span class="s1">&#39;我还是不懂&#39;</span>
  <span class="o">=</span>&gt; <span class="s2">&#34;我还是不懂&#34;</span> 
 <span class="m">1</span>.9.3p392 :012 &gt; x.encoding
- <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt; 
-</span><span class="c1"></span><span class="m">1</span>.9.3p392 :013 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt;</span> 
+<span class="m">1</span>.9.3p392 :013 &gt; x.bytes.to_a
  <span class="o">=</span>&gt; <span class="o">[</span><span class="m">230</span>, <span class="m">136</span>, <span class="m">145</span>, <span class="m">232</span>, <span class="m">191</span>, <span class="m">152</span>, <span class="m">230</span>, <span class="m">152</span>, <span class="m">175</span>, <span class="m">228</span>, <span class="m">184</span>, <span class="m">141</span>, <span class="m">230</span>, <span class="m">135</span>, <span class="m">130</span><span class="o">]</span> 
 <span class="m">1</span>.9.3p392 :014 &gt; x.force_encoding <span class="s1">&#39;gbk&#39;</span>
  <span class="o">=</span>&gt; <span class="s2">&#34;\x{E688}\x{91E8}\x{BF98}\x{E698}\x{AFE4}\x{B88D}\x{E687}\x82&#34;</span> 
 <span class="m">1</span>.9.3p392 :015 &gt; x.encoding
- <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt; 
-</span><span class="c1"></span><span class="m">1</span>.9.3p392 :016 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt;</span> 
+<span class="m">1</span>.9.3p392 :016 &gt; x.bytes.to_a
  <span class="o">=</span>&gt; <span class="o">[</span><span class="m">230</span>, <span class="m">136</span>, <span class="m">145</span>, <span class="m">232</span>, <span class="m">191</span>, <span class="m">152</span>, <span class="m">230</span>, <span class="m">152</span>, <span class="m">175</span>, <span class="m">228</span>, <span class="m">184</span>, <span class="m">141</span>, <span class="m">230</span>, <span class="m">135</span>, <span class="m">130</span><span class="o">]</span> 
 <span class="m">1</span>.9.3p392 :017 &gt;</code></pre></td></tr></table>
 </div>
@@ -448,20 +449,20 @@ encode!(dst_encoding, src_encoding [, options] ) → str</pre></td></tr></table>
 <pre class="chroma"><code class="language-bash" data-lang="bash"><span class="m">1</span>.9.3p392 :009 &gt; <span class="nv">x</span><span class="o">=</span><span class="s1">&#39;我还是不懂&#39;</span>
  <span class="o">=</span>&gt; <span class="s2">&#34;我还是不懂&#34;</span> 
 <span class="m">1</span>.9.3p392 :010 &gt; x.encoding
- <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt; 
-</span><span class="c1"></span><span class="m">1</span>.9.3p392 :011 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:UTF-8&gt;</span> 
+<span class="m">1</span>.9.3p392 :011 &gt; x.bytes.to_a
  <span class="o">=</span>&gt; <span class="o">[</span><span class="m">230</span>, <span class="m">136</span>, <span class="m">145</span>, <span class="m">232</span>, <span class="m">191</span>, <span class="m">152</span>, <span class="m">230</span>, <span class="m">152</span>, <span class="m">175</span>, <span class="m">228</span>, <span class="m">184</span>, <span class="m">141</span>, <span class="m">230</span>, <span class="m">135</span>, <span class="m">130</span><span class="o">]</span> 
 <span class="m">1</span>.9.3p392 :012 &gt; <span class="nv">y</span><span class="o">=</span>x.encode <span class="s1">&#39;gbk&#39;</span>,<span class="s1">&#39;utf-8&#39;</span>
  <span class="o">=</span>&gt; <span class="s2">&#34;\x{CED2}\x{BBB9}\x{CAC7}\x{B2BB}\x{B6AE}&#34;</span> 
 <span class="m">1</span>.9.3p392 :013 &gt; y.encoding
- <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt; 
-</span><span class="c1"></span><span class="m">1</span>.9.3p392 :014 &gt; y.bytes.to_a
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt;</span> 
+<span class="m">1</span>.9.3p392 :014 &gt; y.bytes.to_a
  <span class="o">=</span>&gt; <span class="o">[</span><span class="m">206</span>, <span class="m">210</span>, <span class="m">187</span>, <span class="m">185</span>, <span class="m">202</span>, <span class="m">199</span>, <span class="m">178</span>, <span class="m">187</span>, <span class="m">182</span>, <span class="m">174</span><span class="o">]</span> 
 <span class="m">1</span>.9.3p392 :015 &gt; x.encode! <span class="s1">&#39;gbk&#39;</span>,<span class="s1">&#39;utf-8&#39;</span>
  <span class="o">=</span>&gt; <span class="s2">&#34;\x{CED2}\x{BBB9}\x{CAC7}\x{B2BB}\x{B6AE}&#34;</span> 
 <span class="m">1</span>.9.3p392 :016 &gt; x.encoding
- <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt; 
-</span><span class="c1"></span><span class="m">1</span>.9.3p392 :017 &gt; x.bytes.to_a
+ <span class="o">=</span>&gt; <span class="c1">#&lt;Encoding:GBK&gt;</span> 
+<span class="m">1</span>.9.3p392 :017 &gt; x.bytes.to_a
  <span class="o">=</span>&gt; <span class="o">[</span><span class="m">206</span>, <span class="m">210</span>, <span class="m">187</span>, <span class="m">185</span>, <span class="m">202</span>, <span class="m">199</span>, <span class="m">178</span>, <span class="m">187</span>, <span class="m">182</span>, <span class="m">174</span><span class="o">]</span> 
 <span class="m">1</span>.9.3p392 :018 &gt;</code></pre></td></tr></table>
 </div>
@@ -590,7 +591,7 @@ encode!(dst_encoding, src_encoding [, options] ) → str</pre></td></tr></table>
     &copy;
     
       2015 -
-    2018
+    2019
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span><span class="author">

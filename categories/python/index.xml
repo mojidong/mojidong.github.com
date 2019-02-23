@@ -35,7 +35,7 @@
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
       
       <guid>https://www.mojidong.com/post/2013-01-03-python-get-mac/</guid>
-      <description>1 2 3 4  import uuid node = uuid.getnode() mac = uuid.UUID(int = node).hex[-12:] print mac  </description>
+      <description>1 2 3 4 import uuid node = uuid.getnode() mac = uuid.UUID(int = node).hex[-12:] print mac</description>
     </item>
     
     <item>
@@ -44,7 +44,7 @@
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
       
       <guid>https://www.mojidong.com/post/2013-01-03-python-get-hostname/</guid>
-      <description>1 2  import socket print socket.gethostname()  </description>
+      <description>1 2 import socket print socket.gethostname()</description>
     </item>
     
     <item>

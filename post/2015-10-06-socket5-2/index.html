@@ -33,7 +33,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.49.2" />
+<meta name="generator" content="Hugo 0.54.0" />
 
 
 <link rel="canonical" href="https://www.mojidong.com/post/2015-10-06-socket5-2/" />
@@ -59,7 +59,8 @@
 <meta property="og:title" content="socket5 协议学习与实现(二)" />
 <meta property="og:description" content="socket5 学习" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://www.mojidong.com/post/2015-10-06-socket5-2/" /><meta property="article:published_time" content="2016-02-01T00:00:00&#43;00:00"/>
+<meta property="og:url" content="https://www.mojidong.com/post/2015-10-06-socket5-2/" />
+<meta property="article:published_time" content="2016-02-01T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2016-02-01T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="socket5 协议学习与实现(二)">
@@ -364,7 +365,7 @@ if (!doNotTrack) {
 
 <span class="c1">// 协议校验......省略
 </span><span class="c1"></span>
-<span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span>
+<span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span>
 <span class="k">if</span> <span class="nx">len</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span>  <span class="p">{</span>
     <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] write data fail!&#34;</span><span class="p">)</span>
     <span class="k">return</span>
@@ -413,7 +414,7 @@ if (!doNotTrack) {
 </span><span class="lnt">31
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
 
 <span class="c1">// 协议校验......省略
 </span><span class="c1"></span>
@@ -423,25 +424,25 @@ if (!doNotTrack) {
 <span class="kd">var</span> <span class="nx">port</span> <span class="kt">int</span>
 <span class="k">switch</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">{</span>
     <span class="k">case</span> <span class="mh">0x01</span><span class="p">:</span> <span class="c1">// ip
-</span><span class="c1"></span>        <span class="nx">ip</span> <span class="p">=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">IPv4</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]).</span><span class="nx">String</span><span class="p">()</span>
+</span><span class="c1"></span>        <span class="nx">ip</span> <span class="p">=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">IPv4</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]).</span><span class="nf">String</span><span class="p">()</span>
         <span class="nx">port</span> <span class="p">=</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">0</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="p">|</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">case</span> <span class="mh">0x03</span><span class="p">:</span> <span class="c1">// domain
 </span><span class="c1"></span>        <span class="nx">ip</span> <span class="p">=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">4</span> <span class="p">:</span> <span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
         <span class="nx">port</span> <span class="p">=</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">0</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="p">|</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">1</span><span class="p">])</span>
 <span class="p">}</span>
 
-<span class="nx">addr</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">JoinHostPort</span><span class="p">(</span><span class="nx">ip</span><span class="p">,</span> <span class="nx">strconv</span><span class="p">.</span><span class="nx">Itoa</span><span class="p">(</span><span class="nx">port</span><span class="p">))</span>
+<span class="nx">addr</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">JoinHostPort</span><span class="p">(</span><span class="nx">ip</span><span class="p">,</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">port</span><span class="p">))</span>
 <span class="nb">println</span><span class="p">(</span><span class="s">&#34;start proxy:&#34;</span><span class="p">,</span><span class="nx">addr</span><span class="p">)</span>
 
-<span class="nx">r</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">addr</span><span class="p">)</span> <span class="c1">// 建立代理链接
+<span class="nx">r</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">addr</span><span class="p">)</span> <span class="c1">// 建立代理链接
 </span><span class="c1"></span><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-    <span class="nb">println</span><span class="p">(</span><span class="s">&#34;connect proxy addr fail!&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+    <span class="nb">println</span><span class="p">(</span><span class="s">&#34;connect proxy addr fail!&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
     <span class="k">return</span>
 <span class="p">}</span> 
 
-<span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span> <span class="c1">// 返回报文告诉客户端代理链接建立成
+<span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span> <span class="c1">// 返回报文告诉客户端代理链接建立成
 </span><span class="c1"></span><span class="k">if</span> <span class="nx">len</span> <span class="o">!=</span> <span class="mi">10</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span>  <span class="p">{</span>
-    <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] write data fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+    <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] write data fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
     <span class="k">return</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
@@ -485,17 +486,17 @@ if (!doNotTrack) {
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 数据包转发函数
-</span><span class="c1"></span><span class="kd">func</span> <span class="nx">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
-    <span class="k">defer</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="k">defer</span> <span class="nx">r</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="p">{</span>
-        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
         <span class="k">if</span> <span class="nx">len</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="p">(</span><span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">err</span> <span class="o">!=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">break</span>
         <span class="p">}</span>
 
-        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nx">len</span><span class="p">])</span>
+        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nx">len</span><span class="p">])</span>
         <span class="k">if</span> <span class="nx">len</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span>  <span class="p">{</span>
             <span class="k">break</span>
         <span class="p">}</span>
@@ -503,8 +504,8 @@ if (!doNotTrack) {
 <span class="p">}</span>
 
 <span class="c1">// 使用上面函数转发数据包, c代表client链接，r代表remote链接
-</span><span class="c1"></span><span class="k">go</span> <span class="nx">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
-<span class="k">go</span> <span class="nx">forward</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span></code></pre></td></tr></table>
+</span><span class="c1"></span><span class="k">go</span> <span class="nf">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+<span class="k">go</span> <span class="nf">forward</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span></code></pre></td></tr></table>
 </div>
 </div>
 <blockquote>
@@ -639,14 +640,14 @@ if (!doNotTrack) {
        <span class="p">)</span>
 
 <span class="kd">func</span> <span class="nb">println</span><span class="p">(</span><span class="nx">s</span><span class="o">...</span><span class="kd">interface</span><span class="p">{}){</span>
-    <span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">s</span><span class="o">...</span><span class="p">)</span> 
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s</span><span class="o">...</span><span class="p">)</span> 
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nx">parseProtocol</span><span class="p">(</span><span class="nx">c</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">func</span> <span class="nf">parseProtocol</span><span class="p">(</span><span class="nx">c</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="nx">buf</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
 
-    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
     <span class="k">if</span> <span class="nx">len</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
         <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] read data fail!&#34;</span><span class="p">)</span>
         <span class="k">return</span>
@@ -657,13 +658,13 @@ if (!doNotTrack) {
         <span class="k">return</span>
     <span class="p">}</span>
 
-    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span>
+    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span>
     <span class="k">if</span> <span class="nx">len</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span>  <span class="p">{</span>
         <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] write data fail!&#34;</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
-    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
     <span class="k">if</span> <span class="nx">len</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
         <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] read data fail!&#34;</span><span class="p">)</span>
         <span class="k">return</span>
@@ -678,44 +679,44 @@ if (!doNotTrack) {
     <span class="kd">var</span> <span class="nx">port</span> <span class="kt">int</span>
     <span class="k">switch</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">{</span>
         <span class="k">case</span> <span class="mh">0x01</span><span class="p">:</span>
-            <span class="nx">ip</span> <span class="p">=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">IPv4</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]).</span><span class="nx">String</span><span class="p">()</span>
+            <span class="nx">ip</span> <span class="p">=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">IPv4</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="nx">buf</span><span class="p">[</span><span class="mi">7</span><span class="p">]).</span><span class="nf">String</span><span class="p">()</span>
             <span class="nx">port</span> <span class="p">=</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">0</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="p">|</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">case</span> <span class="mh">0x03</span><span class="p">:</span>
             <span class="nx">ip</span> <span class="p">=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">4</span> <span class="p">:</span> <span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
             <span class="nx">port</span> <span class="p">=</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">0</span><span class="p">])</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="p">|</span> <span class="nb">int</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="nx">len</span><span class="o">-</span><span class="mi">2</span><span class="p">:][</span><span class="mi">1</span><span class="p">])</span>
     <span class="p">}</span>
 
-    <span class="nx">addr</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">JoinHostPort</span><span class="p">(</span><span class="nx">ip</span><span class="p">,</span> <span class="nx">strconv</span><span class="p">.</span><span class="nx">Itoa</span><span class="p">(</span><span class="nx">port</span><span class="p">))</span>
+    <span class="nx">addr</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">JoinHostPort</span><span class="p">(</span><span class="nx">ip</span><span class="p">,</span> <span class="nx">strconv</span><span class="p">.</span><span class="nf">Itoa</span><span class="p">(</span><span class="nx">port</span><span class="p">))</span>
     <span class="nb">println</span><span class="p">(</span><span class="s">&#34;start proxy:&#34;</span><span class="p">,</span><span class="nx">addr</span><span class="p">)</span>
 
-    <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">addr</span><span class="p">)</span>
+    <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">addr</span><span class="p">)</span>
     <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-        <span class="nb">println</span><span class="p">(</span><span class="s">&#34;connect proxy addr fail!&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+        <span class="nb">println</span><span class="p">(</span><span class="s">&#34;connect proxy addr fail!&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
-    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span>
+    <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">})</span>
     <span class="k">if</span> <span class="nx">len</span> <span class="o">!=</span> <span class="mi">10</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span>  <span class="p">{</span>
-        <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] write data fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+        <span class="nb">println</span><span class="p">(</span><span class="s">&#34;[parse protol] write data fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
         <span class="k">return</span>
     <span class="p">}</span>
 
-    <span class="k">go</span> <span class="nx">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
-    <span class="k">go</span> <span class="nx">forward</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+    <span class="k">go</span> <span class="nf">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
+    <span class="k">go</span> <span class="nf">forward</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">buf</span><span class="p">)</span>
 
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nx">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
-    <span class="k">defer</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="kd">func</span> <span class="nf">forward</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">r</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span> <span class="nx">buf</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+    <span class="k">defer</span> <span class="nx">r</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="p">{</span>
-        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
+        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">buf</span><span class="p">)</span>
         <span class="k">if</span> <span class="nx">len</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="p">(</span><span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="nx">err</span> <span class="o">!=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">break</span>
         <span class="p">}</span>
 
-        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nx">len</span><span class="p">])</span>
+        <span class="nx">len</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nx">len</span><span class="p">])</span>
         <span class="k">if</span> <span class="nx">len</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span>  <span class="p">{</span>
             <span class="k">break</span>
         <span class="p">}</span>
@@ -723,20 +724,20 @@ if (!doNotTrack) {
 <span class="p">}</span>
 
 
-<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">in</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="s">&#34;:8080&#34;</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">in</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="s">&#34;:8080&#34;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-        <span class="nb">println</span><span class="p">(</span><span class="s">&#34;bind 8080 fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+        <span class="nb">println</span><span class="p">(</span><span class="s">&#34;bind 8080 fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
         <span class="k">return</span>
     <span class="p">}</span>
     <span class="nb">println</span><span class="p">(</span><span class="s">&#34;start server ok. listen port 8080&#34;</span><span class="p">)</span>
     <span class="k">for</span> <span class="p">{</span>
-        <span class="nx">c</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">in</span><span class="p">.</span><span class="nx">Accept</span><span class="p">()</span>
+        <span class="nx">c</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">in</span><span class="p">.</span><span class="nf">Accept</span><span class="p">()</span>
         <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-            <span class="nb">println</span><span class="p">(</span><span class="s">&#34;accept fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+            <span class="nb">println</span><span class="p">(</span><span class="s">&#34;accept fail!&#34;</span><span class="p">,</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
             <span class="k">continue</span>
         <span class="p">}</span>
-        <span class="k">go</span> <span class="nx">parseProtocol</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+        <span class="k">go</span> <span class="nf">parseProtocol</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
     </code></pre></td></tr></table>
@@ -855,7 +856,7 @@ if (!doNotTrack) {
     &copy;
     
       2015 -
-    2018
+    2019
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span><span class="author">

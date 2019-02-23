@@ -33,7 +33,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.49.2" />
+<meta name="generator" content="Hugo 0.54.0" />
 
 
 <link rel="canonical" href="https://www.mojidong.com/" />
@@ -61,6 +61,7 @@
 <meta property="og:description" content="mojidong的blog,技术交流" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://www.mojidong.com/" />
+
 <meta property="og:updated_time" content="2013-01-03T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="mojidong blog">
@@ -294,6 +295,36 @@ if (!doNotTrack) {
     
       <article class="post bg-white">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/2013-01-03-python-get-hostname/">python获取机器名</a></h1>
+    
+    <div class="post-meta">
+      <span class="post-time"> 2013-01-03 </span>
+      <div class="post-category">
+          <a href="https://www.mojidong.com/categories/python/"> python </a>
+          
+        </div>
+      <span class="more-meta"> 约 6 字 </span>
+      <span class="more-meta"> 预计阅读 1 分钟 </span>
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      1 2 import socket print socket.gethostname()
+    </div>
+    <div class="read-more">
+      <a href="/post/2013-01-03-python-get-hostname/" class="read-more-link">阅读全文</a>
+    </div>
+    
+  </div>
+</article>
+
+    
+      <article class="post bg-white">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/2013-01-03-urllib2-upload-file/">urllib2上传文件</a></h1>
     
     <div class="post-meta">
@@ -409,36 +440,6 @@ if (!doNotTrack) {
 </article>
 
     
-      <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2012-09-08-python-web-framework-webpy-session-cookie-5/">python的web框架webpy【session 和 cookie】五</a></h1>
-    
-    <div class="post-meta">
-      <span class="post-time"> 2012-09-08 </span>
-      <div class="post-category">
-          <a href="https://www.mojidong.com/categories/python/"> python </a>
-          
-        </div>
-      <span class="more-meta"> 约 419 字 </span>
-      <span class="more-meta"> 预计阅读 1 分钟 </span>
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      webpty中使用session非常简单 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 import web web.config.debug = False urls = ( &#34;/count&#34;, &#34;count&#34;, &#34;/reset&#34;, &#34;reset&#34; ) app = web.application(urls, locals()) session = web.session.Session(app, web.session.DiskStore(&#39;sessions&#39;), initializer={&#39;count&#39;: 0}) class count: def GET(self): session.count +=
-    </div>
-    <div class="read-more">
-      <a href="/post/2012-09-08-python-web-framework-webpy-session-cookie-5/" class="read-more-link">阅读全文</a>
-    </div>
-    
-  </div>
-</article>
-
-    
   </section>
 
   
@@ -537,7 +538,7 @@ if (!doNotTrack) {
     &copy;
     
       2015 -
-    2018
+    2019
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span><span class="author">
