@@ -69,7 +69,7 @@
 
 <meta itemprop="datePublished" content="2019-02-23T20:33:39&#43;08:00" />
 <meta itemprop="dateModified" content="2019-02-23T20:33:39&#43;08:00" />
-<meta itemprop="wordCount" content="635">
+<meta itemprop="wordCount" content="677">
 
 
 
@@ -306,7 +306,7 @@ if (!doNotTrack) {
             <a href="https://www.mojidong.com/categories/java/"> java </a>
             
           </div>
-        <span class="more-meta"> 约 635 字 </span>
+        <span class="more-meta"> 约 677 字 </span>
           <span class="more-meta"> 预计阅读 2 分钟 </span>
 
         
@@ -407,6 +407,8 @@ contract!</code>通过google查询发现是违反了排序规约，原来从java
 
 <p><strong>扒了一下源码发现只有在排序元素大于32才会有机率出现此错误。</strong></p>
 
+<p>所以这也解释了为什么升级jdk8后大半年没有报错。</p>
+
 <p>下面是一段测试代码:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -448,6 +450,10 @@ contract!</code>通过google查询发现是违反了排序规约，原来从java
 <span class="o">}</span></code></pre></td></tr></table>
 </div>
 </div>
+<blockquote>
+<p>有兴趣的同学可以自已研究一下源码。</p>
+</blockquote>
+
 <h2 id="解决方案">解决方案</h2>
 
 <h3 id="1-实现规约的限制">1. 实现规约的限制</h3>

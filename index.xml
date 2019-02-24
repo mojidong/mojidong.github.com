@@ -98,6 +98,8 @@ contract!&lt;/code&gt;通过google查询发现是违反了排序规约，原来�
 
 &lt;p&gt;&lt;strong&gt;扒了一下源码发现只有在排序元素大于32才会有机率出现此错误。&lt;/strong&gt;&lt;/p&gt;
 
+&lt;p&gt;所以这也解释了为什么升级jdk8后大半年没有报错。&lt;/p&gt;
+
 &lt;p&gt;下面是一段测试代码:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -139,6 +141,10 @@ contract!&lt;/code&gt;通过google查询发现是违反了排序规约，原来�
 &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有兴趣的同学可以自已研究一下源码。&lt;/p&gt;
+&lt;/blockquote&gt;
+
 &lt;h2 id=&#34;解决方案&#34;&gt;解决方案&lt;/h2&gt;
 
 &lt;h3 id=&#34;1-实现规约的限制&#34;&gt;1. 实现规约的限制&lt;/h3&gt;
