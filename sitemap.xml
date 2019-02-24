@@ -10,6 +10,13 @@
   </url>
   
   <url>
+    <loc>https://www.mojidong.com/post/2019-02-24-thread-local/</loc>
+    <lastmod>2019-02-24T10:28:30+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://www.mojidong.com/post/2019-02-23-java-sort-contract/</loc>
     <lastmod>2019-02-23T20:33:39+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -368,7 +375,7 @@
   
   <url>
     <loc>https://www.mojidong.com/categories/java/</loc>
-    <lastmod>2019-02-23T20:33:39+08:00</lastmod>
+    <lastmod>2019-02-24T10:28:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -438,7 +445,7 @@
   
   <url>
     <loc>https://www.mojidong.com/post/</loc>
-    <lastmod>2019-02-23T20:33:39+08:00</lastmod>
+    <lastmod>2019-02-24T10:28:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
