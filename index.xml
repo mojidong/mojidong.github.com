@@ -562,7 +562,7 @@ Local传递共享数据非常便利，不用显示的在现有&lt;code&gt;servic
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;n&#34;&gt;ThreadLocalContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;initContext&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
 
         &lt;span class=&#34;c1&#34;&gt;// 主线程中的逻辑，会操作主线程上下文
-&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;n&#34;&gt;InheritableThreadLocal&lt;/span&gt;     &lt;span class=&#34;n&#34;&gt;cService&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setNum&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;n&#34;&gt;cService&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;setNum&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;();&lt;/span&gt;
 
         &lt;span class=&#34;c1&#34;&gt;// 获取主线程中的上下文
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;c1&#34;&gt;// Context context = ThreadLocalContext.getContext();
