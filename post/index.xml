@@ -6,10 +6,19 @@
     <description>Recent content in Posts on mojidong blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 24 Feb 2019 10:28:30 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 02 Mar 2019 20:58:56 +0800</lastBuildDate>
     
 	<atom:link href="https://www.mojidong.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>thread pool中使用thread local的问题</title>
+      <link>https://www.mojidong.com/post/2019-03-02-thread-pool/</link>
+      <pubDate>Sat, 02 Mar 2019 20:58:56 +0800</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2019-03-02-thread-pool/</guid>
+      <description>最近发现生产环境一个十分诡异的问题，这里与大家分享一下。 问题 最近发现线上服务报错，报错是偶发的，会自动恢复。主体代码如下: 1 2 3 4 5 6 7 8 9</description>
+    </item>
     
     <item>
       <title>java增强型Thread Local, InheritableThreadLocal</title>

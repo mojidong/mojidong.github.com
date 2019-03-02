@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thread Local on mojidong blog</title>
+    <link>https://www.mojidong.com/tags/thread-local/</link>
+    <description>Recent content in Thread Local on mojidong blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 24 Feb 2019 10:28:30 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.mojidong.com/tags/thread-local/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>java增强型Thread Local, InheritableThreadLocal</title>
+      <link>https://www.mojidong.com/post/2019-02-24-thread-local/</link>
+      <pubDate>Sun, 24 Feb 2019 10:28:30 +0800</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2019-02-24-thread-local/</guid>
+      <description>最近使用InheritableThreadLocal遇到一些问题，这里总结一下。 Thread Local ThreadLocal是绑定到线程上的上下文，他可以让你</description>
+    </item>
+    
+  </channel>
+</rss>

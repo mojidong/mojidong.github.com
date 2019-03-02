@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on mojidong blog</title>
-    <link>https://www.mojidong.com/categories/java/</link>
+    <link>https://www.mojidong.com/tags/java/</link>
     <description>Recent content in Java on mojidong blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sat, 02 Mar 2019 20:58:56 +0800</lastBuildDate>
     
-	<atom:link href="https://www.mojidong.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.mojidong.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

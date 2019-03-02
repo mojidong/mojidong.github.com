@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>thread pool中使用thread local的问题 - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" />
+  <meta name="description" content="最近发现生产环境一个十分诡异的问题，这里与大家分享一下。 问题 最近发现线上服务报错，报错是偶发的，会自动恢复。主体代码如下: 1 2 3 4 5 6 7 8 9" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2019-03-02-thread-pool/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="thread pool中使用thread local的问题" />
+<meta property="og:description" content="最近发现生产环境一个十分诡异的问题，这里与大家分享一下。 问题 最近发现线上服务报错，报错是偶发的，会自动恢复。主体代码如下: 1 2 3 4 5 6 7 8 9" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2019-03-02-thread-pool/" />
+<meta property="article:published_time" content="2019-03-02T20:58:56&#43;08:00"/>
+<meta property="article:modified_time" content="2019-03-02T20:58:56&#43;08:00"/>
+
+<meta itemprop="name" content="thread pool中使用thread local的问题">
+<meta itemprop="description" content="最近发现生产环境一个十分诡异的问题，这里与大家分享一下。 问题 最近发现线上服务报错，报错是偶发的，会自动恢复。主体代码如下: 1 2 3 4 5 6 7 8 9">
+
+
+<meta itemprop="datePublished" content="2019-03-02T20:58:56&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-02T20:58:56&#43;08:00" />
+<meta itemprop="wordCount" content="1743">
+
+
+
+<meta itemprop="keywords" content="java,thread pool," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="thread pool中使用thread local的问题"/>
+<meta name="twitter:description" content="最近发现生产环境一个十分诡异的问题，这里与大家分享一下。 问题 最近发现线上服务报错，报错是偶发的，会自动恢复。主体代码如下: 1 2 3 4 5 6 7 8 9"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">日志</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">关于</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">日志</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">thread pool中使用thread local的问题</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-02 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/java/"> java </a>
+            
+          </div>
+        <span class="more-meta"> 约 1743 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#问题">问题</a></li>
+<li><a href="#根源">根源</a></li>
+<li><a href="#方案">方案</a></li>
+<li><a href="#总结">总结</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>最近发现生产环境一个十分诡异的问题，这里与大家分享一下。</p>
+
+<h2 id="问题">问题</h2>
+
+<p>最近发现线上服务报错，报错是偶发的，会自动恢复。主体代码如下:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * Created by mojidong.
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 初始化线程池
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ThreadPoolExecutor</span> <span class="n">threadPool</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolExecutor</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">,</span>
+            <span class="k">new</span> <span class="n">LinkedBlockingQueue</span><span class="o">&lt;&gt;(</span><span class="n">128</span><span class="o">),</span> <span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">executor</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">());</span>
+
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+
+        <span class="c1">// 初始上下文
+</span><span class="c1"></span>        <span class="n">BizContext</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+        <span class="c1">// 放入信息到上下文
+</span><span class="c1"></span>        <span class="n">BizContext</span><span class="o">.</span><span class="na">putInfo</span><span class="o">(</span><span class="s">&#34;mainInfo&#34;</span><span class="o">,</span> <span class="s">&#34;main good&#34;</span><span class="o">);</span>
+
+        <span class="c1">// 取出内部上下文用于下面投传到子线程中
+</span><span class="c1"></span>        <span class="n">BizContext</span><span class="o">.</span><span class="na">InnerContext</span> <span class="n">innerContext</span> <span class="o">=</span> <span class="n">BizContext</span><span class="o">.</span><span class="na">getContext</span><span class="o">();</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;&gt;</span>  <span class="n">callables</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">150</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+
+            <span class="kt">int</span> <span class="n">taskCount</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+
+            <span class="n">callables</span><span class="o">.</span><span class="na">add</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+
+                <span class="c1">// 子线程上下文用主线程内部上下文初始化
+</span><span class="c1"></span>                <span class="n">BizContext</span><span class="o">.</span><span class="na">setContext</span><span class="o">(</span><span class="n">innerContext</span><span class="o">);</span>
+
+                <span class="c1">// 放下信息到上下文中
+</span><span class="c1"></span>                <span class="n">BizContext</span><span class="o">.</span><span class="na">putInfo</span><span class="o">(</span><span class="s">&#34;taskCount&#34;</span> <span class="o">+</span> <span class="n">taskCount</span><span class="o">,</span> <span class="n">taskCount</span><span class="o">);</span>
+
+                <span class="c1">// 清除子线程上下文
+</span><span class="c1"></span>                <span class="n">BizContext</span><span class="o">.</span><span class="na">clearContext</span><span class="o">();</span>
+
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MICROSECONDS</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">100</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">});</span>
+        <span class="o">}</span>
+
+        <span class="n">threadPool</span><span class="o">.</span><span class="na">invokeAll</span><span class="o">(</span><span class="n">callables</span><span class="o">);</span>
+
+        <span class="c1">// 输出主线程上下文信息
+</span><span class="c1"></span>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;main thread context: &#34;</span> <span class="o">+</span> <span class="n">BizContext</span><span class="o">.</span><span class="na">getContext</span><span class="o">());</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">BizContext</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;mainInfo&#34;</span><span class="o">));</span>
+
+        <span class="c1">// 清除主线程上下文信息
+</span><span class="c1"></span>        <span class="n">BizContext</span><span class="o">.</span><span class="na">clearContext</span><span class="o">();</span>
+
+        <span class="n">threadPool</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+
+    <span class="o">}</span>
+
+
+    <span class="cm">/**
+</span><span class="cm">     * 业务上下文
+</span><span class="cm">     */</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">BizContext</span> <span class="o">{</span>
+
+        <span class="kd">private</span> <span class="kd">static</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">InnerContext</span><span class="o">&gt;</span> <span class="n">threadLocal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">();</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="k">new</span> <span class="n">InnerContext</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">setContext</span><span class="o">(</span><span class="n">InnerContext</span> <span class="n">innerContext</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">innerContext</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="n">InnerContext</span> <span class="nf">getContext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">clearContext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">putInfo</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">object</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">getInfo</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="o">}</span>
+
+
+        <span class="cm">/**
+</span><span class="cm">         * 内部上下文
+</span><span class="cm">         */</span>
+        <span class="kd">static</span> <span class="kd">class</span> <span class="nc">InnerContext</span> <span class="o">{</span>
+
+            <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">object</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="kd">public</span> <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">map</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>逻辑比较清淅，主要是使用<code>ThreadLocal</code>将上下文在主线程和子线程中传递。
+通过排查发现回到主线程后上下文被清空了，后续又有操作上下文的代码，所以抛了NPE。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 这里输出是null
+</span><span class="c1">// 输出主线程上下文信息
+</span><span class="c1"></span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;main thread context: &#34;</span> <span class="o">+</span> <span class="n">BizContext</span><span class="o">.</span><span class="na">getContext</span><span class="o">());</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>通过review代码并没有发现问题所在，主要是问题是偶发，并且之前很长的一段时间都没有问题，
+最近也未对这块代码作变更，最诡异的是它会随着时间的推移自动恢复，真是百思不得其解。</p>
+
+<h2 id="根源">根源</h2>
+
+<p>通过对线上数据分析，发现任务数比较多的情况下大概率会出现该问题，也就是放入线程池中的任务多才会有问题。
+到了这里突然灵光乍现，肯定与任务队列溢出有关，立即查看线程池配置代码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"> <span class="cm">/**
+</span><span class="cm"> * 初始化线程池
+</span><span class="cm"> */</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ThreadPoolExecutor</span> <span class="n">threadPool</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolExecutor</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">,</span>
+        <span class="k">new</span> <span class="n">LinkedBlockingQueue</span><span class="o">&lt;&gt;(</span><span class="n">128</span><span class="o">),</span> <span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">executor</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">());</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>任务队列是<code>128</code>，超过之后会触发<code>RejectedExecutionHandler</code>，这里的处理方式是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="o">(</span><span class="n">r</span><span class="o">,</span> <span class="n">executor</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">()</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>这个实际是直接在主线程中执行任务代码。到这里问题终于真相大白，由于任务在主线程中执行，
+所以任务本应该在子线程中清空上下文的操作实际是在主线程中执行了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="c1">// 子线程上下文用主线程内部上下文初始化
+</span><span class="c1"></span>    <span class="n">BizContext</span><span class="o">.</span><span class="na">setContext</span><span class="o">(</span><span class="n">innerContext</span><span class="o">);</span>
+
+    <span class="c1">// 放下信息到上下文中
+</span><span class="c1"></span>    <span class="n">BizContext</span><span class="o">.</span><span class="na">putInfo</span><span class="o">(</span><span class="s">&#34;taskCount&#34;</span> <span class="o">+</span> <span class="n">taskCount</span><span class="o">,</span> <span class="n">taskCount</span><span class="o">);</span>
+
+    <span class="c1">// 清除子线程上下文
+</span><span class="c1"></span>    <span class="c1">// 由于在主线程中执行实际是清空了主线程上下文
+</span><span class="c1"></span>    <span class="n">BizContext</span><span class="o">.</span><span class="na">clearContext</span><span class="o">();</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MICROSECONDS</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">100</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">})</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>所以上面代码<code>BizContext.clearContext();</code>实际是在主线程中执行的，所以主线程上下文就被清空了。</p>
+
+<h2 id="方案">方案</h2>
+
+<p>知道了原因就很好处理：</p>
+
+<ol>
+<li>去掉自定义的<code>RejectedExecutionHandler</code>，默的<code>RejectedExecutionHandler</code>是抛异常。</li>
+<li>让任务不超过溢出队列长度。</li>
+</ol>
+
+<p>按照上面的2条代码调整如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * Created by mojidong.
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test</span> <span class="o">{</span>
+
+    <span class="cm">/**
+</span><span class="cm">     * 初始化线程池
+</span><span class="cm">     */</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ThreadPoolExecutor</span> <span class="n">threadPool</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolExecutor</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">,</span>
+            <span class="k">new</span> <span class="n">LinkedBlockingQueue</span><span class="o">&lt;&gt;(</span><span class="n">128</span><span class="o">));</span>
+
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+
+        <span class="c1">// 初始上下文
+</span><span class="c1"></span>        <span class="n">BizContext</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+        <span class="c1">// 放入信息到上下文
+</span><span class="c1"></span>        <span class="n">BizContext</span><span class="o">.</span><span class="na">putInfo</span><span class="o">(</span><span class="s">&#34;mainInfo&#34;</span><span class="o">,</span> <span class="s">&#34;main good&#34;</span><span class="o">);</span>
+
+        <span class="c1">// 取出内部上下文用于下面投传到子线程中
+</span><span class="c1"></span>        <span class="n">BizContext</span><span class="o">.</span><span class="na">InnerContext</span> <span class="n">innerContext</span> <span class="o">=</span> <span class="n">BizContext</span><span class="o">.</span><span class="na">getContext</span><span class="o">();</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;&gt;</span>  <span class="n">callables</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">150</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+
+            <span class="kt">int</span> <span class="n">taskCount</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+
+            <span class="n">callables</span><span class="o">.</span><span class="na">add</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+
+                <span class="c1">// 子线程上下文用主线程内部上下文初始化
+</span><span class="c1"></span>                <span class="n">BizContext</span><span class="o">.</span><span class="na">setContext</span><span class="o">(</span><span class="n">innerContext</span><span class="o">);</span>
+
+                <span class="c1">// 放下信息到上下文中
+</span><span class="c1"></span>                <span class="n">BizContext</span><span class="o">.</span><span class="na">putInfo</span><span class="o">(</span><span class="s">&#34;taskCount&#34;</span> <span class="o">+</span> <span class="n">taskCount</span><span class="o">,</span> <span class="n">taskCount</span><span class="o">);</span>
+
+                <span class="c1">// 清除子线程上下文
+</span><span class="c1"></span>                <span class="n">BizContext</span><span class="o">.</span><span class="na">clearContext</span><span class="o">();</span>
+
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MICROSECONDS</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">100</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+
+                <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="o">});</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="n">subCallables</span> <span class="o">:</span> <span class="n">Lists</span><span class="o">.</span><span class="na">partition</span><span class="o">(</span><span class="n">callables</span><span class="o">,</span> <span class="n">128</span><span class="o">))</span> <span class="o">{</span>
+            <span class="n">threadPool</span><span class="o">.</span><span class="na">invokeAll</span><span class="o">(</span><span class="n">subCallables</span><span class="o">);</span>
+        <span class="o">}</span>
+
+
+        <span class="c1">// 输出主线程上下文信息
+</span><span class="c1"></span>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;main thread context: &#34;</span> <span class="o">+</span> <span class="n">BizContext</span><span class="o">.</span><span class="na">getContext</span><span class="o">());</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">BizContext</span><span class="o">.</span><span class="na">getContext</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;mainInfo&#34;</span><span class="o">));</span>
+
+
+        <span class="n">BizContext</span><span class="o">.</span><span class="na">clearContext</span><span class="o">();</span>
+
+        <span class="n">threadPool</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+
+    <span class="o">}</span>
+
+
+    <span class="cm">/**
+</span><span class="cm">     * 业务上下文
+</span><span class="cm">     */</span>
+    <span class="kd">static</span> <span class="kd">class</span> <span class="nc">BizContext</span> <span class="o">{</span>
+
+        <span class="kd">private</span> <span class="kd">static</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">InnerContext</span><span class="o">&gt;</span> <span class="n">threadLocal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">();</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="k">new</span> <span class="n">InnerContext</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">setContext</span><span class="o">(</span><span class="n">InnerContext</span> <span class="n">innerContext</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">innerContext</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="n">InnerContext</span> <span class="nf">getContext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">clearContext</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">putInfo</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">object</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">getInfo</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="o">}</span>
+
+
+        <span class="cm">/**
+</span><span class="cm">         * 内部上下文
+</span><span class="cm">         */</span>
+        <span class="kd">static</span> <span class="kd">class</span> <span class="nc">InnerContext</span> <span class="o">{</span>
+
+            <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">object</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">object</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="kd">public</span> <span class="n">Object</span> <span class="nf">get</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">map</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>主要是两处改动点</p>
+
+<p>1.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * 初始化线程池
+</span><span class="cm"> */</span>
+<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ThreadPoolExecutor</span> <span class="n">threadPool</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadPoolExecutor</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">,</span>
+        <span class="k">new</span> <span class="n">LinkedBlockingQueue</span><span class="o">&lt;&gt;(</span><span class="n">128</span><span class="o">));</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>2.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="n">subCallables</span> <span class="o">:</span> <span class="n">Lists</span><span class="o">.</span><span class="na">partition</span><span class="o">(</span><span class="n">callables</span><span class="o">,</span> <span class="n">128</span><span class="o">))</span> <span class="o">{</span>
+    <span class="n">threadPool</span><span class="o">.</span><span class="na">invokeAll</span><span class="o">(</span><span class="n">subCallables</span><span class="o">);</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="总结">总结</h2>
+
+<ol>
+<li>不使建使用在主线程执行的<code>RejectedExecutionHandler</code>即<code>(r, executor) -&gt; r.run()</code>。</li>
+<li>超出溢出队列可以切割任务来避免。</li>
+</ol>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2019-03-02</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/java/">java</a>
+          <a href="https://www.mojidong.com/tags/thread-pool/">thread pool</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/2019-02-24-thread-local/">
+            <span class="next-text nav-default">java增强型Thread Local, InheritableThreadLocal</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    显示 Disqus 评论
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2019-03-02-thread-pool/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script><script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?b9f1218e0ad0bdc9e77a57a6d8a143be";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/me.js"></script>
+
+
+</body>
+</html>

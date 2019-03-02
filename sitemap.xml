@@ -10,6 +10,13 @@
   </url>
   
   <url>
+    <loc>https://www.mojidong.com/post/2019-03-02-thread-pool/</loc>
+    <lastmod>2019-03-02T20:58:56+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://www.mojidong.com/post/2019-02-24-thread-local/</loc>
     <lastmod>2019-02-24T10:28:30+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -374,8 +381,15 @@
   </url>
   
   <url>
+    <loc>https://www.mojidong.com/tags/java/</loc>
+    <lastmod>2019-03-02T20:58:56+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://www.mojidong.com/categories/java/</loc>
-    <lastmod>2019-02-24T10:28:30+08:00</lastmod>
+    <lastmod>2019-03-02T20:58:56+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -431,7 +445,7 @@
   
   <url>
     <loc>https://www.mojidong.com/tags/other/</loc>
-    <lastmod>2013-05-11T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-14T12:53:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -445,7 +459,7 @@
   
   <url>
     <loc>https://www.mojidong.com/post/</loc>
-    <lastmod>2019-02-24T10:28:30+08:00</lastmod>
+    <lastmod>2019-03-02T20:58:56+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -514,6 +528,13 @@
   </url>
   
   <url>
+    <loc>https://www.mojidong.com/tags/sort/</loc>
+    <lastmod>2019-02-23T20:33:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://www.mojidong.com/tags/</loc>
     <lastmod>2014-08-23T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -530,6 +551,20 @@
   <url>
     <loc>https://www.mojidong.com/categories/tcp/</loc>
     <lastmod>2016-02-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mojidong.com/tags/thread-local/</loc>
+    <lastmod>2019-02-24T10:28:30+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.mojidong.com/tags/thread-pool/</loc>
+    <lastmod>2019-03-02T20:58:56+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
