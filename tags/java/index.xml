@@ -6,10 +6,19 @@
     <description>Recent content in Java on mojidong blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 02 Mar 2019 20:58:56 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 24 Mar 2019 06:54:17 +0800</lastBuildDate>
     
 	<atom:link href="https://www.mojidong.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mybatis批处理(batch)</title>
+      <link>https://www.mojidong.com/post/2019-03-24-mybatis-batch/</link>
+      <pubDate>Sun, 24 Mar 2019 06:54:17 +0800</pubDate>
+      
+      <guid>https://www.mojidong.com/post/2019-03-24-mybatis-batch/</guid>
+      <description>最近一个老的项目从ibatis升级到了mybatis，之前的批处理方法需要在mybatis中重新实现。 实际实现过程中发现并没有如ibatis</description>
+    </item>
     
     <item>
       <title>thread pool中使用thread local的问题</title>

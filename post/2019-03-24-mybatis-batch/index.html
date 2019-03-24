@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-cn" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>mybatis批处理(batch) - mojidong blog</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="mojidong" /><meta name="description" content="mybatis批处理(batch)" />
+
+  <meta name="keywords" content="mojidong, java, python, ruby, go, golang, web技术, 分布式系统, 互联网, 博客, 笔记" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0" />
+
+
+<link rel="canonical" href="https://www.mojidong.com/post/2019-03-24-mybatis-batch/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="mybatis批处理(batch)" />
+<meta property="og:description" content="mybatis批处理(batch)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.mojidong.com/post/2019-03-24-mybatis-batch/" />
+<meta property="article:published_time" content="2019-03-24T06:54:17&#43;08:00"/>
+<meta property="article:modified_time" content="2019-03-24T06:54:17&#43;08:00"/>
+
+<meta itemprop="name" content="mybatis批处理(batch)">
+<meta itemprop="description" content="mybatis批处理(batch)">
+
+
+<meta itemprop="datePublished" content="2019-03-24T06:54:17&#43;08:00" />
+<meta itemprop="dateModified" content="2019-03-24T06:54:17&#43;08:00" />
+<meta itemprop="wordCount" content="932">
+
+
+
+<meta itemprop="keywords" content="java,mybatis,ibatis," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="mybatis批处理(batch)"/>
+<meta name="twitter:description" content="mybatis批处理(batch)"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-36764686-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">mojidong</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">日志</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">关于</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      mojidong
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/">日志</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://www.mojidong.com/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">mybatis批处理(batch)</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2019-03-24 </span>
+        <div class="post-category">
+            <a href="https://www.mojidong.com/categories/java/"> java </a>
+            <a href="https://www.mojidong.com/categories/mybatis/"> mybatis </a>
+            <a href="https://www.mojidong.com/categories/ibatis/"> ibatis </a>
+            
+          </div>
+        <span class="more-meta"> 约 932 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#sql处理方式">sql处理方式</a></li>
+<li><a href="#jdbc-batch方式">jdbc batch方式</a></li>
+<li><a href="#总结">总结</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>最近一个老的项目从<code>ibatis</code>升级到了<code>mybatis</code>，之前的批处理方法需要在<code>mybatis</code>中重新实现。
+实际实现过程中发现并没有如<code>ibatis</code>类似的<code>api</code>需要一些特殊处理。下面来讲讲<code>mybatis</code>中实现批处理的方式。</p>
+
+<h2 id="sql处理方式">sql处理方式</h2>
+
+<p>sql的处理方式批较简单，直接将对应的sql变成批量sql，如下：</p>
+
+<p><strong>批量插入</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;insert</span> <span class="na">id=</span><span class="s">&#34;batchInsert&#34;</span><span class="nt">&gt;</span>
+insert into 
+    user(id, gmt_create, gmt_modified, username, age, sex, phone)
+    values
+    <span class="nt">&lt;foreatch</span> <span class="na">item=</span><span class="s">&#34;user&#34;</span> <span class="na">collection=</span><span class="s">&#34;userList&#34;</span> <span class="na">separator=</span><span class="s">&#34;,&#34;</span><span class="nt">&gt;</span>
+    (#{user.id}, now(), now(), #{user.username}, #{user.age}, #{user.sex}, #{user.phone})
+    <span class="nt">&lt;/foreatch&gt;</span>
+<span class="nt">&lt;/insert&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>批量更新</strong></p>
+
+<ul>
+<li>单行sql</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;update</span> <span class="na">id=</span><span class="s">&#34;batchUpdate&#34;</span><span class="nt">&gt;</span>
+update user set 
+    age = #{age}
+where id in 
+    <span class="nt">&lt;foreatch</span> <span class="na">item=</span><span class="s">id</span> <span class="na">collection=</span><span class="s">&#34;idList&#34;</span> <span class="na">open=</span><span class="s">&#34;(&#34;</span> <span class="na">separator=</span><span class="s">&#34;,&#34;</span> <span class="na">close=</span><span class="s">&#34;)&#34;</span><span class="nt">&gt;</span>
+    #{id}
+    <span class="nt">&lt;/foreatch&gt;</span>
+<span class="nt">&lt;/update&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>多行sql</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">update</span> <span class="n">id</span><span class="o">=</span><span class="s">&#34;batchUpdate&#34;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">foreatch</span> <span class="n">item</span><span class="o">=</span><span class="n">user</span> <span class="n">collection</span><span class="o">=</span><span class="s">&#34;userList&#34;</span> <span class="n">separator</span><span class="o">=</span><span class="s">&#34;;&#34;</span><span class="o">&gt;</span>
+    <span class="n">update</span> <span class="n">user</span> <span class="n">set</span> 
+        <span class="n">age</span> <span class="o">=</span> <span class="err">#</span><span class="o">{</span><span class="n">user</span><span class="o">.</span><span class="na">age</span><span class="o">},</span>
+        <span class="n">phone</span> <span class="o">=</span> <span class="err">#</span><span class="o">{</span><span class="n">user</span><span class="o">.</span><span class="na">phone</span><span class="o">}</span>
+    <span class="n">where</span> 
+        <span class="n">id</span> <span class="o">=</span> <span class="err">#</span><span class="o">{</span><span class="n">user</span><span class="o">.</span><span class="na">id</span><span class="o">}</span>
+    <span class="o">&lt;/</span><span class="n">foreatch</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">update</span><span class="o">&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><strong>批量删除</strong></p>
+
+<ul>
+<li>单行sql</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;delete</span> <span class="na">id=</span><span class="s">&#34;batchDelete&#34;</span><span class="nt">&gt;</span>
+delete from user 
+where id in 
+    <span class="nt">&lt;foreatch</span> <span class="na">item=</span><span class="s">id</span> <span class="na">collection=</span><span class="s">&#34;idList&#34;</span> <span class="na">open=</span><span class="s">&#34;(&#34;</span> <span class="na">separator=</span><span class="s">&#34;,&#34;</span> <span class="na">close=</span><span class="s">&#34;)&#34;</span><span class="nt">&gt;</span>
+    #{id}
+    <span class="nt">&lt;/foreatch&gt;</span>
+<span class="nt">&lt;/update&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>多行sql</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">update</span> <span class="n">id</span><span class="o">=</span><span class="s">&#34;batchUpdate&#34;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">foreatch</span> <span class="n">item</span><span class="o">=</span><span class="n">id</span> <span class="n">collection</span><span class="o">=</span><span class="s">&#34;idList&#34;</span> <span class="n">separator</span><span class="o">=</span><span class="s">&#34;;&#34;</span><span class="o">&gt;</span>
+    <span class="n">delete</span> <span class="n">from</span> <span class="n">user</span> <span class="n">where</span> <span class="n">id</span> <span class="o">=</span> <span class="err">#</span><span class="o">{</span><span class="n">id</span><span class="o">}</span>
+    <span class="o">&lt;/</span><span class="n">foreatch</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">update</span><span class="o">&gt;</span></code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>多行sql需在mysql链接参数上增加<code>allowMultiQueries=true</code></p>
+</blockquote>
+
+<p>用sql批量处理方式存在局限性，最明显的是长度问题，另外就是<code>in</code>条件存在性能问题。</p>
+
+<h2 id="jdbc-batch方式">jdbc batch方式</h2>
+
+<p><code>ibatis</code>中<code>execute</code>的回调<code>api</code>可以直接实现，底层使用的是<code>jdbc</code>的<code>batch</code>能力，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">batchUpdate</span><span class="o">(</span><span class="n">String</span> <span class="n">statementId</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+        
+    <span class="k">return</span> <span class="n">getSqlMapClientTemplate</span><span class="o">().</span><span class="na">execute</span><span class="o">(</span><span class="n">executor</span> <span class="o">-&gt;</span> <span class="o">{</span>
+
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">batchSize</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">startBatch</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">param</span> <span class="o">:</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">executor</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">statementId</span><span class="o">,</span> <span class="n">param</span><span class="o">);</span>
+            <span class="n">batchSize</span><span class="o">++;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">batchSize</span> <span class="o">==</span> <span class="n">50</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="n">executor</span><span class="o">.</span><span class="na">executeBatch</span><span class="o">();</span>
+                <span class="n">executor</span><span class="o">.</span><span class="na">startBatch</span><span class="o">();</span>
+                <span class="n">batchSize</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">batchSize</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="n">executor</span><span class="o">.</span><span class="na">executeBatch</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+    <span class="o">});</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><code>mybatis</code>中不在提供<code>execute</code>这种<code>api</code>了，实际还是支持的但预要另外特殊处理下，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Autowired</span>
+<span class="kd">private</span> <span class="n">SqlSessionFactory</span> <span class="n">sqlSessionFactory</span><span class="o">;</span>
+
+<span class="kd">private</span> <span class="n">SqlSession</span> <span class="n">batchSqlSession</span><span class="o">;</span>
+
+<span class="nd">@PostConstruct</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// 初始化批量处理的sql session
+</span><span class="c1"></span>    <span class="n">batchSqlSession</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SqlSessionTemplate</span><span class="o">(</span><span class="n">sqlSessionFactory</span><span class="o">,</span> <span class="n">ExecutorType</span><span class="o">.</span><span class="na">BATCH</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">batchUpdate</span><span class="o">(</span><span class="n">String</span> <span class="n">statementId</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">BatchResult</span><span class="o">&gt;</span> <span class="n">batchResults</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+    <span class="kt">int</span> <span class="n">batchSize</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">param</span> <span class="o">:</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">batchSqlSession</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">statementId</span><span class="o">,</span> <span class="n">param</span><span class="o">);</span>
+        <span class="n">batchSize</span><span class="o">++;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">batchSize</span> <span class="o">==</span> <span class="n">50</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">batchResults</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">batchSqlSession</span><span class="o">.</span><span class="na">flushStatements</span><span class="o">());</span>
+            <span class="n">batchSize</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">batchSize</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">batchResults</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">batchSqlSession</span><span class="o">.</span><span class="na">flushStatements</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">batchResults</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">BatchResult:</span><span class="o">:</span><span class="n">getUpdateCounts</span><span class="o">).</span><span class="na">flatMapToInt</span><span class="o">(</span><span class="nl">Arrays:</span><span class="o">:</span><span class="n">stream</span><span class="o">).</span><span class="na">sum</span><span class="o">();</span>
+<span class="o">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>这里的核心是初化一个<code>BATCH</code>的<code>SqlSession</code>，上面代码设置的<code>BatcSize</code>为50，你可以根据自已的情况进行调整，但这个值不建议过大，会导致游标过大的错误。</p>
+</blockquote>
+
+<h2 id="总结">总结</h2>
+
+<ol>
+<li>单行<code>sql</code>这种方式比较简单直接针对<code>sql</code>进行处理即可，无需特殊编码，但是存在<code>sql</code>过长和性能问题。</li>
+<li><code>jdbc batch</code>这种方式需要额外的编码，但不存在<code>sql</code>过长和性能问题。</li>
+</ol>
+
+<p>这里推荐<code>jdbc
+batch</code>方式，没有副作用，不存任何隐患。</p>
+
+<blockquote>
+<p>笔者这里生产环境中3w数据的更新只需5s，未使用<code>BATCH</code>之前在15-20s左右。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">mojidong</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2019-03-24</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://www.mojidong.com/tags/java/">java</a>
+          <a href="https://www.mojidong.com/tags/mybatis/">mybatis</a>
+          <a href="https://www.mojidong.com/tags/ibatis/">ibatis</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/2019-03-02-thread-pool/">
+            <span class="next-text nav-default">thread pool中使用thread local的问题</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    显示 Disqus 评论
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://www.mojidong.com/post/2019-03-24-mybatis-batch/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'mojidong';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:mojidong@email.com" rel="me noopener" class="iconfont icon-email"
+        title="email">
+      </a>
+  <a href="https://www.mojidong.com/index.xml" rel="noopener alternate" type="application/rss&#43;xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+  </div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">
+        mojidong
+        
+      </span></span>
+
+  
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script><script id="baidu_analytics">
+  var _hmt = _hmt || [];
+  (function() {
+    if (window.location.hostname === 'localhost') return;
+    var hm = document.createElement("script"); hm.async = true;
+    hm.src = "https://hm.baidu.com/hm.js?b9f1218e0ad0bdc9e77a57a6d8a143be";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/me.js"></script>
+
+
+</body>
+</html>
